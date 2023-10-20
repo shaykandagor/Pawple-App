@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { Colors } from "../colors";
 
 function WelcomeScreen(props) {
   return (
@@ -17,27 +18,27 @@ function WelcomeScreen(props) {
       </View>
       <TouchableOpacity style={styles.signInGoogleButtonContainer}>
         <View style={styles.signInGoogleButton}>
-          <Text style={{ fontWeight: "bold", color: "#77787B" }}>
+          <Text style={{ fontWeight: "bold", color: Colors.textLight }}>
             Sign in with Google
           </Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity style={styles.signInAppleButtonContainer}>
         <View style={styles.signInAppleButton}>
-          <Text style={{ fontWeight: "bold", color: "#77787B" }}>
+          <Text style={{ fontWeight: "bold", color: Colors.textLight }}>
             Sign in with Apple
           </Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity style={styles.accountButtonContainer}>
         <View style={styles.accountButton}>
-          <Text style={{ fontWeight: "bold", color: "#fff" }}>
+          <Text style={{ fontWeight: "bold", color: Colors.white }}>
             Create account
           </Text>
         </View>
       </TouchableOpacity>
       <View style={styles.text}>
-        <Text style={{ fontWeight: "400", color: "#5B56CE" }}>
+        <Text style={{ fontWeight: "400", color: Colors.primary }}>
           You already have an account?
         </Text>
         <TouchableOpacity>
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   slogan: {
     padding: 40,
     fontSize: 16,
-    color: "#77787B",
+    color: Colors.textLight,
     fontWeight: "500",
     textAlign: "center",
   },
@@ -76,10 +77,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   signInGoogleButton: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
     borderRadius: 50,
     borderWidth: 2,
-    borderColor: "#4642AD",
+    borderColor: Colors.primaryDark,
     padding: 10,
     alignItems: "center",
   },
@@ -90,10 +91,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   signInAppleButton: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
     borderRadius: 50,
     borderWidth: 2,
-    borderColor: "#4642AD",
+    borderColor: Colors.primaryDark,
     padding: 10,
     alignItems: "center",
   },
@@ -104,10 +105,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   accountButton: {
-    backgroundColor: "#5E59D0",
+    backgroundColor: Colors.primary,
     borderRadius: 50,
     borderWidth: 2,
-    borderColor: "#4642AD",
+    borderColor: Colors.primaryDark,
     padding: 10,
     alignItems: "center",
   },
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     padding: 50,
   },
   linkText: {
-    color: "#5B56CE",
+    color: Colors.primary,
     marginLeft: 5,
     fontWeight: "bold",
   },
