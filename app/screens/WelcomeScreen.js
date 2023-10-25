@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { Colors } from "../colors";
 
-function WelcomeScreen(props) {
+const WelcomeScreen = () => {
   return (
     <View style={styles.background}>
       <View style={styles.logoContainer}>
@@ -47,7 +47,7 @@ function WelcomeScreen(props) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   background: {
