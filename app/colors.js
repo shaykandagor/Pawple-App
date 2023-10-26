@@ -11,5 +11,9 @@ export const Colors = {
   textDark: "#1c1b45",
   textLight: "#77787b",
   white: "#ffffff",
-  yellow: "#f5cf48"
-}
+  yellow: "#f5cf48",
+  lightGray: "#E9E9E9",
+  darkGray: "#77787B",
+  black: "#000000",
+  gray: "D9D9D9",
+};

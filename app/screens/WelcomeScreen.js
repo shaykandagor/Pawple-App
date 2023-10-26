@@ -1,16 +1,15 @@
 import React from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Colors } from "../colors";
+import LogoText from "../../components/LogoText";
+import Logo from "../../components/Logo";
 
-function WelcomeScreen(props) {
+const WelcomeScreen = () => {
   return (
     <View style={styles.background}>
       <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/pawple-logo.png")}
-        />
-        <Image source={require("../assets/pawple-logo-text.png")} />
+        <Logo width={200} height={200} />
+        <LogoText width={100} height={100} />
         <Text style={styles.slogan}>
           Trustworthy pet walkers on demand. Tap, book, and enjoy stress-free
           strolls provided by a friendly walker.
@@ -47,17 +46,13 @@ function WelcomeScreen(props) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-  },
-  logo: {
-    width: 250,
-    height: 250,
   },
   logoContainer: {
     position: "absolute",
