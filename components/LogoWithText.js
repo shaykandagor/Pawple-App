@@ -46,7 +46,7 @@ const LogoWithText = ({ width = "100%", height = "100%" }) => {
 <path fill="#1c1a43" class="st1" d="M94.2,46.6c5.6-6.9-0.1-16.1-6.1-13.5C74.6,38.9,88.5,53.6,94.2,46.6z"/>
 </svg>
 `;
-  return <SvgXml xml={_logo} width={width} height={height}/>;
+  return <SvgXml xml={_logo} width={width} height={height} />;
 };
 
 export default LogoWithText;

@@ -29,37 +29,47 @@ const PetInfoScreen = () => {
         <Text style={styles.heading}>
           Please select the words that describe your pet more
         </Text>
-        <View style={styles.descriptions}>
-          <View style={styles.descriptionButtonContainer}>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.descriptionButton}>
-                <Text style={{ fontWeight: "bold", color: Colors.black }}>
-                  Vaccinated
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.descriptionButton}>
-                <Text style={{ fontWeight: "bold", color: Colors.black }}>
-                  Potty trained
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.descriptionButton}>
-                <Text style={{ fontWeight: "bold", color: Colors.black }}>
-                  Shy
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.descriptionButton}>
-                <Text style={{ fontWeight: "bold", color: Colors.black }}>
-                  Friendly
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.descriptionButtonContainer}>
+          <TouchableOpacity style={styles.button}>
+            <View style={styles.descriptionButton}>
+              <Text style={styles.descriptionButtonText}>Vaccinated</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <View style={styles.descriptionButton}>
+              <Text style={styles.descriptionButtonText}>Potty trained</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <View style={styles.descriptionButton}>
+              <Text style={styles.descriptionButtonText}>Shy</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <View style={styles.descriptionButton}>
+              <Text style={styles.descriptionButtonText}>Friendly</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <View style={styles.descriptionButton}>
+              <Text style={styles.descriptionButtonText}>Fiesty</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <View style={styles.descriptionButton}>
+              <Text style={styles.descriptionButtonText}>Neuterer</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <View style={styles.descriptionButton}>
+              <Text style={styles.descriptionButtonText}>Trained</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <View style={styles.descriptionButton}>
+              <Text style={styles.descriptionButtonText}>Intelligent</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <Text style={styles.label}>Size</Text>
         <TextInput
@@ -93,7 +103,7 @@ const PetInfoScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     backgroundColor: Colors.white,
     padding: 30,
   },
@@ -122,7 +132,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   label: {
-    flex: 1,
     fontSize: 16,
   },
   inputContainer: {
@@ -134,9 +143,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray,
   },
   descriptionButtonContainer: {
-    padding: 10,
-    flexDirection: "column",
-    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    padding: 12,
   },
   descriptionButton: {
     backgroundColor: Colors.white,
@@ -145,13 +155,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: Colors.gray,
     alignItems: "center",
-    marginVertical: 5,
+    justifyContent: "center",
+    margin: 5,
   },
-  button: {
-    width: 200,
+  descriptionButtonText: {
+    fontWeight: "bold",
+    color: Colors.black,
   },
   doneContainer: {
-    flex: 1,
     alignItems: "center",
     padding: 20,
   },
