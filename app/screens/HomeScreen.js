@@ -1,31 +1,42 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
-import MapView from "react-native-maps";
+import {
+  StyleSheet,
+  View,
+  Platform,
+  StatusBar,
+  Text,
+  SectionList,
+} from "react-native";
 import LogoText from "../../components/LogoText";
-import Logo from "../../components/Logo";
 import Icon from "react-native-vector-icons/FontAwesome";
+
+const DATA = [
+  {
+    title: "Your Pets",
+    data: ["Minnie", "Tessu"],
+  },
+];
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
         <Icon name="bars" size={30} style={styles.hamburgerIcon} />
-        <View style={styles.logoText}>
-          <LogoText width={100} height={100} />
-        </View>
-        <View style={styles.logo}>
-          <Logo width={35} height={35} />
-        </View>
+        <LogoText style={styles.logoText} />
       </View>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 60.1659448,
-          longitude: 24.9318512,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      />
+      <View style={styles.sectionContainer}>
+        <SectionList
+          sections={DATA}
+          keyExtractor={(item, index) => item + index}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <Text style={styles.title}>{item}</Text>
+            </View>
+          )}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={styles.header}>{title}</Text>
+          )}
+        />
+      </View>
     </View>
   );
 };
@@ -33,24 +44,32 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   topBar: {
+    padding: 10,
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
-  hamburgerIcon: {
-    alignSelf: "flex-start",
+  sectionContainer: {
+    padding: 10,
   },
   logoText: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    marginLeft: 10,
   },
-  logo: {
-    alignSelf: "flex-end",
+  item: {
+    // backgroundColor: "#f9c2ff",
+    flexDirection: "row",
+    padding: 20,
+    marginVertical: 8,
   },
-  map: {
-    flex: 1,
+  header: {
+    fontSize: 25,
+    // backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 24,
   },
 });
 

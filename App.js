@@ -6,7 +6,7 @@ import PetInfoScreen from "./app/screens/PetInfoScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 
 const App = () => {
-  return <HomeScreen />;
+  return <PetRegisterScreen />;
 };
 
 export default App;
