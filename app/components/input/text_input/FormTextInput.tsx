@@ -5,8 +5,8 @@ import {HelperText, TextInput, TextInputProps} from 'react-native-paper';
 
 interface FormTextInputProps {
     name: string;
-    inputProps?: TextInputProps
-    helpText?: string
+    inputProps?: TextInputProps;
+    helpText?: string;
 }
 
 

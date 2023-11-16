@@ -1,14 +1,15 @@
 import {StyleSheet, Text, View} from "react-native";
 import React from "react";
 import {useFormikContext} from "formik";
-import { Button } from "react-native-paper";
+import {Button} from "react-native-paper";
 const FormSubmitButton = ({title}: {title: string}) => {
     const {handleSubmit, errors} = useFormikContext();
+
+    console.log(errors)
 
     return (
         <Button
             onPress={() => {
-                console.log("Submitting form");
                 handleSubmit();
             }}
             mode="contained"
