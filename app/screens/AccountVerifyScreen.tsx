@@ -14,7 +14,7 @@ const AccountVerifyScreen: React.FC = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.profileImageContainer}>
-                <LogoText width={200} height={200} />
+                <LogoText width={150} height={150} />
                 <Image
                     source={require("../assets/profile_picture.jpg")}
                     style={styles.profileImage}
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         backgroundColor: Colors.white,
-        padding: 40,
+        alignItems: "center"
     },
     profileImageContainer: {
         padding: 15,
@@ -57,28 +57,26 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     nameText: {
-        padding: 40,
+        padding: 20,
         fontSize: 25,
         color: Colors.textDark,
         fontWeight: "600",
         textAlign: "center",
     },
     verifyText: {
-        padding: 40,
-        fontSize: 16,
+        padding: 50,
+        fontSize: 20,
         color: Colors.textDark,
-        fontWeight: "500",
         textAlign: "center",
     },
     resendButtonContainer: {
-        flex: 1,
         alignItems: "center",
-        padding: 20,
     },
     resendLink: {
         width: 350,
         marginHorizontal: 50,
         marginVertical: 10,
+        padding: 50,
     },
     resendButton: {
         backgroundColor: Colors.primary,

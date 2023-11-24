@@ -1,8 +1,6 @@
 import {
     StyleSheet,
-    Text,
     View,
-    TouchableHighlight,
     Modal,
     FlatList,
     TouchableOpacity,
@@ -10,7 +8,7 @@ import {
     StyleProp,
 } from "react-native";
 import React, {ReactNode, useState} from "react";
-import {TextInput, TextInputProps} from "react-native-paper";
+import {TextInput, TextInputProps, Text} from "react-native-paper";
 
 
 interface ItemPickerProps {
@@ -78,15 +76,15 @@ const ItemPicker: React.FC<ItemPickerProps> = ({
 
     return (
         <>
-            <TouchableHighlight onPress={toggleShowItems}>
+            <TouchableOpacity onPress={toggleShowItems}>
                 <TextInput
                     error={Boolean(error)}
                     label={label}
                     mode={variant}
                     value={
                         labelExtractor
-                            ? labelExtractor(currentItem)
-                            : JSON.stringify(currentItem)
+                            ? (currentItem ? labelExtractor(currentItem) : "")
+                            : (currentItem ? JSON.stringify(currentItem) : "")
                     }
                     editable={false}
                     left={
@@ -110,16 +108,16 @@ const ItemPicker: React.FC<ItemPickerProps> = ({
                         )
                     }
                 />
-            </TouchableHighlight>
+            </TouchableOpacity>
             {showItems && (
                 <Modal animationType="slide" onRequestClose={toggleShowItems}>
                     <View style={styles.itemsContainer}>
-                        <TextInput
+                        {label && <Text variant="titleLarge" style={{textAlign: "center", marginVertical: 20}}> {label}</Text>}
+                        {searchable && <TextInput
                             {...{
                                 left: <TextInput.Icon icon="magnify" />,
                                 ...searchStyle,
                                 onChangeText: (value: string) =>
-                                    // Chipo  -> ipo
                                     setFiltered(
                                         data.filter((_dat) =>
                                             (labelExtractor
@@ -133,7 +131,7 @@ const ItemPicker: React.FC<ItemPickerProps> = ({
 
                                 value: undefined,
                             }}
-                        />
+                        />}
                         <FlatList
                             contentContainerStyle={contentContainerStyle}
                             numColumns={columnCount}

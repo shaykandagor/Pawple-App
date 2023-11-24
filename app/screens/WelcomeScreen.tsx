@@ -3,33 +3,32 @@ import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import {Colors} from "../colors";
 import LogoText from "../components/logo/LogoText";
 import Logo from "../components/logo/Logo";
+import GoogleIcon from "../components/icons/GoogleIcon";
+import AppleIcon from "../components/icons/AppleIcon";
+import {ScrollView} from "react-native-gesture-handler";
 
-
-interface WelcomeScreenProps {}
-
-const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
+const WelcomeScreen: React.FC = () => {
     return (
         <View style={styles.background}>
             <View style={styles.logoContainer}>
                 <Logo width={200} height={200} />
-                <LogoText width={100} height={100} />
+                <LogoText width={120} height={120} />
                 <Text style={styles.slogan}>
                     Trustworthy pet walkers on demand. Tap, book, and enjoy stress-free
                     strolls provided by a friendly walker.
                 </Text>
             </View>
-            <TouchableOpacity style={styles.signInGoogleButtonContainer}>
-                <View style={styles.signInGoogleButton}>
-                    <Text style={{fontWeight: "bold", color: Colors.textLight}}>
-                        Sign in with Google
-                    </Text>
+            <TouchableOpacity style={styles.signInButtonContainer}>
+                <View style={styles.signInButton}>
+                    <GoogleIcon width={20} height={20} />
+                    <Text style={styles.signInButtonText}>Sign in with Google</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.signInAppleButtonContainer}>
-                <View style={styles.signInAppleButton}>
-                    <Text style={{fontWeight: "bold", color: Colors.textLight}}>
-                        Sign in with Apple
-                    </Text>
+
+            <TouchableOpacity style={styles.signInButtonContainer}>
+                <View style={styles.signInButton}>
+                    <AppleIcon width="28" height="28" />
+                    <Text style={styles.signInButtonText}>Sign in with Apple</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity style={styles.accountButtonContainer}>
@@ -39,7 +38,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
                     </Text>
                 </View>
             </TouchableOpacity>
-            <View style={styles.text}>
+            <View style={styles.accountTextContainer}>
                 <Text style={{fontWeight: "400", color: Colors.primary}}>
                     You already have an account?
                 </Text>
@@ -51,51 +50,46 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
     );
 };
 
-// Define the styles with TypeScript types
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        justifyContent: "flex-end",
         alignItems: "center",
+        backgroundColor: Colors.white,
     },
     logoContainer: {
-        position: "absolute",
-        top: 70,
+        paddingTop: 20,
         alignItems: "center",
     },
     slogan: {
-        padding: 40,
+        padding: 20,
         fontSize: 16,
         color: Colors.textLight,
-        fontWeight: "500",
         textAlign: "center",
     },
-    signInGoogleButtonContainer: {
-        width: 350,
-        marginHorizontal: 50,
-        marginVertical: 10,
+    icons: {
+        marginRight: 10,
     },
-    signInGoogleButton: {
-        backgroundColor: Colors.white,
-        borderRadius: 50,
-        borderWidth: 2,
-        borderColor: Colors.primaryDark,
-        padding: 10,
-        alignItems: "center",
-    },
-    signInAppleButtonContainer: {
+    signInButtonContainer: {
         width: 350,
         marginHorizontal: 50,
         marginVertical: 10,
         marginBottom: 30,
     },
-    signInAppleButton: {
+    signInButton: {
         backgroundColor: Colors.white,
         borderRadius: 50,
         borderWidth: 2,
         borderColor: Colors.primaryDark,
-        padding: 10,
+        flexDirection: "row",
         alignItems: "center",
+        justifyContent: "center",
+        padding: 10,
+    },
+    signInButtonText: {
+        color: Colors.textLight,
+        textAlign: "center",
+        marginLeft: 10,
+        fontSize: 15,
     },
     accountButtonContainer: {
         width: 350,
@@ -109,12 +103,10 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: Colors.primaryDark,
         padding: 10,
-        alignItems: "center",
+        alignItems: "center"
     },
-    text: {
+    accountTextContainer: {
         flexDirection: "row",
-        alignItems: "center",
-        padding: 50,
     },
     linkText: {
         color: Colors.primary,
@@ -124,3 +116,4 @@ const styles = StyleSheet.create({
 });
 
 export default WelcomeScreen;
+

@@ -41,18 +41,21 @@ const LoginScreen: React.FC = () => {
                 <View style={styles.image}>
                     <FormImagePicker name="image" size={150} />
                 </View>
-                <View style={styles.inputs}>
-                    <FormTextInput name="fullname" inputProps={{label: "Full Name", mode: "outlined", inputMode: "text"}} />
-                </View>
-                <View style={styles.inputs}>
-                    <FormTextInput name="email" inputProps={{label: "Email Address", mode: "outlined", inputMode: "email"}} />
+                
+                <View style={styles.inputsContainer}>
+                    <View style={styles.inputs}>
+                        <FormTextInput name="fullname" inputProps={{label: "Full Name", mode: "outlined", inputMode: "text"}} />
+                    </View>
+                    <View style={styles.inputs}>
+                        <FormTextInput name="email" inputProps={{label: "Email Address", mode: "outlined", inputMode: "email"}} />
+                    </View>
+
+                    <View style={styles.inputs}>
+                        <FormTextInput name="password" inputProps={{label: "Password", mode: "outlined", secureTextEntry: true}} />
+                    </View>
                 </View>
 
-                <View style={styles.inputs}>
-                    <FormTextInput name="password" inputProps={{label: "Password", mode: "outlined", secureTextEntry: true}} />
-                </View>
-
-                <View>
+                <View style={styles.verifyButton}>
                     <FormSubmitButton title="Verify Account" />
                 </View>
 
@@ -64,24 +67,29 @@ const LoginScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         backgroundColor: Colors.white,
-        padding: 20,
     },
     logo: {
-        alignSelf: "center",
-        paddingTop: 20,
+        alignItems: "center",
 
     },
     image: {
-        alignSelf: "center",
-        padding: 20,
+        alignItems: "center",
+        paddingBottom: 20,
 
+    },
+    inputsContainer: {
+        padding: 20
     },
     inputs: {
         marginBottom: 30,
-
     },
+    verifyButton: {
+        padding: 40,
+        alignSelf: "center"
+    }
+    
 });
 
 export default LoginScreen;
