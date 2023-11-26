@@ -1,11 +1,15 @@
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet} from "react-native";
 import React from "react";
 import {useFormikContext} from "formik";
 import {Button} from "react-native-paper";
-import { Colors } from "../../../colors";
+import {Colors} from "../../../colors";
 
+interface FormSubmitButtonProps {
+    mode: 'text' | 'outlined' | 'contained' | 'elavated' | 'contained-tonal'
+    title: string
+}
 
-const FormSubmitButton = ({title}: {title: string}) => {
+const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({mode, title}) => {
     const {handleSubmit, errors, values} = useFormikContext();
 
     console.log(values)

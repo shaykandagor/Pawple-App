@@ -7,32 +7,18 @@ import {
 } from "react-native";
 import {Colors} from "../colors";
 import LogoText from "../components/logo/LogoText";
-import FormImagePicker from "../components/input/image_picker/FormImagePicker";
-import * as YUP from "yup";
-import Form from "../components/form/Form";
-import FormSubmitButton from "../components/input/button/FormSubmitButton";
-import {Avatar, Button} from "react-native-paper";
-import CustomCard from "../components/card/Card";
+import {Avatar} from "react-native-paper";
+import CustomCard from "../components/display/CustomCard";
+import ClickButton from "../components/input/button/ClickButton";
 
 const HomeScreen: React.FC = () => {
 
-    const validationSchemer = YUP.object().shape({
-        image: YUP.string().label("Image").required(),
-    });
-
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <Form initialValue={{
-                image: "",
+        <View style={styles.container}>
 
-            }}
-                onSubmit={(value) => {
-                    console.log(value);
-                }}
-                validationSchema={validationSchemer}
-            >
+            <View>
                 <View style={styles.heading}>
-                    <LogoText width={100} height={100} />
+                    <LogoText width="100%" height={30} />
                 </View>
 
                 <View>
@@ -42,30 +28,47 @@ const HomeScreen: React.FC = () => {
                 <View style={styles.petProfile}>
                     <Avatar.Image size={100} source={require('../assets/pet_profile.jpg')} />
                     <View style={styles.space} />
-                    <FormImagePicker name="image" size={100} />
+                    <Avatar.Icon icon="plus" size={100} style={{backgroundColor: Colors.lightGray}} />
                 </View>
 
-                <View>
+                <View style={{alignSelf: "flex-start"}}>
                     <Text style={styles.text}>Community Events</Text>
                 </View>
-
-
-                <View style={styles.bookButton} >
-                    <FormSubmitButton title="Book a walk" />
-                </View>
-
-            </Form>
-
-            <View style={styles.cardContainer}>
-                <CustomCard
-                    title="Hakaniemi Group Walk"
-                    subTitle="Oct 24 at 6:00 pm"
-                    mode="contained"
-                    image={{uri: "https://images.pexels.com/photos/681390/pexels-photo-681390.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}} 
-                />
             </View>
-            
-        </ScrollView>
+
+            <ScrollView >
+
+                <View style={styles.cardContainer}>
+                    <CustomCard
+                        title="Hakaniemi Group Walk"
+                        subTitle="Oct 24 at 6:00 pm"
+                        mode="contained"
+                        image={"https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                    />
+                    <CustomCard
+                        title="Hakaniemi Group Walk"
+                        subTitle="Oct 24 at 6:00 pm"
+                        mode="contained"
+                        image={"https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                    />
+                    <CustomCard
+                        title="Hakaniemi Group Walk"
+                        subTitle="Oct 24 at 6:00 pm"
+                        mode="contained"
+                        image={"https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                    />
+                    <CustomCard
+                        title="Hakaniemi Group Walk"
+                        subTitle="Oct 24 at 6:00 pm"
+                        mode="contained"
+                        image={"https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                    />
+                </View>
+            </ScrollView>
+            <View style={styles.bookButton} >
+                <ClickButton icon="dog" mode="contained" onPress={() => console.log('Pressed')} title="Book a walk"></ClickButton>
+            </View>
+        </View>
     );
 };
 
@@ -77,19 +80,15 @@ const styles = StyleSheet.create({
     },
     heading: {
         alignItems: "center",
-        paddingBottom: 20,
     },
     text: {
-        fontSize: 16,
+        fontSize: 20,
         color: Colors.textDark,
+        paddingVertical: 10,
     },
     petProfile: {
-        alignItems: "flex-start",
         flexDirection: "row",
         justifyContent: "flex-start",
-        paddingTop: 20
-
-
     },
     space: {
         width: 10,
@@ -97,10 +96,14 @@ const styles = StyleSheet.create({
     bookButton: {
         alignSelf: "center",
         padding: 20,
+        position: "absolute",
+        bottom: 20,
+        zIndex: 1,
     },
     cardContainer: {
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
+        flex: 1,
 
     }
 });

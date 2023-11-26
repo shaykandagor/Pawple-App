@@ -6,6 +6,7 @@ import Logo from "../components/logo/Logo";
 import GoogleIcon from "../components/icons/GoogleIcon";
 import AppleIcon from "../components/icons/AppleIcon";
 import {ScrollView} from "react-native-gesture-handler";
+import ClickButton from "../components/input/button/ClickButton";
 
 const WelcomeScreen: React.FC = () => {
     return (
@@ -31,13 +32,11 @@ const WelcomeScreen: React.FC = () => {
                     <Text style={styles.signInButtonText}>Sign in with Apple</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.accountButtonContainer}>
-                <View style={styles.accountButton}>
-                    <Text style={{fontWeight: "bold", color: Colors.white}}>
-                        Create account
-                    </Text>
-                </View>
-            </TouchableOpacity>
+
+            <View style={styles.accountButtonContainer}>
+                <ClickButton mode="contained" onPress={() => console.log('Create account button pressed')} title="Create an account"></ClickButton>
+            </View>
+
             <View style={styles.accountTextContainer}>
                 <Text style={{fontWeight: "400", color: Colors.primary}}>
                     You already have an account?
@@ -97,14 +96,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginBottom: 30,
     },
-    accountButton: {
-        backgroundColor: Colors.primary,
-        borderRadius: 50,
-        borderWidth: 2,
-        borderColor: Colors.primaryDark,
-        padding: 10,
-        alignItems: "center"
-    },
+
     accountTextContainer: {
         flexDirection: "row",
     },

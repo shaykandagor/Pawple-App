@@ -43,16 +43,17 @@ const PetInfoScreen: React.FC = () => {
                     sex: "",
                     size: "",
                     chip: "",
-
-
                 }}
                     onSubmit={(value) => {
                         console.log(value);
                     }}
                     validationSchema={validationSchemer}
                 >
+                    <View style={styles.logo}>
+                        <LogoText width="100%" height={30} />
+                    </View>
+
                     <View style={styles.heading}>
-                        <LogoText width={150} height={150} />
                         <Avatar.Image size={150} source={require('../assets/pet_profile.jpg')} />
                         <Text style={styles.text}>Please select the words that describe your pet</Text>
                     </View>
@@ -82,14 +83,11 @@ const PetInfoScreen: React.FC = () => {
                                 </View>
                             )}
                         />
-
-
                     </View>
 
                     <View style={styles.itemPicker}>
                         <FormItemPicker
                             name="size"
-                            // columnCount={3}
                             variant="outlined"
                             label="Size"
                             data={size}
@@ -107,7 +105,7 @@ const PetInfoScreen: React.FC = () => {
                     </View>
 
                     <View style={styles.doneButton} >
-                        <FormSubmitButton title="All Done" />
+                        <FormSubmitButton mode="contained" title="All Done" />
                     </View>
 
                 </Form>
@@ -125,12 +123,18 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         padding: 20,
     },
+    logo: {
+        alignItems: "center",
+        padding: 20
+
+    },
     heading: {
         alignItems: "center",
+        padding: 20,
     },
     text: {
-        padding: 20,
         color: Colors.neutralDark,
+        padding: 10,
     },
     setText: {
         fontSize: 30,

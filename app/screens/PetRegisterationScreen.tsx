@@ -43,9 +43,12 @@ const PetRegisterScreen: React.FC<PetRegisterProps> = () => {
                 }}
                 validationSchema={validationSchemer}
             >
-                <View style={styles.heading}>
-                    <LogoText width={150} height={150} />
-                    <FormImagePicker name="image" size={200} />
+                <View style={styles.logo}>
+                    <LogoText width="100%" height={30} />
+                </View>
+
+                <View style={styles.image}>
+                    <FormImagePicker name="image" size={150} />
                 </View>
 
                 <View>
@@ -75,7 +78,7 @@ const PetRegisterScreen: React.FC<PetRegisterProps> = () => {
                 </View>
 
                 <View style={styles.nextButton} >
-                    <FormSubmitButton title="Next" />
+                    <FormSubmitButton mode="contained" title="Next" />
                 </View>
 
             </Form>
@@ -89,7 +92,10 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         padding: 20,
     },
-    heading: {
+    logo: {
+        padding: 20,
+    },
+    image: {
         alignItems: "center",
     },
     setText: {

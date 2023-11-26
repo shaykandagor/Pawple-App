@@ -11,13 +11,18 @@ import FormSubmitButton from "../components/input/button/FormSubmitButton";
 import FormTextInput from "../components/input/text_input/FormTextInput";
 import Form from "../components/form/Form";
 import {Colors} from "../colors";
+import RadioButtonComponent from "../components/input/radio_button/FormRadioButton";
+import {RadioButton, Text} from "react-native-paper";
+import FormRadioButton from "../components/input/radio_button/FormRadioButton";
 
 const validationSchemer = YUP.object().shape({
     image: YUP.string().label("Image").required(),
     fullname: YUP.string().label("full name").required(),
     email: YUP.string().label("email").required().email(),
     password: YUP.string().label("password").required(),
+    owner: YUP.string().label("owner"),
 });
+
 
 const LoginScreen: React.FC = () => {
     return (
@@ -28,6 +33,7 @@ const LoginScreen: React.FC = () => {
                     fullname: "",
                     email: "",
                     password: "",
+                    owner: "",
                 }}
                 onSubmit={(value) => {
                     console.log(value);
@@ -35,13 +41,13 @@ const LoginScreen: React.FC = () => {
                 validationSchema={validationSchemer}
             >
                 <View style={styles.logo}>
-                    <LogoText width={150} height={150} />
+                    <LogoText width="100%" height={30} />
                 </View>
 
                 <View style={styles.image}>
                     <FormImagePicker name="image" size={150} />
                 </View>
-                
+
                 <View style={styles.inputsContainer}>
                     <View style={styles.inputs}>
                         <FormTextInput name="fullname" inputProps={{label: "Full Name", mode: "outlined", inputMode: "text"}} />
@@ -55,8 +61,15 @@ const LoginScreen: React.FC = () => {
                     </View>
                 </View>
 
+
+                <View style={styles.radioButton}>
+                    <FormRadioButton name="owner" status="checked" value="I own a pet" label="Select if you are an owner of a pet" />
+                </View>
+
+
+
                 <View style={styles.verifyButton}>
-                    <FormSubmitButton title="Verify Account" />
+                    <FormSubmitButton mode='contained' title="Verify Account" />
                 </View>
 
 
@@ -69,9 +82,15 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         backgroundColor: Colors.white,
+        paddingTop: 50,
     },
     logo: {
         alignItems: "center",
+        padding: 20
+
+    },
+    radioButton: {
+        paddingLeft: 15,
 
     },
     image: {
@@ -89,7 +108,7 @@ const styles = StyleSheet.create({
         padding: 40,
         alignSelf: "center"
     }
-    
+
 });
 
 export default LoginScreen;

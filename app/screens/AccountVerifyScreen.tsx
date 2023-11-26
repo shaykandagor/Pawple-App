@@ -9,12 +9,15 @@ import {
 } from "react-native";
 import {Colors} from "../colors";
 import LogoText from "../components/logo/LogoText";
+import ClickButton from "../components/input/button/ClickButton";
 
 const AccountVerifyScreen: React.FC = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.profileImageContainer}>
+            <View style={styles.logo}>
                 <LogoText width={150} height={150} />
+            </View>
+            <View>
                 <Image
                     source={require("../assets/profile_picture.jpg")}
                     style={styles.profileImage}
@@ -28,13 +31,7 @@ const AccountVerifyScreen: React.FC = () => {
                 </Text>
             </View>
             <View style={styles.resendButtonContainer}>
-                <TouchableOpacity style={styles.resendLink}>
-                    <View style={styles.resendButton}>
-                        <Text style={{fontWeight: "bold", color: Colors.white}}>
-                            Resend Link
-                        </Text>
-                    </View>
-                </TouchableOpacity>
+                <ClickButton mode="contained" onPress={() => console.log('Pressed')} title="Resend link"></ClickButton>
             </View>
         </ScrollView>
     );
@@ -44,11 +41,11 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         backgroundColor: Colors.white,
-        alignItems: "center"
-    },
-    profileImageContainer: {
-        padding: 15,
         alignItems: "center",
+        padding: 20
+    },
+    logo: {
+        alignItems: "center"
     },
     profileImage: {
         width: 200,
@@ -71,21 +68,7 @@ const styles = StyleSheet.create({
     },
     resendButtonContainer: {
         alignItems: "center",
-    },
-    resendLink: {
-        width: 350,
-        marginHorizontal: 50,
-        marginVertical: 10,
-        padding: 50,
-    },
-    resendButton: {
-        backgroundColor: Colors.primary,
-        borderRadius: 50,
-        borderWidth: 2,
-        borderColor: Colors.primaryDark,
-        padding: 10,
-        alignItems: "center",
-    },
+    }
 });
 
 export default AccountVerifyScreen;

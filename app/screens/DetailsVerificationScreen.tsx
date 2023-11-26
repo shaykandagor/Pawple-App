@@ -11,6 +11,7 @@ import FormTextInput from "../components/input/text_input/FormTextInput";
 import * as YUP from "yup";
 import Form from "../components/form/Form";
 import FormSubmitButton from "../components/input/button/FormSubmitButton";
+import LocationPicker from "../components/maps/location_picker/LocationPicker";
 
 
 const DetailsVerificationScreen: React.FC = () => {
@@ -22,12 +23,17 @@ const DetailsVerificationScreen: React.FC = () => {
 
     });
 
+    const [petPickupLoc, setPetPickupLocation] = useState({
+        latitude: 60.1786038,
+        longitude: 24.9092748,
+    });
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Form initialValue={{
                 name: "",
                 number: "",
-                
+
             }}
                 onSubmit={(value) => {
                     console.log(value);
@@ -35,7 +41,7 @@ const DetailsVerificationScreen: React.FC = () => {
                 validationSchema={validationSchemer}
             >
                 <View style={styles.heading}>
-                    <LogoText width={100} height={100} />
+                    <LogoText width={150} height={150} />
                 </View>
 
                 <View style={styles.inputs}>
@@ -52,8 +58,9 @@ const DetailsVerificationScreen: React.FC = () => {
                 </View>
 
                 <View style={styles.verifyButton} >
-                    <FormSubmitButton title="Verify" />
+                    <FormSubmitButton mode="contained" title="Verify" />
                 </View>
+
             </Form>
         </ScrollView>
     );

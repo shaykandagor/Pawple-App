@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import {StatusBar} from 'expo-status-bar';
 import {StyleSheet, Text, View} from 'react-native';
-import Screen from './Screen';
 import React from 'react';
 import WelcomeScreen from './app/screens/WelcomeScreen';
 import AccountVerifyScreen from './app/screens/AccountVerifyScreen';
@@ -13,7 +12,7 @@ import HomeScreen from './app/screens/HomeScreen';
 import Navigation from './Navigation';
 
 const App = () => {
-  return <HomeScreen />;
+  return <LoginScreen />;
 };
 
 export default App;
