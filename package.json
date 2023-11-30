@@ -42,6 +42,9 @@
     "react-native-web": "~0.19.6",
     "react-native-windows": "0.72.16",
     "react-native-maps": "1.7.1"
+<<<<<<< HEAD
+>>>>>>> d1ce2b4cc8bf408f40cc3cba53f07bcaf06ef6d2
+=======
 >>>>>>> d1ce2b4cc8bf408f40cc3cba53f07bcaf06ef6d2
   },
   "devDependencies": {
