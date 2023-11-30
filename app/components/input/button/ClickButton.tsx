@@ -1,7 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native'
 import React from 'react'
 import {Button} from 'react-native-paper'
-import {Colors} from '../../../colors'
 
 interface ClickButtonProps {
     mode: 'text' | 'outlined' | 'contained' | 'elavated' | 'contained-tonal'
@@ -16,7 +15,7 @@ const ClickButton: React.FC<ClickButtonProps> = ({icon, title, onPress}) => {
     return (
         <Button
             icon={icon}
-            mode="contained"
+            mode="outlined"
             onPress={() => {
                 onPress();
             }}>

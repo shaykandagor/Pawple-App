@@ -11,16 +11,16 @@ import FormSubmitButton from "../components/input/button/FormSubmitButton";
 import FormTextInput from "../components/input/text_input/FormTextInput";
 import Form from "../components/form/Form";
 import {Colors} from "../colors";
-import RadioButtonComponent from "../components/input/radio_button/FormRadioButton";
+import RadioButtonComponent from "../components/input/radio_button/FormRadioCheckbox";
 import {RadioButton, Text} from "react-native-paper";
-import FormRadioButton from "../components/input/radio_button/FormRadioButton";
+import FormRadioButton from "../components/input/radio_button/FormRadioCheckbox";
 
 const validationSchemer = YUP.object().shape({
     image: YUP.string().label("Image").required(),
     fullname: YUP.string().label("full name").required(),
     email: YUP.string().label("email").required().email(),
     password: YUP.string().label("password").required(),
-    owner: YUP.string().label("owner"),
+    owner: YUP.boolean().label("owner"),
 });
 
 
@@ -33,7 +33,7 @@ const LoginScreen: React.FC = () => {
                     fullname: "",
                     email: "",
                     password: "",
-                    owner: "",
+                    owner: false,
                 }}
                 onSubmit={(value) => {
                     console.log(value);
@@ -63,7 +63,7 @@ const LoginScreen: React.FC = () => {
 
 
                 <View style={styles.radioButton}>
-                    <FormRadioButton name="owner" status="checked" value="I own a pet" label="Select if you are an owner of a pet" />
+                    <FormRadioButton name="owner" label="I own a pet" />
                 </View>
 
 

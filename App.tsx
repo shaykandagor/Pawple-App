@@ -10,9 +10,14 @@ import PetInfoScreen from './app/screens/PetInfoScreen';
 import DetailsVerifyScreen from './app/screens/DetailsVerificationScreen';
 import HomeScreen from './app/screens/HomeScreen';
 import Navigation from './Navigation';
+import BottomSheetComponent from './app/components/BottomSheetComponent';
+import SetPickUpScreen from './app/screens/SetPickUpScreen';
 
 const App = () => {
-  return <LoginScreen />;
+  return (
+    <BottomSheetComponent />
+
+  );
 };
 
 export default App;

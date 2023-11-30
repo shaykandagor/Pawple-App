@@ -2,12 +2,12 @@ import {Formik, FormikValues, FormikHelpers} from "formik";
 import React, {ReactNode} from "react";
 
 interface FormProps {
-    initialValue: any;
+    initialValue?: any;
     onSubmit: (
         values: FormikValues,
         formikHelpers: FormikHelpers<FormikValues>
     ) => void | Promise<any>;
-    validationSchema: any;
+    validationSchema?: any;
     children: ReactNode;
 }
 

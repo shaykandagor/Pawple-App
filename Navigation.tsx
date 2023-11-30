@@ -9,6 +9,7 @@ import AccountVerifyScreen from "./app/screens/AccountVerifyScreen";
 import PetRegisterScreen from "./app/screens/PetRegisterationScreen";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import DetailsVerificationScreen from "./app/screens/DetailsVerificationScreen";
+import {Avatar, Card} from "react-native-paper";
 
 
 // Navigation Drawer
@@ -17,7 +18,12 @@ const {Navigator, Screen} = createDrawerNavigator();
 const DrawerGroup = () => {
     return (
         <Navigator initialRouteName="Home">
-            <Screen name="Home" component={HomeScreen} />
+            <Screen options={{
+                drawerLabel: "Shayne",
+                
+                drawerIcon: (props) =>
+                    <Avatar.Image source={{uri: "https://picsum.photos/200/300"}} />
+            }} name="Home" component={HomeScreen} />
             <Screen name="Welcome" component={WelcomeScreen} />
             <Screen name="LoginScreen" component={LoginScreen} />
             <Screen name="Account Verify" component={AccountVerifyScreen} />
