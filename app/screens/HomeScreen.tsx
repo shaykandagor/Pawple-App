@@ -15,7 +15,7 @@ const HomeScreen: React.FC = () => {
 
     return (
         <View style={styles.container}>
-
+            
             <View>
                 <View style={styles.heading}>
                     <LogoText width="100%" height={30} />

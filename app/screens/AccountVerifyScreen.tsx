@@ -3,7 +3,6 @@ import {
     ScrollView,
     StyleSheet,
     View,
-    TouchableOpacity,
     Text,
     Image,
 } from "react-native";
@@ -11,7 +10,11 @@ import {Colors} from "../colors";
 import LogoText from "../components/logo/LogoText";
 import ClickButton from "../components/input/button/ClickButton";
 
-const AccountVerifyScreen: React.FC = () => {
+interface AccountVerifyScreenProps {
+    navigation: any
+}
+
+const AccountVerifyScreen: React.FC<AccountVerifyScreenProps> = ({navigation}) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.logo}>
@@ -31,7 +34,7 @@ const AccountVerifyScreen: React.FC = () => {
                 </Text>
             </View>
             <View style={styles.resendButtonContainer}>
-                <ClickButton mode="contained" onPress={() => console.log('Pressed')} title="Resend link"></ClickButton>
+                <ClickButton mode="contained" onPress={() => navigation.navigate('Pet Registration')} title="Resend link"></ClickButton>
             </View>
         </ScrollView>
     );

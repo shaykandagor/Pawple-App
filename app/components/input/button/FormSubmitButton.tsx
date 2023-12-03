@@ -7,9 +7,10 @@ import {Colors} from "../../../colors";
 interface FormSubmitButtonProps {
     mode: 'text' | 'outlined' | 'contained' | 'elavated' | 'contained-tonal'
     title: string
+    onPress: () => void
 }
 
-const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({mode, title}) => {
+const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({mode, title, onPress}) => {
     const {handleSubmit, errors, values} = useFormikContext();
 
     console.log(values)
@@ -18,8 +19,10 @@ const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({mode, title}) => {
         <Button
             style={styles.formSubmitButton}
             onPress={() => {
+                onPress();
                 handleSubmit();
             }}
+    
             mode="contained"
         >
             {title}
@@ -34,6 +37,6 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         borderColor: Colors.primaryDark,
         borderWidth: 1,
-        width: 250,
+        width: 350,
     }
 });

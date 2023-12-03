@@ -15,9 +15,11 @@ import FormDateTimePicker from "../components/input/date_picker/FormDateTimePick
 import FormSubmitButton from "../components/input/button/FormSubmitButton";
 import FormChipSelector from "../components/input/chip_selector/FormChipSelector";
 
-interface PetRegisterProps {}
+interface PetRegisterProps {
+    navigation: any
+}
 
-const PetRegisterScreen: React.FC<PetRegisterProps> = () => {
+const PetRegisterScreen: React.FC<PetRegisterProps> = ({navigation}) => {
 
     const validationSchemer = YUP.object().shape({
         image: YUP.string().label("Image").required(),
@@ -78,7 +80,7 @@ const PetRegisterScreen: React.FC<PetRegisterProps> = () => {
                 </View>
 
                 <View style={styles.nextButton} >
-                    <FormSubmitButton mode="contained" title="Next" />
+                    <FormSubmitButton onPress={() => navigation.navigate('Pet Information')} mode="contained" title="Next" />
                 </View>
 
             </Form>

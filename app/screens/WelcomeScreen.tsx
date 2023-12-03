@@ -7,8 +7,14 @@ import GoogleIcon from "../components/icons/GoogleIcon";
 import AppleIcon from "../components/icons/AppleIcon";
 import {ScrollView} from "react-native-gesture-handler";
 import ClickButton from "../components/input/button/ClickButton";
+import Navigation from "../../Navigation";
 
-const WelcomeScreen: React.FC = () => {
+interface WelcomeScreenProps {
+    navigation: any
+
+}
+
+const WelcomeScreen: React.FC<WelcomeScreenProps> = ({navigation}) => {
     return (
         <View style={styles.background}>
             <View style={styles.logoContainer}>
@@ -34,7 +40,7 @@ const WelcomeScreen: React.FC = () => {
             </TouchableOpacity>
 
             <View style={styles.accountButtonContainer}>
-                <ClickButton mode="contained" onPress={() => console.log('Create account button pressed')} title="Create an account"></ClickButton>
+                <ClickButton onPress={() => navigation.navigate('Login')} title="Create an account"></ClickButton>
             </View>
 
             <View style={styles.accountTextContainer}>

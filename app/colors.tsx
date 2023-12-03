@@ -17,4 +17,5 @@ export const Colors = {
   black: "#000000",
   gray: "#d9d9d9",
   textGray: "#444444",
+  ratingText: "#727377"
 };

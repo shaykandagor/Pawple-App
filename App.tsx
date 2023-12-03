@@ -1,23 +1,20 @@
-import 'react-native-gesture-handler';
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import WelcomeScreen from './app/screens/WelcomeScreen';
-import AccountVerifyScreen from './app/screens/AccountVerifyScreen';
-import LoginScreen from './app/screens/LoginScreen';
-import PetRegisterScreen from './app/screens/PetRegisterationScreen';
-import PetInfoScreen from './app/screens/PetInfoScreen';
-import DetailsVerifyScreen from './app/screens/DetailsVerificationScreen';
-import HomeScreen from './app/screens/HomeScreen';
-import Navigation from './Navigation';
-import BottomSheetComponent from './app/components/BottomSheetComponent';
-import SetPickUpScreen from './app/screens/SetPickUpScreen';
+import React from "react";
+import {StyleSheet} from 'react-native';
+import Navigation from "./Navigation";
 
-const App = () => {
+
+export default function App() {
   return (
-    <BottomSheetComponent />
+    <Navigation />
 
   );
-};
+}
 
-export default App;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

@@ -16,7 +16,11 @@ import {Avatar, IconButton} from "react-native-paper";
 import FormItemPicker from "../components/input/item_picker/FormItemPicker";
 import {FlatList} from "react-native-gesture-handler";
 
-const PetInfoScreen: React.FC = () => {
+interface PetInfoScreenProps {
+    navigation: any
+}
+
+const PetInfoScreen: React.FC<PetInfoScreenProps> = ({navigation}) => {
 
     const validationSchemer = YUP.object().shape({
         sex: YUP.string().label("sex").required(),
@@ -105,7 +109,7 @@ const PetInfoScreen: React.FC = () => {
                     </View>
 
                     <View style={styles.doneButton} >
-                        <FormSubmitButton mode="contained" title="All Done" />
+                        <FormSubmitButton mode="contained" title="All Done" onPress={() => navigation.navigate('Home')} />
                     </View>
 
                 </Form>

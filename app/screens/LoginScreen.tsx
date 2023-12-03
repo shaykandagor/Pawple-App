@@ -11,8 +11,6 @@ import FormSubmitButton from "../components/input/button/FormSubmitButton";
 import FormTextInput from "../components/input/text_input/FormTextInput";
 import Form from "../components/form/Form";
 import {Colors} from "../colors";
-import RadioButtonComponent from "../components/input/radio_button/FormRadioCheckbox";
-import {RadioButton, Text} from "react-native-paper";
 import FormRadioButton from "../components/input/radio_button/FormRadioCheckbox";
 
 const validationSchemer = YUP.object().shape({
@@ -23,8 +21,12 @@ const validationSchemer = YUP.object().shape({
     owner: YUP.boolean().label("owner"),
 });
 
+interface LoginScreenProps{
+    navigation: any
+}
 
-const LoginScreen: React.FC = () => {
+
+const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Form
@@ -69,7 +71,7 @@ const LoginScreen: React.FC = () => {
 
 
                 <View style={styles.verifyButton}>
-                    <FormSubmitButton mode='contained' title="Verify Account" />
+                    <FormSubmitButton mode='contained' title="Verify Account" onPress={() => navigation.navigate('Account Verification')} />
                 </View>
 
 
