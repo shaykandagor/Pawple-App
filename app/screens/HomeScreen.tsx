@@ -135,10 +135,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                             <Text style={styles.selectText}>Select a pet</Text>
                         </View>
 
-                        <View style={styles.heading} >
-                            <Text style={styles.selectText}>Select duration</Text>
-                        </View>
-
                         <Form
                             initialValue={{
                                 time: "",
@@ -160,6 +156,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                                     onValueChange={setSelectedAvatar}
                                     imageExtractor={(avatar) => avatar.url}
                                 />
+                            </View>
+
+                            <View style={styles.heading} >
+                                <Text style={styles.selectText}>Select duration</Text>
                             </View>
 
                             <View>
