@@ -12,6 +12,7 @@ import FormTextInput from "../components/input/text_input/FormTextInput";
 import Form from "../components/form/Form";
 import {Colors} from "../colors";
 import FormRadioButton from "../components/input/radio_button/FormRadioCheckbox";
+import ScreenRoutes from "../../ScreenRoutes";
 
 const validationSchemer = YUP.object().shape({
     image: YUP.string().label("Image").required(),
@@ -21,7 +22,7 @@ const validationSchemer = YUP.object().shape({
     owner: YUP.boolean().label("owner"),
 });
 
-interface LoginScreenProps{
+interface LoginScreenProps {
     navigation: any
 }
 
@@ -38,6 +39,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                     owner: false,
                 }}
                 onSubmit={(value) => {
+                    navigation.navigate(ScreenRoutes.ACCOUNT_VERIFICATION)
                     console.log(value);
                 }}
                 validationSchema={validationSchemer}
@@ -68,10 +70,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                     <FormRadioButton name="owner" label="I own a pet" />
                 </View>
 
-
-
                 <View style={styles.verifyButton}>
-                    <FormSubmitButton mode='contained' title="Verify Account" onPress={() => navigation.navigate('Account Verification')} />
+                    <FormSubmitButton mode='contained' title="Verify Account" />
                 </View>
 
 
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     },
     verifyButton: {
         padding: 40,
-        alignSelf: "center"
     }
 
 });

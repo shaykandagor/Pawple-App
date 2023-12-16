@@ -11,7 +11,7 @@ import FormTextInput from "../components/input/text_input/FormTextInput";
 import * as YUP from "yup";
 import Form from "../components/form/Form";
 import FormSubmitButton from "../components/input/button/FormSubmitButton";
-import LocationPicker from "../components/maps/location_picker/LocationPicker";
+import LocationPicker from "../components/maps/location_picker/InputLocationPicker";
 
 
 const DetailsVerificationScreen: React.FC = () => {

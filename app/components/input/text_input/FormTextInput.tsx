@@ -7,10 +7,11 @@ interface FormTextInputProps {
     name: string;
     inputProps?: TextInputProps;
     helpText?: string;
+    placeholder?: string
 }
 
 
-const FormTextInput: React.FC<FormTextInputProps> = ({inputProps, name, helpText}) => {
+const FormTextInput: React.FC<FormTextInputProps> = ({inputProps, name, helpText, placeholder}) => {
     const {values, setFieldValue, errors} = useFormikContext();
     const _values: any = values;
     const _errors: any = errors;
@@ -22,6 +23,7 @@ const FormTextInput: React.FC<FormTextInputProps> = ({inputProps, name, helpText
                     value: _values[name],
                     onChangeText: (value: any) => setFieldValue(name, value),
                     error: _errors[name],
+                    placeholder
                 }}
             />
             {(_errors[name] || helpText) && (

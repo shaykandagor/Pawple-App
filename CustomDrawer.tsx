@@ -13,7 +13,7 @@ interface CustomDrawerProps {
 const CustomDrawer: React.FC<CustomDrawerProps> = ({props}) => {
     return (
         <View style={styles.container}>
-            <DrawerContentScrollView {...props} contentContainerStyle={{backgroundColor: Colors.white}}>
+            <DrawerContentScrollView {...props} contentContainerStyle={{backgroundColor: Colors.skyBlue}}>
                 <View style={styles.profileContainer}>
                     <View style={styles.profileImageContainer}>
                         <Image
@@ -37,8 +37,8 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({props}) => {
                 </View>
             </DrawerContentScrollView>
             <View style={styles.bottomView}>
-                <Text style={{fontSize: 15, marginLeft: 5, paddingBottom: 10, color: Colors.textDark}}>Earn money on your schedule</Text>
-                <ClickButton title='Become a walker' onPress={() => console.log("Pressed")} />
+                <Text style={{fontSize: 15, paddingBottom: 10, color: Colors.textDark, fontWeight: "600", alignSelf: "center"}}>Earn money on your schedule</Text>
+                <ClickButton title='Become a walker' mode='contained' onPress={() => console.log("Pressed")} />
             </View>
         </View>
     );
@@ -49,16 +49,18 @@ export default CustomDrawer
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        borderTopWidth: 50,
-        borderTopColor: Colors.lightGray,
+        backgroundColor: Colors.lightGray,
     },
     profileContainer: {
         flexDirection: "row",
+        borderRadius: 20,
+        backgroundColor: Colors.white,
+        paddingVertical: 20
     },
     profileImageContainer: {
         paddingLeft: 10,
         paddingBottom: 20,
-        borderRadius: 5
+        borderRadius: 5,
     },
     space: {
         width: 20,
@@ -96,14 +98,16 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         flex: 1,
-        backgroundColor: Colors.white,
         paddingTop: 10,
-        borderTopWidth: 5,
-        borderTopColor: Colors.lightGray,
+        borderRadius: 20,
+        marginVertical: 20,
+        backgroundColor: Colors.white
+
+
     },
     bottomView: {
         padding: 20,
-        borderTopWidth: 5,
-        borderTopColor: Colors.lightGray,
+        backgroundColor: Colors.white,
+        borderRadius: 10
     }
 })

@@ -19,6 +19,12 @@ import PetInfoScreen from './app/screens/PetInfoScreen';
 import PetRegisterScreen from './app/screens/PetRegisterationScreen';
 import DetailsVerificationScreen from './app/screens/DetailsVerificationScreen';
 import {Colors} from "./app/colors";
+import ConfirmBookingScreen from "./app/screens/ConfirmBooking";
+import SetPickUpLocation from "./app/screens/SetPickUpLocation";
+import WalkSummary from "./app/screens/WalkSummary";
+import ScreenRoutes from "./ScreenRoutes";
+import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 
 // Navigation Drawer
@@ -36,43 +42,48 @@ const DrawerGroup = () => {
         }}
             drawerContent={props =>
                 <CustomDrawer props={props} />}>
-            {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
             <Screen name="Payment Methods" component={PaymentMethods}
                 options={{
                     drawerIcon: () => (
                         <MaterialCommunityIcons name="wallet-outline" size={35} color={Colors.darkGray} />
                     )
-                }} />
+                }}
+            />
             <Screen name="Promotions and Deals" component={PromotionDeals}
                 options={{
                     drawerIcon: () => (
                         <MaterialCommunityIcons name="tag-outline" size={35} color={Colors.darkGray} />
                     )
-                }} />
+                }} 
+            />
             <Screen name="Subscriptions" component={Subscriptions}
                 options={{
                     drawerIcon: () => (
                         <MaterialCommunityIcons name="ticket-percent-outline" size={35} color={Colors.darkGray} />
                     )
-                }} />
+                }} 
+            />
             <Screen name="My Walks" component={MyWalks}
                 options={{
                     drawerIcon: () => (
                         <MaterialCommunityIcons name="clock-time-four-outline" size={35} color={Colors.darkGray} />
                     )
-                }} />
+                }} 
+            />
             <Screen name="Support" component={SupportScreen}
                 options={{
                     drawerIcon: () => (
                         <MaterialCommunityIcons name="message-question-outline" size={35} color={Colors.darkGray} />
                     )
-                }} />
+                }} 
+            />
             <Screen name="About" component={AboutScreen}
                 options={{
                     drawerIcon: () => (
                         <MaterialCommunityIcons name="information-outline" size={35} color={Colors.darkGray} />
                     )
-                }} />
+                }} 
+            />
         </Navigator>
     )
 }
@@ -80,22 +91,30 @@ const DrawerGroup = () => {
 const AppStack = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="DrawerGroup" component={DrawerGroup} options={{headerShown: false}} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Account Verification" component={AccountVerifyScreen} />
-            <Stack.Screen name="Pet Information" component={PetInfoScreen} />
-            <Stack.Screen name="Pet Registration" component={PetRegisterScreen} />
-            <Stack.Screen name="Details Verification" component={DetailsVerificationScreen} />
-            <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="DrawerGroup" component={DrawerGroup} options={{headerShown: false}} />
+                <Stack.Screen name={ScreenRoutes.WELCOME} component={WelcomeScreen} />
+                <Stack.Screen name={ScreenRoutes.LOGIN} component={LoginScreen} />
+                <Stack.Screen name={ScreenRoutes.ACCOUNT_VERIFICATION} component={AccountVerifyScreen} />
+                <Stack.Screen name={ScreenRoutes.PET_INFORMATION} component={PetInfoScreen} />
+                <Stack.Screen name={ScreenRoutes.PET_REGISTRATION} component={PetRegisterScreen} />
+                <Stack.Screen name={ScreenRoutes.DETAILS_VERFICATION} component={DetailsVerificationScreen} />
+                <Stack.Screen name={ScreenRoutes.HOME} component={HomeScreen} />
+                <Stack.Screen name={ScreenRoutes.SET_PICKUP_LOCATION} component={SetPickUpLocation} />
+                <Stack.Screen name={ScreenRoutes.CONFIRM_BOOKING} component={ConfirmBookingScreen} />
+                <Stack.Screen name={ScreenRoutes.WALK_SUMMARY} component={WalkSummary} />
         </Stack.Navigator>
     )
 }
 const Navigation = () => {
     return (
-        <NavigationContainer>
-            <AppStack />
-        </NavigationContainer>
-
+        <GestureHandlerRootView style={{flex: 1}}>
+            <BottomSheetModalProvider>
+                <NavigationContainer>
+                    <AppStack />
+                </NavigationContainer>
+            </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+        
     )
 }
 

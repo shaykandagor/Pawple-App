@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -7,14 +7,13 @@ import {
 } from "react-native";
 import {Colors} from "../colors";
 import LogoText from "../components/logo/LogoText";
-import FormTextInput from "../components/input/text_input/FormTextInput";
 import * as YUP from "yup";
 import Form from "../components/form/Form";
 import FormSubmitButton from "../components/input/button/FormSubmitButton";
 import FormChipSelector from "../components/input/chip_selector/FormChipSelector";
 import {Avatar, IconButton} from "react-native-paper";
 import FormItemPicker from "../components/input/item_picker/FormItemPicker";
-import {FlatList} from "react-native-gesture-handler";
+import ScreenRoutes from "../../ScreenRoutes";
 
 interface PetInfoScreenProps {
     navigation: any
@@ -49,6 +48,7 @@ const PetInfoScreen: React.FC<PetInfoScreenProps> = ({navigation}) => {
                     chip: "",
                 }}
                     onSubmit={(value) => {
+                        navigation.navigate(ScreenRoutes.HOME)
                         console.log(value);
                     }}
                     validationSchema={validationSchemer}
@@ -109,7 +109,7 @@ const PetInfoScreen: React.FC<PetInfoScreenProps> = ({navigation}) => {
                     </View>
 
                     <View style={styles.doneButton} >
-                        <FormSubmitButton mode="contained" title="All Done" onPress={() => navigation.navigate('Home')} />
+                        <FormSubmitButton mode="contained" title="All Done" />
                     </View>
 
                 </Form>
@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     doneButton: {
-        marginTop: 40,
-        alignSelf: "center",
+        paddingHorizontal: 10,
+        paddingVertical: 20
     },
 });
 
