@@ -3,15 +3,19 @@ import {
     ScrollView,
     StyleSheet,
     View,
-    TouchableOpacity,
     Text,
     Image,
 } from "react-native";
 import {Colors} from "../colors";
 import LogoText from "../components/logo/LogoText";
 import ClickButton from "../components/input/button/ClickButton";
+import ScreenRoutes from "../../ScreenRoutes";
 
-const AccountVerifyScreen: React.FC = () => {
+interface AccountVerifyScreenProps {
+    navigation: any
+}
+
+const AccountVerifyScreen: React.FC<AccountVerifyScreenProps> = ({navigation}) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.logo}>
@@ -23,15 +27,19 @@ const AccountVerifyScreen: React.FC = () => {
                     style={styles.profileImage}
                 />
             </View>
-            <View>
+            <View style={{paddingHorizontal: 30, paddingVertical: 10}}>
                 <Text style={styles.nameText}>Hi Walter,</Text>
                 <Text style={styles.verifyText}>
-                    We have sent a verification link to your email address. Please verify
-                    your account to continue.
+                    We have sent a verification link to your email address. 
+                </Text>
+                <View style={styles.space}/>
+                <Text style={styles.pleaseText}>
+                    Please verify your account to continue.
                 </Text>
             </View>
+
             <View style={styles.resendButtonContainer}>
-                <ClickButton mode="contained" onPress={() => console.log('Pressed')} title="Resend link"></ClickButton>
+                <ClickButton mode="contained" onPress={() => navigation.navigate(ScreenRoutes.PET_REGISTRATION)} title="Resend link"></ClickButton>
             </View>
         </ScrollView>
     );
@@ -41,8 +49,6 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         backgroundColor: Colors.white,
-        alignItems: "center",
-        padding: 20
     },
     logo: {
         alignItems: "center"
@@ -61,13 +67,23 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     verifyText: {
-        padding: 50,
+        paddingHorizontal: 30,
+        textAlign: "center",
         fontSize: 20,
         color: Colors.textDark,
+    },
+    pleaseText: {
+        paddingHorizontal: 50,
         textAlign: "center",
+        fontSize: 20,
+        color: Colors.textDark,
     },
     resendButtonContainer: {
-        alignItems: "center",
+        paddingVertical: 40,
+        paddingHorizontal: 20,
+    },
+    space: {
+        height: 40
     }
 });
 

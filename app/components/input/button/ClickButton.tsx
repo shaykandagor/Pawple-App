@@ -3,7 +3,7 @@ import React from 'react'
 import {Button} from 'react-native-paper'
 
 interface ClickButtonProps {
-    mode: 'text' | 'outlined' | 'contained' | 'elavated' | 'contained-tonal'
+    mode?: 'outlined' | 'contained'
     icon?: string
     title: string
     onPress: () => void
@@ -11,11 +11,11 @@ interface ClickButtonProps {
 
 }
 
-const ClickButton: React.FC<ClickButtonProps> = ({icon, title, onPress}) => {
+const ClickButton: React.FC<ClickButtonProps> = ({icon, title, onPress, mode = 'outlined'}) => {
     return (
         <Button
             icon={icon}
-            mode="outlined"
+            mode={mode}
             onPress={() => {
                 onPress();
             }}>

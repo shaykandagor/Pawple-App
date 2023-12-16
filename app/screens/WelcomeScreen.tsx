@@ -5,10 +5,16 @@ import LogoText from "../components/logo/LogoText";
 import Logo from "../components/logo/Logo";
 import GoogleIcon from "../components/icons/GoogleIcon";
 import AppleIcon from "../components/icons/AppleIcon";
-import {ScrollView} from "react-native-gesture-handler";
 import ClickButton from "../components/input/button/ClickButton";
+import ScreenRoutes from "../../ScreenRoutes";
+import {MaterialCommunityIcons} from '@expo/vector-icons'
 
-const WelcomeScreen: React.FC = () => {
+interface WelcomeScreenProps {
+    navigation: any
+
+}
+
+const WelcomeScreen: React.FC<WelcomeScreenProps> = ({navigation}) => {
     return (
         <View style={styles.background}>
             <View style={styles.logoContainer}>
@@ -19,22 +25,13 @@ const WelcomeScreen: React.FC = () => {
                     strolls provided by a friendly walker.
                 </Text>
             </View>
-            <TouchableOpacity style={styles.signInButtonContainer}>
-                <View style={styles.signInButton}>
-                    <GoogleIcon width={20} height={20} />
-                    <Text style={styles.signInButtonText}>Sign in with Google</Text>
-                </View>
-            </TouchableOpacity>
 
-            <TouchableOpacity style={styles.signInButtonContainer}>
-                <View style={styles.signInButton}>
-                    <AppleIcon width="28" height="28" />
-                    <Text style={styles.signInButtonText}>Sign in with Apple</Text>
-                </View>
-            </TouchableOpacity>
-
-            <View style={styles.accountButtonContainer}>
-                <ClickButton mode="contained" onPress={() => console.log('Create account button pressed')} title="Create an account"></ClickButton>
+            <View style={styles.signInButton}>
+                <ClickButton icon="google" title="Sign in with Apple" mode="outlined" onPress={() => console.log("Pressed")} />
+                <View style={styles.space} />
+                <ClickButton icon="apple" title="Sign in with Apple" mode="outlined" onPress={() => console.log("Pressed")} />
+                <View style={styles.space} />
+                <ClickButton mode="contained" onPress={() => console.log("Pressed")} title="Create an account"></ClickButton>
             </View>
 
             <View style={styles.accountTextContainer}>
@@ -42,7 +39,7 @@ const WelcomeScreen: React.FC = () => {
                     You already have an account?
                 </Text>
                 <TouchableOpacity>
-                    <Text style={styles.linkText}>Login</Text>
+                    <Text onPress={() => {navigation.navigate(ScreenRoutes.LOGIN)}} style={styles.linkText}>Login </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -52,7 +49,6 @@ const WelcomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        alignItems: "center",
         backgroundColor: Colors.white,
     },
     logoContainer: {
@@ -65,39 +61,14 @@ const styles = StyleSheet.create({
         color: Colors.textLight,
         textAlign: "center",
     },
-    icons: {
-        marginRight: 10,
+    signInButton: {        
+        paddingHorizontal: 20,
+        paddingVertical: 20,
     },
-    signInButtonContainer: {
-        width: 350,
-        marginHorizontal: 50,
-        marginVertical: 10,
-        marginBottom: 30,
-    },
-    signInButton: {
-        backgroundColor: Colors.white,
-        borderRadius: 50,
-        borderWidth: 2,
-        borderColor: Colors.primaryDark,
-        flexDirection: "row",
+    accountTextContainer: {
+        padding: 40,
         alignItems: "center",
         justifyContent: "center",
-        padding: 10,
-    },
-    signInButtonText: {
-        color: Colors.textLight,
-        textAlign: "center",
-        marginLeft: 10,
-        fontSize: 15,
-    },
-    accountButtonContainer: {
-        width: 350,
-        marginHorizontal: 50,
-        marginVertical: 10,
-        marginBottom: 30,
-    },
-
-    accountTextContainer: {
         flexDirection: "row",
     },
     linkText: {
@@ -105,6 +76,9 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontWeight: "bold",
     },
+    space: {
+        height: 20
+    }
 });
 
 export default WelcomeScreen;

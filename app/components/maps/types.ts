@@ -1,9 +1,10 @@
-latitude: number,
+interface Coordinate {
+    latitude: number,
     longitude: number,
 }
 
 
-interface LocationPickerProps {
+interface InputLocationPickerProps {
     location?: Coordinate;
     onLocationChange: (location: Coordinate) => void;
     labelExtractor?: (location: Coordinate) => string;

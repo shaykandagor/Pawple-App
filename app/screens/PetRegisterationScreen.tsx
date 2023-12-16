@@ -14,16 +14,20 @@ import Form from "../components/form/Form";
 import FormDateTimePicker from "../components/input/date_picker/FormDateTimePicker";
 import FormSubmitButton from "../components/input/button/FormSubmitButton";
 import FormChipSelector from "../components/input/chip_selector/FormChipSelector";
+import ScreenRoutes from "../../ScreenRoutes";
 
-interface PetRegisterProps {}
+interface PetRegisterProps {
+    navigation: any
+}
 
-const PetRegisterScreen: React.FC<PetRegisterProps> = () => {
+const PetRegisterScreen: React.FC<PetRegisterProps> = ({navigation}) => {
 
     const validationSchemer = YUP.object().shape({
         image: YUP.string().label("Image").required(),
         name: YUP.string().label("name").required(),
         dob: YUP.date().max(new Date()).label("Date of birth").required(),
-        chip: YUP.string().label("chip").required()
+        chip: YUP.array().of(YUP.string()).label("chip").required(),
+
 
     });
 
@@ -39,6 +43,7 @@ const PetRegisterScreen: React.FC<PetRegisterProps> = () => {
 
             }}
                 onSubmit={(value) => {
+                    navigation.navigate(ScreenRoutes.PET_INFORMATION)
                     console.log(value);
                 }}
                 validationSchema={validationSchemer}
@@ -115,7 +120,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     nextButton: {
-        alignSelf: "center",
+        padding: 15
     },
 });
 

@@ -11,9 +11,8 @@ import FormSubmitButton from "../components/input/button/FormSubmitButton";
 import FormTextInput from "../components/input/text_input/FormTextInput";
 import Form from "../components/form/Form";
 import {Colors} from "../colors";
-import RadioButtonComponent from "../components/input/radio_button/FormRadioCheckbox";
-import {RadioButton, Text} from "react-native-paper";
 import FormRadioButton from "../components/input/radio_button/FormRadioCheckbox";
+import ScreenRoutes from "../../ScreenRoutes";
 
 const validationSchemer = YUP.object().shape({
     image: YUP.string().label("Image").required(),
@@ -23,8 +22,12 @@ const validationSchemer = YUP.object().shape({
     owner: YUP.boolean().label("owner"),
 });
 
+interface LoginScreenProps {
+    navigation: any
+}
 
-const LoginScreen: React.FC = () => {
+
+const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Form
@@ -36,6 +39,7 @@ const LoginScreen: React.FC = () => {
                     owner: false,
                 }}
                 onSubmit={(value) => {
+                    navigation.navigate(ScreenRoutes.ACCOUNT_VERIFICATION)
                     console.log(value);
                 }}
                 validationSchema={validationSchemer}
@@ -65,8 +69,6 @@ const LoginScreen: React.FC = () => {
                 <View style={styles.radioButton}>
                     <FormRadioButton name="owner" label="I own a pet" />
                 </View>
-
-
 
                 <View style={styles.verifyButton}>
                     <FormSubmitButton mode='contained' title="Verify Account" />
@@ -106,7 +108,6 @@ const styles = StyleSheet.create({
     },
     verifyButton: {
         padding: 40,
-        alignSelf: "center"
     }
 
 });
