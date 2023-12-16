@@ -1,8 +1,13 @@
 import React from "react";
-import { SvgXml } from "react-native-svg";
+import {SvgXml} from "react-native-svg";
 
-const Logo = ({ width = "100%", height = "100%" }) => {
-  const _logo = `<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+interface LogoProps {
+    width?: number | string;
+    height?: number | string;
+}
+
+const Logo: React.FC<LogoProps> = ({width = "100%", height = "100%"}) => {
+    const _logo = `<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 237.3 243.4" style="enable-background:new 0 0 237.3 243.4;" xml:space="preserve">
 <style type="text/css">
 	.st0{ fill-rule: evenodd; clip-rule: evenodd; fill="#1c1a43"; }
@@ -15,7 +20,7 @@ const Logo = ({ width = "100%", height = "100%" }) => {
 <path fill="#1c1a43" class="st0" d="M231.6,114.8c13.9-17-0.2-39.7-15.1-33.3C183.3,95.8,217.5,132.1,231.6,114.8z"/>
 </svg>
 `;
-  return <SvgXml xml={_logo} width={width} height={height} />;
+    return <SvgXml xml={_logo} width={width} height={height} />;
 };
 
 export default Logo;
