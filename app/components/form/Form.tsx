@@ -1,31 +1,24 @@
-import {Formik, FormikValues, FormikHelpers} from "formik";
-import React, {ReactNode} from "react";
+import { Formik, FormikHelpers } from 'formik'
+import React, { ReactNode } from 'react'
 
-interface FormProps {
-    initialValue?: any;
-    onSubmit: (
-        values: FormikValues,
-        formikHelpers: FormikHelpers<FormikValues>
-    ) => void | Promise<any>;
-    validationSchema?: any;
-    children: ReactNode;
+interface FormProps<T> {
+  initialValue: T
+  onSubmit: (values: T, formikHelpers: FormikHelpers<T>) => void | Promise<unknown>
+  validationSchema?: unknown
+  children: ReactNode
 }
 
-function Form({
-    initialValue,
-    onSubmit,
-    validationSchema,
-    children,
-}: FormProps) {
-    return (
-        <Formik
-            initialValues={initialValue}
-            onSubmit={onSubmit}
-            validationSchema={validationSchema}
-        >
-            {() => <>{children}</>}
-        </Formik>
-    );
+function Form<T extends object>({
+  initialValue,
+  onSubmit,
+  validationSchema,
+  children
+}: FormProps<T>) {
+  return (
+    <Formik initialValues={initialValue} onSubmit={onSubmit} validationSchema={validationSchema}>
+      {() => <>{children}</>}
+    </Formik>
+  )
 }
 
-export default Form;
+export default Form

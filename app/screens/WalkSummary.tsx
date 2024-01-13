@@ -1,6 +1,6 @@
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native'
 import React from 'react'
-import {Colors} from '../colors'
+import {Colors} from '../util/colors'
 import {Card, Divider, List} from 'react-native-paper'
 import MapView from 'react-native-maps';
 import FormSubmitButton from '../components/input/button/FormSubmitButton';
@@ -17,7 +17,7 @@ const WalkSummary: React.FC<WalkSummaryProps> = ({navigation}) => {
     const screenHeight = Dimensions.get("screen").height
     return (
         <ScrollView>
-            <Card style={[styles.cardContainer, {height: screenHeight * 0.5}]}>
+            <Card style={[styles.cardContainer]}>
                 <View style={{width: "100%", height: "100%"}}>
                     <Card style={styles.cardMap}>
                         <MapView

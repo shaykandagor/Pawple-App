@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native'
 import React from 'react'
-import {Colors} from '../../../colors';
+import {Colors} from '../../../util/colors';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Avatar} from 'react-native-paper';
 import {MaterialCommunityIcons} from "@expo/vector-icons"

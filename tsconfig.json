@@ -1,7 +1,23 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "jsx": "react",
-    "strict": true
+    "jsx": "react-native",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@config": ["config/config"],
+      "@components/*": ["app/components/*"],
+      "@component": ["app/components/index"],
+      "@screens": ["app/screens/index"],
+      "@util": ["app/util/index"],
+    }
   }
 }

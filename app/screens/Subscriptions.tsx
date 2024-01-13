@@ -9,13 +9,12 @@ const Subscriptions = () => {
   )
 }
 
-export default Subscriptions
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
-
-    },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 })
+
+export default Subscriptions

@@ -1,29 +1,18 @@
-import {StyleSheet, Text, View} from "react-native";
-import React from "react";
-import DateTimePicker from "./DateTimePicker";
-import {useFormikContext} from "formik";
+import React from 'react'
+import DateTimePicker from './DateTimePicker'
+import { useFormikContext } from 'formik'
+import { FormDateTimePickerProps } from '@components/input/date_picker/types.d'
 
-const FormDateTimePicker: React.FC<FormDateTimePickerProps> = ({
-    ...props
-}) => {
-    const {values, setFieldValue, errors} = useFormikContext();
-    const _values: any = values;
-    const _errors: any = errors;
-    console.log('====================================');
-    console.log(errors);
-    console.log('====================================');
-    return (
-        <DateTimePicker
-            {...{
-                ...props,
-                date: new Date(_values[props.name] as any),
-                onDateChanged: (date) => setFieldValue(props.name, date.toISOString()),
-                error: _errors[props.name],
-            }}
-        />
-    );
-};
+const FormDateTimePicker = <T,>({ ...props }: FormDateTimePickerProps<T>) => {
+  const { values, setFieldValue, errors } = useFormikContext<T>()
+  return (
+    <DateTimePicker
+      {...props}
+      date={new Date(values[props.name] as string)}
+      onDateChanged={(date: Date) => setFieldValue(props.name as string, date.toISOString())}
+      error={errors[props.name] as string}
+    />
+  )
+}
 
-export default FormDateTimePicker;
-
-const styles = StyleSheet.create({});
+export default FormDateTimePicker

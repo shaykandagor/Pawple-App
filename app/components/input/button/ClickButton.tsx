@@ -1,30 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native'
 import React from 'react'
-import {Button} from 'react-native-paper'
+import { Button, ButtonProps } from 'react-native-paper'
 
-interface ClickButtonProps {
-    mode?: 'outlined' | 'contained'
-    icon?: string
-    title: string
-    onPress: () => void
-
-
+export interface ClickButtonProps extends Omit<ButtonProps, 'children'> {
+  title: string
 }
 
-const ClickButton: React.FC<ClickButtonProps> = ({icon, title, onPress, mode = 'outlined'}) => {
-    return (
-        <Button
-            icon={icon}
-            mode={mode}
-            onPress={() => {
-                onPress();
-            }}>
-            {title}
-        </Button>
-
-    )
-}
+const ClickButton: React.FC<ClickButtonProps> = ({ title, mode = 'contained', ...props }) => (
+  <Button mode={mode} {...props}>
+    {title}
+  </Button>
+)
 
 export default ClickButton
-
-const styles = StyleSheet.create({})

@@ -1,27 +1,12 @@
-import {StyleSheet, Text, View} from "react-native";
-import React from "react";
-import {useFormikContext} from "formik";
-import {Button} from "react-native-paper";
+import React from 'react'
 
-interface FormSubmitProps{
-    title: string,
-    mode: 'contained' | 'outlined'
+import { useFormikContext } from 'formik'
+import { ClickButtonProps } from '@components/input/button/ClickButton'
+import { ClickButton } from '@components/index'
+
+const FormSubmitButton: React.FC<ClickButtonProps> = (props) => {
+  const { handleSubmit } = useFormikContext()
+  return <ClickButton {...props} onPress={() => handleSubmit()} />
 }
-const FormSubmitButton:React.FC<FormSubmitProps> = ({title, mode}) => {
-const {handleSubmit, errors} = useFormikContext();
 
-    return (
-        <Button
-            onPress={() => {
-                handleSubmit();
-            }}
-            mode={mode}
-        >
-            {title}
-        </Button>
-    );
-};
-
-export default FormSubmitButton;
-
-const styles = StyleSheet.create({});
+export default FormSubmitButton
