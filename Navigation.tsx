@@ -16,6 +16,7 @@ import {
   PetInfoScreen,
   PetRegisterScreen,
   PromotionDealsScreen,
+  RegistrationScreen,
   SetPickUpLocationScreen,
   SubscriptionsScreen,
   SupportScreen,
@@ -36,6 +37,7 @@ export type RootStackParamList = {
   DrawerGroup: undefined
   Welcome: undefined
   Login: undefined
+  Registration: undefined
   AccountVerification: undefined
   PetInformation: undefined
   PetRegistration: undefined
@@ -159,6 +161,7 @@ const RootStack = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen name={ScreenNames.WELCOME} component={WelcomeScreen} />
+      <Stack.Screen name={ScreenNames.REGISTRATION} component={RegistrationScreen} />
       <Stack.Screen name={ScreenNames.LOGIN} component={LoginScreen} />
       <Stack.Screen name={ScreenNames.ACCOUNT_VERIFICATION} component={AccountVerifyScreen} />
       <Stack.Screen name={ScreenNames.PET_INFORMATION} component={PetInfoScreen} />

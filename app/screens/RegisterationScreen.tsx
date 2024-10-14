@@ -2,39 +2,45 @@ import React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import LogoText from '../components/logo/LogoText'
 import * as YUP from 'yup'
+import FormImagePicker from '../components/input/image_picker/FormImagePicker'
 import FormSubmitButton from '../components/input/button/FormSubmitButton'
 import FormTextInput from '../components/input/text_input/FormTextInput'
 import Form from '../components/form/Form'
 import { Colors } from '@util'
+import FormRadioButton from '../components/input/radio_button/FormRadioCheckbox'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../Navigation'
-import { Logo } from '@components/index'
 
-interface LoginValues {
-  username: string
+interface RegistrationValues {
+  image: string
+  fullname: string
+  email: string
   password: string
+  owner: boolean
 }
 
 const validationSchemer = YUP.object().shape({
-  username: YUP.string().label('username').required(),
-  password: YUP.string().label('password').required()
+  image: YUP.string().label('Image').required(),
+  fullname: YUP.string().label('full name').required(),
+  email: YUP.string().label('email').required().email(),
+  password: YUP.string().label('password').required(),
+  owner: YUP.boolean().label('owner')
 })
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>
+type Props = NativeStackScreenProps<RootStackParamList, 'Registration'>
 
-const LoginScreen: React.FC<Props> = ({ navigation }) => {
+const RegistrationScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.logoContainer}>
-        <Logo width={200} height={200} />
-        <LogoText width={120} height={120} />
-      </View>
       <Form
         initialValue={
           {
-            username: '',
-            password: ''
-          } as LoginValues
+            image: '',
+            fullname: '',
+            email: '',
+            password: '',
+            owner: false
+          } as RegistrationValues
         }
         onSubmit={(value) => {
           navigation.navigate('AccountVerification')
@@ -42,21 +48,36 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         }}
         validationSchema={validationSchemer}
       >
-        {/* <View style={styles.logo}>
+        <View style={styles.logo}>
           <LogoText width="100%" height={30} />
-        </View> */}
+        </View>
+
+        <View style={styles.image}>
+          <FormImagePicker name="image" size={150} />
+        </View>
 
         <View style={styles.inputsContainer}>
           <View style={styles.inputs}>
             <FormTextInput
-              name="username"
+              name="fullname"
               inputProps={{
-                label: 'Username',
+                label: 'Full Name',
                 mode: 'outlined',
                 inputMode: 'text'
               }}
             />
           </View>
+          <View style={styles.inputs}>
+            <FormTextInput
+              name="email"
+              inputProps={{
+                label: 'Email Address',
+                mode: 'outlined',
+                inputMode: 'email'
+              }}
+            />
+          </View>
+
           <View style={styles.inputs}>
             <FormTextInput
               name="password"
@@ -69,8 +90,12 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         </View>
 
+        <View style={styles.radioButton}>
+          <FormRadioButton name="owner" label="I own a pet" />
+        </View>
+
         <View style={styles.verifyButton}>
-          <FormSubmitButton mode="contained" title="Login" />
+          <FormSubmitButton mode="contained" title="Verify Account" />
         </View>
       </Form>
     </ScrollView>
@@ -82,10 +107,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: Colors.white,
     paddingTop: 50
-  },
-  logoContainer: {
-    paddingTop: 20,
-    alignItems: 'center'
   },
   logo: {
     alignItems: 'center',
@@ -109,4 +130,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default LoginScreen
+export default RegistrationScreen

@@ -1,5 +1,6 @@
 export const DRAWER_GROUP = 'DrawerGroup'
 export const WELCOME = 'Welcome'
+export const REGISTRATION = 'Registration'
 export const LOGIN = 'Login'
 export const ACCOUNT_VERIFICATION = 'AccountVerification'
 export const PET_INFORMATION = 'PetInformation'

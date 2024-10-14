@@ -35,7 +35,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
         />
         <ClickButton
           mode="contained"
-          onPress={() => console.log('Pressed')}
+          onPress={() => navigation.navigate('Registration')}
           title="Create an account"
         />
       </View>
