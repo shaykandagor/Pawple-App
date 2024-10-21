@@ -1,12 +1,12 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 
-import { Colors } from '@util'
-import { ClickButton, Logo, LogoText } from '@component'
-import { RootStackParamList } from '../../Navigation'
+import {ClickButton, Logo, LogoText} from '@component'
+import {Colors} from '@util'
+import {OpenRoutesParamList} from '../../Navigation'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'>
+type Props = NativeStackScreenProps<OpenRoutesParamList, 'Welcome'>
 
 const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   return (

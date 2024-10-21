@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import LogoText from '../components/logo/LogoText'
 import * as YUP from 'yup'
@@ -7,8 +7,12 @@ import FormTextInput from '../components/input/text_input/FormTextInput'
 import Form from '../components/form/Form'
 import { Colors } from '@util'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../Navigation'
+import { OpenRoutesParamList, RootStackParamList } from '../../Navigation'
 import { Logo } from '@components/index'
+import { SessionContext } from 'app/session/SessionContext'
+import { useAuth } from 'app/api/auth'
+import { FormikHelpers } from 'formik'
+import useSecureStore from 'app/hooks/useSecureStore'
 
 interface LoginValues {
   username: string
@@ -20,9 +24,38 @@ const validationSchemer = YUP.object().shape({
   password: YUP.string().label('password').required()
 })
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>
+type Props = NativeStackScreenProps<OpenRoutesParamList, 'Login'>
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const { session, setSession } = useContext(SessionContext)
+  const { login } = useAuth()
+  const { setValue } = useSecureStore('token', undefined)
+  const [loading, setLoading] = useState(false)
+  const handleSubmit = async (value: any, { setErrors }: FormikHelpers<LoginValues>) => {
+    setLoading(true)
+    try {
+      const response = await login({ id: value.username, password: value.password })
+      if (response.ok) {
+        setSession({
+          ...session,
+          authenticated: true
+        })
+        setValue(response.headers.get('x-access-token'))
+      } else if (response.status === 400) {
+        const errors = await response.json()
+        const fieldErrors = Object.entries(errors).reduce((prev, [key, value]) => {
+          if (key === '_errors') {
+            return prev
+          }
+          return { ...prev, [key]: ((value as any)._errors as string[]).join(';') }
+        }, {})
+        setErrors({ ...fieldErrors, username: (fieldErrors as any).id })
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false)
+    }
+  }
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.logoContainer}>
@@ -36,10 +69,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             password: ''
           } as LoginValues
         }
-        onSubmit={(value) => {
-          navigation.navigate('AccountVerification')
-          console.log(value)
-        }}
+        onSubmit={handleSubmit}
         validationSchema={validationSchemer}
       >
         {/* <View style={styles.logo}>
@@ -70,7 +100,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         </View>
 
         <View style={styles.verifyButton}>
-          <FormSubmitButton mode="contained" title="Login" />
+          <FormSubmitButton mode="contained" title="Login" loading={loading} />
         </View>
       </Form>
     </ScrollView>

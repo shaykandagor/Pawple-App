@@ -6,13 +6,12 @@ const login = async (credentials: { id: string; password: string }) => {
 
     const raw = JSON.stringify(credentials)
 
-    const response = await fetch(`${BASE_URL}/auth/login`, {
+    return await fetch(`${BASE_URL}/auth/login`, {
       method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow'
     })
-    return await response.json()
 }
 
 const getUserByToken = async (token: string) => {

@@ -1,15 +1,15 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {Colors} from '@util'
 import React from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
-import LogoText from '../components/logo/LogoText'
+import {ScrollView, StyleSheet, View} from 'react-native'
 import * as YUP from 'yup'
-import FormImagePicker from '../components/input/image_picker/FormImagePicker'
-import FormSubmitButton from '../components/input/button/FormSubmitButton'
-import FormTextInput from '../components/input/text_input/FormTextInput'
+import {OpenRoutesParamList} from '../../Navigation'
 import Form from '../components/form/Form'
-import { Colors } from '@util'
+import FormSubmitButton from '../components/input/button/FormSubmitButton'
+import FormImagePicker from '../components/input/image_picker/FormImagePicker'
 import FormRadioButton from '../components/input/radio_button/FormRadioCheckbox'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../Navigation'
+import FormTextInput from '../components/input/text_input/FormTextInput'
+import LogoText from '../components/logo/LogoText'
 
 interface RegistrationValues {
   image: string
@@ -27,7 +27,7 @@ const validationSchemer = YUP.object().shape({
   owner: YUP.boolean().label('owner')
 })
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Registration'>
+type Props = NativeStackScreenProps<OpenRoutesParamList, 'Registration'>
 
 const RegistrationScreen: React.FC<Props> = ({ navigation }) => {
   return (
@@ -43,7 +43,6 @@ const RegistrationScreen: React.FC<Props> = ({ navigation }) => {
           } as RegistrationValues
         }
         onSubmit={(value) => {
-          navigation.navigate('AccountVerification')
           console.log(value)
         }}
         validationSchema={validationSchemer}

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet'
+import React, {useEffect, useState} from 'react'
+import {GestureHandlerRootView} from 'react-native-gesture-handler'
 
-import Navigation from './Navigation'
-import { SWRConfig } from 'swr'
-import { SessionContextProvider } from 'app/session/SessionContext'
-import { Session } from 'app/types/session'
+import {useAuth} from 'app/api/auth'
 import useSecureStore from 'app/hooks/useSecureStore'
-import { useAuth } from 'app/api/auth'
+import {SessionContextProvider} from 'app/session/SessionContext'
+import {Session} from 'app/types/session'
+import {SWRConfig} from 'swr'
+import Navigation from './Navigation'
 
 const App = () => {
   const { getUserByToken } = useAuth()
