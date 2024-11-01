@@ -39,25 +39,28 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
         </View>
         <View style={styles.itemContainer}>
           <DrawerItemList {...props} />
+          <View style={styles.loginView}>
+            <ClickButton title="Log Out" onPress={() => console.log('Pressed: Log Out')} />
+          </View>
+        </View>
+        <View style={styles.bottomView}>
+          <Text
+            style={{
+              fontSize: 15,
+              paddingBottom: 10,
+              color: Colors.textDark,
+              fontWeight: '600',
+              alignSelf: 'center'
+            }}
+          >
+            Earn money on your schedule
+          </Text>
+          <ClickButton
+            title="Become a walker"
+            onPress={() => console.log('Pressed: Become a walker')}
+          />
         </View>
       </DrawerContentScrollView>
-      <View style={styles.bottomView}>
-        <Text
-          style={{
-            fontSize: 15,
-            paddingBottom: 10,
-            color: Colors.textDark,
-            fontWeight: '600',
-            alignSelf: 'center'
-          }}
-        >
-          Earn money on your schedule
-        </Text>
-        <ClickButton
-          title="Become a walker"
-          onPress={() => console.log('Pressed')}
-        />
-      </View>
     </View>
   )
 }
@@ -104,7 +107,6 @@ const styles = StyleSheet.create({
   rating: {
     flexDirection: 'row',
     paddingTop: 5
-
   },
   ratingNumber: {
     color: Colors.textDark,
@@ -123,6 +125,13 @@ const styles = StyleSheet.create({
   bottomView: {
     padding: 20,
     backgroundColor: Colors.white,
-    borderRadius: 10
+    borderRadius: 10,
+    marginBottom: 10
+  },
+  loginView: {
+    padding: 10,
+    backgroundColor: Colors.white,
+    borderRadius: 5,
+    marginBottom: 10
   }
 })

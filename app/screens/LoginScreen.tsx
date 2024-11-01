@@ -1,18 +1,19 @@
+import { Logo } from '@components/index'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { Colors } from '@util'
+import { useAuth } from 'app/api/auth'
+import useSecureStore from 'app/hooks/useSecureStore'
+import { SessionContext } from 'app/session/SessionContext'
+import { User } from 'app/types/session'
+import { FormikHelpers } from 'formik'
 import React, { useContext, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import LogoText from '../components/logo/LogoText'
 import * as YUP from 'yup'
+import { OpenRoutesParamList } from '../../Navigation'
+import Form from '../components/form/Form'
 import FormSubmitButton from '../components/input/button/FormSubmitButton'
 import FormTextInput from '../components/input/text_input/FormTextInput'
-import Form from '../components/form/Form'
-import { Colors } from '@util'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { OpenRoutesParamList, RootStackParamList } from '../../Navigation'
-import { Logo } from '@components/index'
-import { SessionContext } from 'app/session/SessionContext'
-import { useAuth } from 'app/api/auth'
-import { FormikHelpers } from 'formik'
-import useSecureStore from 'app/hooks/useSecureStore'
+import LogoText from '../components/logo/LogoText'
 
 interface LoginValues {
   username: string
@@ -36,9 +37,12 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     try {
       const response = await login({ id: value.username, password: value.password })
       if (response.ok) {
+        const resposeData = await response.json()
+        const user: User = resposeData.user
         setSession({
           ...session,
-          authenticated: true
+          authenticated: true,
+          user
         })
         setValue(response.headers.get('x-access-token'))
       } else if (response.status === 400) {

@@ -96,7 +96,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="PaymentMethods"
+        name={ScreenNames.PAYMENT_METHODS}
         component={PaymentMethodScreen}
         options={{
           drawerIcon: () => (
@@ -105,7 +105,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="PromotionsAndDeals"
+        name={ScreenNames.PROMOTIONS_AND_DEALS}
         component={PromotionDealsScreen}
         options={{
           title: 'Promotions & Deals',
@@ -115,7 +115,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="Subscriptions"
+        name={ScreenNames.SUBSCRIPTIONS}
         component={SubscriptionsScreen}
         options={{
           drawerIcon: () => (
@@ -128,7 +128,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="MyWalks"
+        name={ScreenNames.MY_WALKS}
         component={MyWalksScreen}
         options={{
           title: 'My Walks',
@@ -142,7 +142,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="Support"
+        name={ScreenNames.SUPPORT}
         component={SupportScreen}
         options={{
           drawerIcon: () => (
@@ -155,7 +155,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="About"
+        name={ScreenNames.ABOUT}
         component={AboutScreen}
         options={{
           drawerIcon: () => (
@@ -209,7 +209,7 @@ const Navigation = () => {
       </NavigationContainer>
     </PaperProvider>
   )
-}
+} 
 
 const styles = StyleSheet.create({
   drawerLabel: {

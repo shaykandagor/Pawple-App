@@ -12,7 +12,6 @@ import {
   FormCardPicker,
   FormImageSelector
 } from '@component'
-import { Avatar } from 'react-native-paper'
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -20,6 +19,8 @@ import {
 } from '@gorhom/bottom-sheet'
 import * as YUP from 'yup'
 import { RootStackParamList } from '../../Navigation'
+import useSession from 'app/session/useSession'
+import MyPets from '@components/MyPets'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
 
@@ -72,24 +73,14 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     time: YUP.string().label('time').required(),
     pet: YUP.string().label('pet').required()
   })
-
+  const { user, sessionToken } = useSession()
   return (
     <View style={styles.container}>
       <View>
         <View style={styles.headingHome}>
           <LogoText width="100%" height={30} />
         </View>
-
-        <View>
-          <Text style={styles.text}>Your Pets</Text>
-        </View>
-
-        <View style={styles.petProfileHome}>
-          <Avatar.Image size={100} source={require('../assets/pet_profile.jpg')} />
-          <View style={styles.space} />
-          <Avatar.Icon icon="plus" size={100} style={{ backgroundColor: Colors.lightGray }} />
-        </View>
-
+        <MyPets  />
         <View style={{ alignSelf: 'flex-start' }}>
           <Text style={styles.text}>Community Events</Text>
         </View>
