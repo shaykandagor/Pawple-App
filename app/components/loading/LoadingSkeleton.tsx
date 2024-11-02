@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View, Animated, StyleSheet } from 'react-native'
 import { Avatar } from 'react-native-paper'
 
-const LoadingSkeleton = ({ size = 50 }) => {
+const LoadingSkeleton = ({ size = 100 }) => {
   const opacity = useState(new Animated.Value(0))[0]
 
   useEffect(() => {

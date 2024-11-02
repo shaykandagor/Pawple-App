@@ -21,6 +21,7 @@ import * as YUP from 'yup'
 import { RootStackParamList } from '../../Navigation'
 import useSession from 'app/session/useSession'
 import MyPets from '@components/MyPets'
+import {SET_PICKUP_LOCATION} from './ScreenNames'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
 
@@ -147,7 +148,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
               onSubmit={(value) => {
                 console.log(value)
                 setShowSheet(!showSheet)
-                navigation.navigate('SetPickUpLocation')
+                navigation.navigate(SET_PICKUP_LOCATION)
               }}
               validationSchema={validationSchemer}
             >

@@ -1,10 +1,11 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-import {ClickButton, Logo, LogoText} from '@component'
-import {Colors} from '@util'
-import {OpenRoutesParamList} from '../../Navigation'
+import { ClickButton, Logo, LogoText } from '@component'
+import { Colors } from '@util'
+import { OpenRoutesParamList } from '../../Navigation'
+import { LOGIN, REGISTRATION } from './ScreenNames'
 
 type Props = NativeStackScreenProps<OpenRoutesParamList, 'Welcome'>
 
@@ -35,14 +36,14 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
         />
         <ClickButton
           mode="contained"
-          onPress={() => navigation.navigate('Registration')}
+          onPress={() => navigation.navigate(REGISTRATION)}
           title="Create an account"
         />
       </View>
 
       <View style={styles.accountTextContainer}>
         <Text style={styles.label}>You already have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => navigation.navigate(LOGIN)}>
           <Text style={styles.linkText}>Login </Text>
         </TouchableOpacity>
       </View>

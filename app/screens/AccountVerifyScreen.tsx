@@ -5,6 +5,7 @@ import LogoText from '../components/logo/LogoText'
 import ClickButton from '../components/input/button/ClickButton'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../Navigation'
+import {PET_REGISTRATION} from './ScreenNames'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AccountVerification'>
 
@@ -27,7 +28,7 @@ const AccountVerifyScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.resendButtonContainer}>
-        <ClickButton onPress={() => navigation.navigate('PetRegistration')} title="Resend link" />
+        <ClickButton onPress={() => navigation.navigate(PET_REGISTRATION)} title="Resend link" />
       </View>
     </ScrollView>
   )

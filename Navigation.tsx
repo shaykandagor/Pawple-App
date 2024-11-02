@@ -13,7 +13,6 @@ import {
   LoginScreen,
   MyWalksScreen,
   PaymentMethodScreen,
-  PetInfoScreen,
   PetRegisterScreen,
   PromotionDealsScreen,
   RegistrationScreen,
@@ -185,7 +184,6 @@ const RootStack = () => {
         options={{ headerShown: false }}
       />
       <SecureStack.Screen name={ScreenNames.ACCOUNT_VERIFICATION} component={AccountVerifyScreen} />
-      <SecureStack.Screen name={ScreenNames.PET_INFORMATION} component={PetInfoScreen} />
       <SecureStack.Screen name={ScreenNames.PET_REGISTRATION} component={PetRegisterScreen} />
       <SecureStack.Screen
         name={ScreenNames.DETAILS_VERIFICATION}

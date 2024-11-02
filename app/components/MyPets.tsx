@@ -6,13 +6,19 @@ import { BASE_URL } from 'app/util/constants'
 import { Pet } from 'app/types'
 import { Colors } from '@util'
 import LoadingSkeleton from './loading/LoadingSkeleton'
-import AvatarImage from 'react-native-paper/lib/typescript/components/Avatar/AvatarImage'
+import CustomError from './custom_error/CustomError'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { PET_REGISTRATION } from 'app/screens/ScreenNames'
+import { useNavigation } from '@react-navigation/native'
 
 const MyPets = () => {
-  const { pets, mutate, isLoading, error } = usePets()
+  const navigation = useNavigation()
+  const { pets, isLoading, error } = usePets()
   if (isLoading) {
     return (
-      <View>
+      <View style={styles.loading}>
+        <LoadingSkeleton />
+        <LoadingSkeleton />
         <LoadingSkeleton />
       </View>
     )
@@ -20,7 +26,7 @@ const MyPets = () => {
   if (error) {
     return (
       <View>
-        <Text>Errors</Text>
+        <CustomError errorMessage={error.message} />;
       </View>
     )
   }
@@ -33,12 +39,14 @@ const MyPets = () => {
 
       <View style={styles.petProfileHome}>
         {pets.map((pet: Pet, index: number) => (
-          <View style={styles.avatarContainer}>
-            <Avatar.Image key={pet.id} size={100} source={{ uri: `${BASE_URL}/${pet.photoUrl}` }} />
+          <View key={pet.id} style={styles.avatarContainer}>
+            <Avatar.Image size={100} source={{ uri: `${BASE_URL}/${pet.photoUrl}` }} />
           </View>
         ))}
         <View style={styles.avatarContainer} />
-        <Avatar.Icon icon="plus" size={100} style={{ backgroundColor: Colors.lightGray }} />
+        <TouchableOpacity onPress={() => navigation.navigate(PET_REGISTRATION)}>
+          <Avatar.Icon icon="plus" size={100} style={{ backgroundColor: Colors.lightGray }} />
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -50,12 +58,17 @@ const styles = StyleSheet.create({
     color: Colors.textDark,
     paddingVertical: 10
   },
+  loading: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 15
+  },
   petProfileHome: {
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },
   avatarContainer: {
-    marginHorizontal: 5d
+    marginHorizontal: 5
   }
 })
 
