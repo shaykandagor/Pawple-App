@@ -1,13 +1,12 @@
-import FormDescChipSelector from '@components/input/chip_selector/FormDescChipSelector'
 import FormTypeChipSelector from '@components/input/chip_selector/FormTypeChipSelector'
 import FormDateTimePicker from '@components/input/date_picker/FormDateTimePicker'
 import FormImagePicker from '@components/input/image_picker/FormImagePicker'
 import FormTextInput from '@components/input/text_input/FormTextInput'
 import LogoText from '@components/logo/LogoText'
-import { Colors } from 'app/util/colors'
+import {Colors} from 'app/util/colors'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Button } from 'react-native-paper'
+import {StyleSheet, Text, View} from 'react-native'
+import {Button} from 'react-native-paper'
 
 type Props = { onNext: () => void }
 

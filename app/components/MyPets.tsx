@@ -26,7 +26,7 @@ const MyPets = () => {
   if (error) {
     return (
       <View>
-        <CustomError errorMessage={error.message} />;
+        <CustomError errorMessage={error.message} />
       </View>
     )
   }
@@ -36,16 +36,20 @@ const MyPets = () => {
       <View>
         <Text style={styles.text}>Your Pets</Text>
       </View>
-      <ScrollView horizontal={true}> 
+      <ScrollView horizontal={true}>
         <View style={styles.petProfileHome}>
           {pets.map((pet: Pet, index: number) => (
             <View key={pet.id} style={styles.avatarContainer}>
               <Avatar.Image size={100} source={{ uri: `${BASE_URL}/${pet.photoUrl}` }} />
+              <Text style={styles.petName}>{pet.name}</Text>
             </View>
           ))}
-          <View style={styles.avatarContainer} />
-          <TouchableOpacity onPress={() => navigation.navigate(PET_REGISTRATION)}>
+          <TouchableOpacity
+            style={styles.avatarContainer}
+            onPress={() => navigation.navigate(PET_REGISTRATION)}
+          >
             <Avatar.Icon icon="plus" size={100} style={{ backgroundColor: Colors.lightGray }} />
+            <Text style={styles.addNewPetText}>Add New Pet</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -55,9 +59,10 @@ const MyPets = () => {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 20,
-    color: Colors.textDark,
-    paddingVertical: 10
+    fontSize: 24,
+    color: Colors.primary,
+    fontWeight: 'bold',
+    paddingVertical: 15
   },
   loading: {
     flexDirection: 'row',
@@ -70,7 +75,22 @@ const styles = StyleSheet.create({
     flex: 1
   },
   avatarContainer: {
-    marginHorizontal: 5
+    marginHorizontal: 10, // Add some horizontal margin
+    alignItems: 'center', // Center items horizontally
+    padding: 10, // Add padding
+    borderRadius: 10 // Round corners
+  },
+  petName: {
+    fontSize: 16,
+    fontWeight: 'semibold',
+    marginTop: 5,
+    color: Colors.textDark
+  },
+  addNewPetText: {
+    marginTop: 5,
+    fontSize: 16,
+    color: Colors.primary,
+    fontWeight: 'semibold'
   }
 })
 

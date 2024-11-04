@@ -219,9 +219,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   text: {
-    fontSize: 20,
-    color: Colors.textDark,
-    paddingVertical: 10
+    fontSize: 24,
+    color: Colors.primary,
+    fontWeight: 'bold',
+    paddingVertical: 15
   },
   petProfileHome: {
     flexDirection: 'row',

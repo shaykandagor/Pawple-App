@@ -44,7 +44,7 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation }) => {
           sex: '',
           size: '',
           description: [],
-          type: "Dog"
+          type: "",
         }}
         onSubmit={(value) => {
           navigation.navigate(PET_INFORMATION)
