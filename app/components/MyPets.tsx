@@ -7,7 +7,7 @@ import { Pet } from 'app/types'
 import { Colors } from '@util'
 import LoadingSkeleton from './loading/LoadingSkeleton'
 import CustomError from './custom_error/CustomError'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { PET_REGISTRATION } from 'app/screens/ScreenNames'
 import { useNavigation } from '@react-navigation/native'
 
@@ -36,18 +36,19 @@ const MyPets = () => {
       <View>
         <Text style={styles.text}>Your Pets</Text>
       </View>
-
-      <View style={styles.petProfileHome}>
-        {pets.map((pet: Pet, index: number) => (
-          <View key={pet.id} style={styles.avatarContainer}>
-            <Avatar.Image size={100} source={{ uri: `${BASE_URL}/${pet.photoUrl}` }} />
-          </View>
-        ))}
-        <View style={styles.avatarContainer} />
-        <TouchableOpacity onPress={() => navigation.navigate(PET_REGISTRATION)}>
-          <Avatar.Icon icon="plus" size={100} style={{ backgroundColor: Colors.lightGray }} />
-        </TouchableOpacity>
-      </View>
+      <ScrollView horizontal={true}> 
+        <View style={styles.petProfileHome}>
+          {pets.map((pet: Pet, index: number) => (
+            <View key={pet.id} style={styles.avatarContainer}>
+              <Avatar.Image size={100} source={{ uri: `${BASE_URL}/${pet.photoUrl}` }} />
+            </View>
+          ))}
+          <View style={styles.avatarContainer} />
+          <TouchableOpacity onPress={() => navigation.navigate(PET_REGISTRATION)}>
+            <Avatar.Icon icon="plus" size={100} style={{ backgroundColor: Colors.lightGray }} />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   )
 }
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
   },
   petProfileHome: {
     flexDirection: 'row',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    flex: 1
   },
   avatarContainer: {
     marginHorizontal: 5

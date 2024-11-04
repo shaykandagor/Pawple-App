@@ -1,9 +1,9 @@
-import {Colors} from '@util'
+import { Colors } from '@util'
 import React from 'react'
-import {ScrollView, StyleSheet, Text, View} from 'react-native'
-import {IconButton} from 'react-native-paper'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { IconButton } from 'react-native-paper'
 import FormSubmitButton from '../input/button/FormSubmitButton'
-import FormChipSelector from '../input/chip_selector/FormChipSelector'
+import FormDescChipSelector from '../input/chip_selector/FormDescChipSelector'
 import FormItemPicker from '../input/item_picker/FormItemPicker'
 import LogoText from '../logo/LogoText'
 
@@ -36,7 +36,7 @@ const PetRegistrationStep2 = () => {
         </View>
 
         <View style={styles.chips}>
-          <FormChipSelector
+          <FormDescChipSelector
             name="description"
             icon="check"
             mode="outlined"

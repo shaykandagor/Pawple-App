@@ -1,4 +1,5 @@
-import FormChipSelector from '@components/input/chip_selector/FormChipSelector'
+import FormDescChipSelector from '@components/input/chip_selector/FormDescChipSelector'
+import FormTypeChipSelector from '@components/input/chip_selector/FormTypeChipSelector'
 import FormDateTimePicker from '@components/input/date_picker/FormDateTimePicker'
 import FormImagePicker from '@components/input/image_picker/FormImagePicker'
 import FormTextInput from '@components/input/text_input/FormTextInput'
@@ -44,7 +45,7 @@ const PetRegistrationStep1: React.FC<Props> = ({ onNext }) => {
       </View>
 
       <View style={styles.chips}>
-        <FormChipSelector name="type" icon="check" mode="outlined" options={options} />
+        <FormTypeChipSelector name="type" icon="check" mode="outlined" options={options} />
       </View>
 
       <View style={styles.nextButton}>
