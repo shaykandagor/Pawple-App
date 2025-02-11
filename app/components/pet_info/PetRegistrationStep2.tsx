@@ -6,6 +6,7 @@ import FormSubmitButton from '../input/button/FormSubmitButton'
 import FormDescChipSelector from '../input/chip_selector/FormDescChipSelector'
 import FormItemPicker from '../input/item_picker/FormItemPicker'
 import LogoText from '../logo/LogoText'
+import {useFormikContext} from 'formik'
 
 const PetRegistrationStep2 = () => {
   const sex = [
@@ -19,9 +20,12 @@ const PetRegistrationStep2 = () => {
     { id: 3, name: 'Large' }
   ]
 
+  const {errors} = useFormikContext()
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
+        <Text>{JSON.stringify(errors)} </Text>
         <View style={styles.logo}>
           <LogoText width="100%" height={30} />
         </View>

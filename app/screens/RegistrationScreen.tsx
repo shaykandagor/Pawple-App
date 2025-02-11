@@ -105,28 +105,31 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: Colors.white,
+    padding: 20,
     paddingTop: 50
   },
   logo: {
     alignItems: 'center',
-    padding: 20
-  },
-  radioButton: {
-    paddingLeft: 15
+    marginBottom: 20
   },
   image: {
     alignItems: 'center',
-    paddingBottom: 20
+    marginBottom: 20
   },
   inputsContainer: {
-    padding: 20
+    marginBottom: 20
   },
   inputs: {
-    marginBottom: 30
+    marginBottom: 20
+  },
+  radioButton: {
+    marginBottom: 20
   },
   verifyButton: {
-    padding: 40
+    alignItems: 'center',
+    marginTop: 20
   }
 })
+
 
 export default RegistrationScreen

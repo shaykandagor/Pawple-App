@@ -1,5 +1,5 @@
-import { Image, StyleSheet, View } from 'react-native'
-import React from 'react'
+import { Alert, Image, StyleSheet, View } from 'react-native'
+import React, { useState } from 'react'
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -9,8 +9,10 @@ import { Colors } from '@util'
 import { Text } from 'react-native-paper'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import ClickButton from './app/components/input/button/ClickButton'
+import useSecureStore from 'app/hooks/useSecureStore'
 
 const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
+  const { setValue } = useSecureStore('token', undefined)
   return (
     <View style={styles.container}>
       <DrawerContentScrollView
@@ -40,7 +42,15 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
         <View style={styles.itemContainer}>
           <DrawerItemList {...props} />
           <View style={styles.loginView}>
-            <ClickButton title="Log Out" onPress={() => console.log('Pressed: Log Out')} />
+            <ClickButton
+              title="Log Out"
+              onPress={() =>
+                Alert.prompt('Log out', 'Are you sure you want to log out?', [
+                  { text: 'Cancel' },
+                  { text: 'Log out', onPress: () => setValue(undefined) }
+                ])
+              }
+            />
           </View>
         </View>
         <View style={styles.bottomView}>

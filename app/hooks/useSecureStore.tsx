@@ -4,6 +4,10 @@ import * as SecureStore from 'expo-secure-store'
 async function save(key: string, value: any) {
   if (value !== null && value !== undefined)
     await SecureStore.setItemAsync(key, JSON.stringify(value))
+  else{
+    await SecureStore.deleteItemAsync(key)
+    
+  }
 }
 
 async function getValueFor(key: string) {
@@ -29,8 +33,7 @@ const useSecureStore = (key: string, defaultValue: any) => {
   }, [])
 
   return {
-    value: storedValue,
-    setValue: (value: any) => {
+    value: storedValue,setValue: (value: any) => {
       setStoredValue(value)
       save(valueKey, value)
     }

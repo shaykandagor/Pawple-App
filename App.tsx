@@ -11,17 +11,20 @@ import Navigation from './Navigation'
 
 const App = () => {
   const { getUserByToken } = useAuth()
-  const { value } = useSecureStore('token', undefined)
+  const { value, setValue } = useSecureStore('token', undefined)
   const [session, setSession] = useState<Session>({ authenticated: false })
   useEffect(() => {
     if (value) {
       getUserByToken(value)
-        .then((user: User) => {
+        .then((res) => {
+          const user = res.data
           setSession({ authenticated: true, user, sessionToken: value })
         })
-        .catch((error) => {
-          console.log(error)
+        .catch((_) => {
+          setValue(undefined)
         })
+    } else {
+      setSession({ authenticated: false, user: undefined, sessionToken: undefined })
     }
   }, [value])
   return (

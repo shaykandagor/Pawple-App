@@ -31,6 +31,7 @@ import { theme } from '@util'
 import { StyleSheet } from 'react-native'
 import useSession from 'app/session/useSession'
 import * as ScreenNames from 'app/screens/ScreenNames'
+import UserRegistrationScreen from 'app/screens/UserRegistrationScreen'
 
 export type RootStackParamList = {
   DrawerGroup: undefined
@@ -47,6 +48,7 @@ export type RootStackParamList = {
 export type OpenRoutesParamList = {
   Login: undefined
   Registration: undefined
+  UserRegistration: undefined
   Welcome: undefined
 }
 
@@ -170,6 +172,7 @@ const OpenRoutes = () => {
     <OpenStack.Navigator>
       <OpenStack.Screen name={ScreenNames.WELCOME} component={WelcomeScreen} />
       <OpenStack.Screen name={ScreenNames.REGISTRATION} component={RegistrationScreen} />
+      <OpenStack.Screen name={ScreenNames.USER_REGISTRATION} component={UserRegistrationScreen} />
       <OpenStack.Screen name={ScreenNames.LOGIN} component={LoginScreen} />
     </OpenStack.Navigator>
   )
@@ -207,7 +210,7 @@ const Navigation = () => {
       </NavigationContainer>
     </PaperProvider>
   )
-} 
+}
 
 const styles = StyleSheet.create({
   drawerLabel: {

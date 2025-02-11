@@ -5,7 +5,7 @@ import { useAuth } from 'app/api/auth'
 import useSecureStore from 'app/hooks/useSecureStore'
 import { SessionContext } from 'app/session/SessionContext'
 import { User } from 'app/types/session'
-import { FormikHelpers } from 'formik'
+import { ErrorMessage, FormikHelpers } from 'formik'
 import React, { useContext, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import * as YUP from 'yup'
@@ -36,17 +36,16 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     setLoading(true)
     try {
       const response = await login({ id: value.username, password: value.password })
-      if (response.ok) {
-        const resposeData = await response.json()
-        const user: User = resposeData.user
-        setSession({
-          ...session,
-          authenticated: true,
-          user
-        })
-        setValue(response.headers.get('x-access-token'))
-      } else if (response.status === 400) {
-        const errors = await response.json()
+      const user: User = response.data.user
+      setSession({
+        ...session,
+        authenticated: true,
+        user
+      })
+      setValue(response?.headers?.['x-access-token'])
+    } catch (error: any) {
+      if(error.response.status === 400) {
+        const errors = await error.response.data
         const fieldErrors = Object.entries(errors).reduce((prev, [key, value]) => {
           if (key === '_errors') {
             return prev
@@ -55,7 +54,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         }, {})
         setErrors({ ...fieldErrors, username: (fieldErrors as any).id })
       }
-    } catch (error) {
+      else {
+        // TODO: Handle other errors other than validation 
+      }
     } finally {
       setLoading(false)
     }

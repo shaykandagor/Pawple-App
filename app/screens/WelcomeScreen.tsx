@@ -5,7 +5,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ClickButton, Logo, LogoText } from '@component'
 import { Colors } from '@util'
 import { OpenRoutesParamList } from '../../Navigation'
-import { LOGIN, REGISTRATION } from './ScreenNames'
+import { LOGIN, REGISTRATION, USER_REGISTRATION } from './ScreenNames'
 
 type Props = NativeStackScreenProps<OpenRoutesParamList, 'Welcome'>
 
@@ -26,7 +26,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
           icon="google"
           title="Sign in with Google"
           mode="outlined"
-          onPress={() => console.log('Pressed')}
+          onPress={() => navigation.navigate(REGISTRATION)}
         />
         <ClickButton
           icon="apple"
@@ -36,7 +36,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
         />
         <ClickButton
           mode="contained"
-          onPress={() => navigation.navigate(REGISTRATION)}
+          onPress={() => navigation.navigate(USER_REGISTRATION)}
           title="Create an account"
         />
       </View>

@@ -5,37 +5,39 @@ import ItemPicker from "./ItemPicker";
 import {TextInputProps} from "react-native-paper";
 
 interface FormItemPickerProps {
-    name: string,
-    data?: any[];
-    labelExtractor?: (item: any) => string;
-    valueExtractor: (item: any) => any;
-    renderItem: ({
-        item,
-        index,
-        separators,
-    }: {
-        item: any;
-        index: number;
-        separators: {
-            highlight: () => void;
-            unhighlight: () => void;
-            updateProps: (select: "leading" | "trailing", newProps: any) => void;
-        };
-    }) => ReactNode;
-    label?: string;
-    prefixIcon?: string;
-    surfixIcon?: string;
-    onSurfixIconPressed?: () => void;
-    onPrefixIconPressed?: () => void;
-    variant?: "flat" | "outlined";
-    error?: string;
-    helpText?: string;
-    horizontal?: boolean;
-    columnCount?: number;
-    searchable?: boolean;
-    searchStyle?: TextInputProps;
-    contentContainerStyle?: StyleProp<ViewStyle>;
-
+  name: string
+  data?: any[]
+  labelExtractor?: (item: any) => string
+  valueExtractor: (item: any) => any
+  renderItem: ({
+    item,
+    index,
+    separators
+  }: {
+    item: any
+    index: number
+    separators: {
+      highlight: () => void
+      unhighlight: () => void
+      updateProps: (select: 'leading' | 'trailing', newProps: any) => void
+    }
+  }) => ReactNode
+  label?: string
+  prefixIcon?: string
+  surfixIcon?: string
+  onSurfixIconPressed?: () => void
+  onPrefixIconPressed?: () => void
+  variant?: 'flat' | 'outlined'
+  error?: string
+  helpText?: string
+  horizontal?: boolean
+  columnCount?: number
+  searchable?: boolean
+  searchStyle?: TextInputProps
+  contentContainerStyle?: StyleProp<ViewStyle>
+  disabled?: boolean
+  value: any 
+  onValueChange: (value: any) => void 
 }
 
 const FormItemPicker: React.FC<FormItemPickerProps> = ({...props}) => {
@@ -44,15 +46,16 @@ const FormItemPicker: React.FC<FormItemPickerProps> = ({...props}) => {
     const _errors: any = errors;
 
     return (
-        <ItemPicker
-            {...{
-                ...props,
-                item: _values[props.name],
-                onItemChanged: (item) => setFieldValue(props.name, item),
-                error: _errors[props.name],
-            }}
-        />
-    );
+      <ItemPicker
+        {...{
+          ...props,
+          item: _values[props.name],
+          onItemChanged: (item) => setFieldValue(props.name, item),
+          error: _errors[props.name],
+          disabled: props.disabled
+        }}
+      />
+    )
 }
 
 export default FormItemPicker;
