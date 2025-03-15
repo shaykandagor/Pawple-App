@@ -4,6 +4,7 @@ import useSWR from 'swr'
 import { apiFetcher } from './apiFetcher'
 import { getFormFileFromUri } from 'app/util/helpers'
 import { objectToFormData } from './objectToFormData'
+import { BASE_URL } from 'app/util/constants'
 
 export const usePets = () => {
   const url = `/pets`
@@ -17,7 +18,11 @@ export const usePets = () => {
 }
 
 const addPet = async (pet: Record<string, any>) => {
-  const formData = objectToFormData({ ...pet, photoUrl: undefined })
+  const formData = objectToFormData({
+    ...pet,
+    photoUrl: undefined,
+    birthDay: typeof pet.birthDay === 'string' ? pet.birthDay : pet.birthDay.toISOString()
+  })
   formData.append('photoUrl', getFormFileFromUri(pet.photoUrl) as any)
   const response = await apiFetcher<Pet>('/pets', {
     method: 'POST',
@@ -28,7 +33,20 @@ const addPet = async (pet: Record<string, any>) => {
 }
 
 const updatePet = async (id: string, pet: Record<string, any>) => {
-  const response = await apiFetcher<Pet>(`/pets/${id}`, { method: 'PUT', data: pet })
+  const photoUrl = (pet.photoUrl as string).startsWith(BASE_URL)
+    ? pet.photoUrl.replace(BASE_URL, '')
+    : (getFormFileFromUri(pet.photoUrl) as any)
+  const formData = objectToFormData({
+    ...pet,
+    photoUrl: undefined,
+    birthDay: typeof pet.birthDay === 'string' ? pet.birthDay : pet.birthDay.toISOString()
+  })
+  formData.append('photoUrl', photoUrl)
+  const response = await apiFetcher<Pet>(`/pets/${id}`, {
+    method: 'PUT',
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' }
+  })
   return response.data
 }
 

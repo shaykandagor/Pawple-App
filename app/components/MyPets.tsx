@@ -39,10 +39,10 @@ const MyPets = () => {
       <ScrollView horizontal={true}>
         <View style={styles.petProfileHome}>
           {pets.map((pet: Pet, index: number) => (
-            <View key={pet.id} style={styles.avatarContainer}>
+            <TouchableOpacity key={pet.id} style={styles.avatarContainer} onPress={() => navigation.navigate(PET_REGISTRATION, { pet })}>
               <Avatar.Image size={100} source={{ uri: `${BASE_URL}/${pet.photoUrl}` }} />
               <Text style={styles.petName}>{pet.name}</Text>
-            </View>
+            </TouchableOpacity>
           ))}
           <TouchableOpacity
             style={styles.avatarContainer}

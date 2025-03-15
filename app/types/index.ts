@@ -5,6 +5,7 @@ export interface Pet {
   descriptions: string[]
   size: string
   sex: string
+  type: string
   ownerId: string
   photoUrl: string
   createdAt: string

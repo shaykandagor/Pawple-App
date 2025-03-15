@@ -11,6 +11,8 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import * as YUP from 'yup'
 import { RootStackParamList } from '../../Navigation'
 import Form from '../components/form/Form'
+import { Pet } from 'app/types'
+import { BASE_URL } from 'app/util/constants'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'PetRegistration'>
 
@@ -24,7 +26,8 @@ interface PetRegisterValues {
   type: string
 }
 
-const PetRegisterScreen: React.FC<Props> = ({ navigation }) => {
+const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
+  const pet: Pet | undefined = (route?.params as any)?.pet
   const validationSchemer = YUP.object().shape({
     photoUrl: YUP.string().label('Image').required(),
     name: YUP.string().label('name').required(),
@@ -42,7 +45,11 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation }) => {
   const handleSubmit = async (value: any, { setErrors }: FormikHelpers<PetRegisterValues>) => {
     setLoading(true)
     try {
-      await addPet(value)
+      if (pet) {
+        await updatePet(pet.id, value)
+      } else {
+        await addPet(value)
+      }
       mutate('/pets')
       navigation.goBack()
     } catch (error: any) {
@@ -68,13 +75,13 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation }) => {
     <ScrollView contentContainerStyle={styles.container}>
       <Form<PetRegisterValues>
         initialValue={{
-          photoUrl: '',
-          name: '',
-          birthDay: new Date(),
-          sex: '',
-          size: '',
-          descriptions: [],
-          type: ''
+          photoUrl: pet?.photoUrl ? `${BASE_URL}/${pet.photoUrl}` : '',
+          name: pet?.name ?? '',
+          birthDay: pet?.birthDay ? new Date(pet?.birthDay) : new Date(),
+          sex: pet?.sex ?? '',
+          size: pet?.size ?? '',
+          descriptions: pet?.descriptions ?? [],
+          type: pet?.type ?? ''
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchemer}
