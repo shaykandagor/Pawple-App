@@ -4,9 +4,9 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import FormSubmitButton from '../input/button/FormSubmitButton'
 import FormDescChipSelector from '../input/chip_selector/FormDescChipSelector'
-import FormItemPicker from '../input/item_picker/FormItemPicker'
 import LogoText from '../logo/LogoText'
 import {useFormikContext} from 'formik'
+import FormItemPicker from '@components/input/item_picker/FormItemPicker'
 
 const PetRegistrationStep2 = () => {
   const sex = [

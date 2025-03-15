@@ -1,11 +1,9 @@
-import {useContext} from "react"
-import {SessionContext} from "./SessionContext"
+import { useContext } from 'react'
+import { SessionContext } from './SessionContext'
 
 const useSession = () => {
-  const {session, setSession} = useContext(SessionContext)
-  return session
+  const { session, setSession, logOut } = useContext(SessionContext)
+  return { session, setSession, logOut }
 }
-
-
 
 export default useSession

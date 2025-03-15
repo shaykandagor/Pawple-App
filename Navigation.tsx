@@ -202,7 +202,9 @@ const RootStack = () => {
   )
 }
 const Navigation = () => {
-  const { authenticated } = useSession()
+  const {
+    session: { authenticated }
+  } = useSession()
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer theme={LightTheme}>

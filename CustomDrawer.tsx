@@ -10,9 +10,10 @@ import { Text } from 'react-native-paper'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import ClickButton from './app/components/input/button/ClickButton'
 import useSecureStore from 'app/hooks/useSecureStore'
+import useSession from 'app/session/useSession'
 
 const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
-  const { setValue } = useSecureStore('token', undefined)
+  const {logOut} = useSession()
   return (
     <View style={styles.container}>
       <DrawerContentScrollView
@@ -45,9 +46,9 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
             <ClickButton
               title="Log Out"
               onPress={() =>
-                Alert.prompt('Log out', 'Are you sure you want to log out?', [
+                Alert.alert('Log out', 'Are you sure you want to log out?', [
                   { text: 'Cancel' },
-                  { text: 'Log out', onPress: () => setValue(undefined) }
+                  { text: 'Log out', onPress: logOut }
                 ])
               }
             />

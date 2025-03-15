@@ -14,6 +14,7 @@ import Form from '../components/form/Form'
 import FormSubmitButton from '../components/input/button/FormSubmitButton'
 import FormTextInput from '../components/input/text_input/FormTextInput'
 import LogoText from '../components/logo/LogoText'
+import useSession from 'app/session/useSession'
 
 interface LoginValues {
   username: string
@@ -28,7 +29,7 @@ const validationSchemer = YUP.object().shape({
 type Props = NativeStackScreenProps<OpenRoutesParamList, 'Login'>
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const { session, setSession } = useContext(SessionContext)
+  const { session, setSession } = useSession()
   const { login } = useAuth()
   const { setValue } = useSecureStore('token', undefined)
   const [loading, setLoading] = useState(false)
