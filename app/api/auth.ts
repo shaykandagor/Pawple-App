@@ -1,4 +1,4 @@
-import {httpClient} from '.';
+import { httpClient } from '.'
 
 const login = async (credentials: { id: string; password: string }) => {
   return await httpClient.post(`/auth/login`, credentials, {
@@ -6,8 +6,14 @@ const login = async (credentials: { id: string; password: string }) => {
   })
 }
 
+const register = async (credentials: Record<string, any>) => {
+  return await httpClient.post(`/auth/register`, credentials, {
+    headers: { 'Content-Type': 'application/json' }
+  })
+}
+
 const getUserByToken = async (token: string) => {
-  return await httpClient.get(`/users/profile`,{
+  return await httpClient.get(`/users/profile`, {
     headers: { 'x-access-token': token }
   })
 }
@@ -15,6 +21,7 @@ const getUserByToken = async (token: string) => {
 export const useAuth = () => {
   return {
     login,
-    getUserByToken
+    getUserByToken,
+    register
   }
 }
