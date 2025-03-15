@@ -1,19 +1,15 @@
-import { httpClient } from '.'
+import { apiFetcher } from './apiFetcher'
 
 const login = async (credentials: { id: string; password: string }) => {
-  return await httpClient.post(`/auth/login`, credentials, {
-    headers: { 'Content-Type': 'application/json' }
-  })
+  return await apiFetcher(`/auth/login`, { method: 'POST', data: credentials })
 }
 
 const register = async (credentials: Record<string, any>) => {
-  return await httpClient.post(`/auth/register`, credentials, {
-    headers: { 'Content-Type': 'application/json' }
-  })
+  return await apiFetcher(`/auth/register`, { method: 'POST', data: credentials })
 }
 
 const getUserByToken = async (token: string) => {
-  return await httpClient.get(`/users/profile`, {
+  return await apiFetcher(`/users/profile`, {
     headers: { 'x-access-token': token }
   })
 }

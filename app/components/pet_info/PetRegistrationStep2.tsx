@@ -1,31 +1,30 @@
 import { Colors } from '@util'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import FormSubmitButton from '../input/button/FormSubmitButton'
 import FormDescChipSelector from '../input/chip_selector/FormDescChipSelector'
 import LogoText from '../logo/LogoText'
-import {useFormikContext} from 'formik'
+import { useFormikContext } from 'formik'
 import FormItemPicker from '@components/input/item_picker/FormItemPicker'
+import { calculateAge } from 'app/util/helpers'
 
 const PetRegistrationStep2 = () => {
-  const sex = [
-    { id: 1, name: 'Male' },
-    { id: 2, name: 'Female' }
-  ]
+  const sex = ['Male', 'Female']
 
-  const size = [
-    { id: 1, name: 'Small' },
-    { id: 2, name: 'Medium' },
-    { id: 3, name: 'Large' }
-  ]
+  const size = ['Small', 'Medium', 'Large']
 
-  const {errors} = useFormikContext()
+  const { errors, values } = useFormikContext<any>()
+  const age = useMemo(() => {
+    if (values.dob) {
+      return calculateAge(new Date(values.dob))
+    }
+    return ''
+  }, [values.dob])
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text>{JSON.stringify(errors)} </Text>
         <View style={styles.logo}>
           <LogoText width="100%" height={30} />
         </View>
@@ -36,7 +35,9 @@ const PetRegistrationStep2 = () => {
         </View>
 
         <View>
-          <Text style={styles.setText}>Milo 2 yrs</Text>
+          <Text style={styles.setText}>
+            {(values as any).name} {age}
+          </Text>
         </View>
 
         <View style={styles.chips}>
@@ -62,8 +63,8 @@ const PetRegistrationStep2 = () => {
             variant="outlined"
             label="Sex"
             data={sex}
-            valueExtractor={(item) => item?.id}
-            labelExtractor={(item) => `${item?.name}`}
+            valueExtractor={(item) => item}
+            labelExtractor={(item) => `${item}`}
             surfixIcon="chevron-down"
             renderItem={({ item }) => (
               <View
@@ -75,9 +76,8 @@ const PetRegistrationStep2 = () => {
                   borderRadius: 10
                 }}
               >
-                <IconButton icon={item.icon} />
-                <Text style={{}}>{item.name}</Text>
-                <Text style={{}}>{item.label}</Text>
+                <IconButton icon="camera" />
+                <Text >{item}</Text>
               </View>
             )}
           />
@@ -89,8 +89,8 @@ const PetRegistrationStep2 = () => {
             variant="outlined"
             label="Size"
             data={size}
-            valueExtractor={(item) => item?.id}
-            labelExtractor={(item) => `${item?.name}`}
+            valueExtractor={(item) => item}
+            labelExtractor={(item) => `${item}`}
             surfixIcon="chevron-down"
             renderItem={({ item }) => (
               <View
@@ -102,9 +102,8 @@ const PetRegistrationStep2 = () => {
                   borderRadius: 10
                 }}
               >
-                <IconButton icon={item.icon} />
-                <Text style={{}}>{item.name}</Text>
-                <Text style={{}}>{item.label}</Text>
+                <IconButton icon="camera" />
+                <Text >{item}</Text>
               </View>
             )}
           />

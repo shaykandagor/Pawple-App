@@ -44,7 +44,7 @@ const PetRegistrationStep1: React.FC<Props> = ({ onNext }) => {
       </View>
 
       <View style={styles.chips}>
-        <FormTypeChipSelector name="type" icon="check" mode="outlined" options={options} />
+        <FormTypeChipSelector name="type" icon="check" mode="outlined" options={options}  />
       </View>
 
       <View style={styles.nextButton}>
