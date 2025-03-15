@@ -12,7 +12,7 @@ httpClient.interceptors.request.use(
       const valueKey = `${keyPrefix}${key}`
       const token = await SecureStore.getItemAsync(valueKey)
       if (token && !config.headers?.get('x-access-token')) {
-        config.headers.set('x-access-token', token)
+        config.headers.set('x-access-token', JSON.parse(token))
       }
     } catch (error) {
       console.log('Error retrieving token', error)

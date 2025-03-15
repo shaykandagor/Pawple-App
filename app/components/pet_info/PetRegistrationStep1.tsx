@@ -18,7 +18,7 @@ const PetRegistrationStep1: React.FC<Props> = ({ onNext }) => {
         <LogoText width="100%" height={30} />
       </View>
       <View style={styles.image}>
-        <FormImagePicker name="image" size={150} />
+        <FormImagePicker name="photoUrl" size={150} />
       </View>
       <View>
         <Text style={styles.setText}>Set up your pet</Text>
@@ -32,7 +32,7 @@ const PetRegistrationStep1: React.FC<Props> = ({ onNext }) => {
 
       <View style={styles.inputs}>
         <FormDateTimePicker
-          name="dob"
+          name="birthDay"
           formater={(date) => date.toLocaleDateString()}
           label="Date of birth"
           prefixIcon="calendar"

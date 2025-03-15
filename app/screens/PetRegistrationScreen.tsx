@@ -1,21 +1,24 @@
+import FormSubmitButton from '@components/input/button/FormSubmitButton'
 import PetRegistrationStep1 from '@components/pet_info/PetRegistrationStep1'
 import PetRegistrationStep2 from '@components/pet_info/PetRegistrationStep2'
-import {NativeStackScreenProps} from '@react-navigation/native-stack'
-import {Colors} from '@util'
-import React, {useState} from 'react'
-import {ScrollView, StyleSheet} from 'react-native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { Colors } from '@util'
+import { mutate } from 'app/api/apiFetcher'
+import { usePetApi } from 'app/api/pets'
+import { FormikHelpers } from 'formik'
+import React, { useState } from 'react'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import * as YUP from 'yup'
-import {RootStackParamList} from '../../Navigation'
+import { RootStackParamList } from '../../Navigation'
 import Form from '../components/form/Form'
-import {PET_INFORMATION} from './ScreenNames'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'PetRegistration'>
 
 interface PetRegisterValues {
-  image: string
+  photoUrl: string
   name: string
-  dob: Date
-  description: string[]
+  birthDay: Date
+  descriptions: string[]
   sex: string
   size: string
   type: string
@@ -23,37 +26,72 @@ interface PetRegisterValues {
 
 const PetRegisterScreen: React.FC<Props> = ({ navigation }) => {
   const validationSchemer = YUP.object().shape({
-    image: YUP.string().label('Image').required(),
+    photoUrl: YUP.string().label('Image').required(),
     name: YUP.string().label('name').required(),
-    dob: YUP.date().max(new Date()).label('Date of birth').required(),
+    birthDay: YUP.date().max(new Date()).label('Date of birth').required(),
     sex: YUP.string().label('sex').required(),
     size: YUP.string().label('size').required(),
-    description: YUP.array().of(YUP.string()).label('description').required(),
-    type: YUP.string().label("type").oneOf(['Dog', 'Cat']).required(),
+    descriptions: YUP.array().of(YUP.string()).label('descriptions').required(),
+    type: YUP.string().label('type').oneOf(['Dog', 'Cat']).required()
   })
 
   const [currentStep, setCurrentStep] = useState(1)
+  const { addPet, updatePet } = usePetApi()
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (value: any, { setErrors }: FormikHelpers<PetRegisterValues>) => {
+    setLoading(true)
+    try {
+      await addPet(value)
+      mutate('/pets')
+      navigation.goBack()
+    } catch (error: any) {
+      console.log(error?.response?.data)
+      if (error.response.status === 400) {
+        const errors = await error.response.data
+        const fieldErrors = Object.entries(errors).reduce((prev, [key, value]) => {
+          if (key === '_errors') {
+            return prev
+          }
+          return { ...prev, [key]: ((value as any)._errors as string[]).join(';') }
+        }, {})
+        setErrors({ ...fieldErrors })
+      } else {
+        // TODO: Handle other errors other than validation
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Form<PetRegisterValues>
         initialValue={{
-          image: '',
+          photoUrl: '',
           name: '',
-          dob: new Date(),
+          birthDay: new Date(),
           sex: '',
           size: '',
-          description: [],
-          type: "",
+          descriptions: [],
+          type: ''
         }}
-        onSubmit={(value) => {
-          navigation.navigate(PET_INFORMATION)
-          console.log('Pet Register Value', value)
-        }}
+        onSubmit={handleSubmit}
         validationSchema={validationSchemer}
       >
-        {currentStep === 1 && <PetRegistrationStep1 onNext={() => {setCurrentStep(2)}} />} 
-        {currentStep === 2 && <PetRegistrationStep2 />} 
+        {currentStep === 1 && (
+          <PetRegistrationStep1
+            onNext={() => {
+              setCurrentStep(2)
+            }}
+          />
+        )}
+        {currentStep === 2 && <PetRegistrationStep2 />}
+        {currentStep === 2 && (
+          <View style={styles.doneButton}>
+            <FormSubmitButton mode="contained" title="All Done" loading={loading} />
+          </View>
+        )}
       </Form>
     </ScrollView>
   )
@@ -81,6 +119,10 @@ const styles = StyleSheet.create({
   inputs: {
     padding: 10,
     marginBottom: 20
+  },
+  doneButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 20
   },
   chips: {
     alignItems: 'center',

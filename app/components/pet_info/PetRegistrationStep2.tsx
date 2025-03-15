@@ -1,13 +1,12 @@
+import FormItemPicker from '@components/input/item_picker/FormItemPicker'
 import { Colors } from '@util'
+import { calculateAge } from 'app/util/helpers'
+import { useFormikContext } from 'formik'
 import React, { useMemo } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
-import FormSubmitButton from '../input/button/FormSubmitButton'
 import FormDescChipSelector from '../input/chip_selector/FormDescChipSelector'
 import LogoText from '../logo/LogoText'
-import { useFormikContext } from 'formik'
-import FormItemPicker from '@components/input/item_picker/FormItemPicker'
-import { calculateAge } from 'app/util/helpers'
 
 const PetRegistrationStep2 = () => {
   const sex = ['Male', 'Female']
@@ -17,10 +16,10 @@ const PetRegistrationStep2 = () => {
   const { errors, values } = useFormikContext<any>()
   const age = useMemo(() => {
     if (values.dob) {
-      return calculateAge(new Date(values.dob))
+      return calculateAge(new Date(values.birthDay))
     }
     return ''
-  }, [values.dob])
+  }, [values.birthDay])
 
   return (
     <View style={styles.container}>
@@ -42,7 +41,7 @@ const PetRegistrationStep2 = () => {
 
         <View style={styles.chips}>
           <FormDescChipSelector
-            name="description"
+            name="descriptions"
             icon="check"
             mode="outlined"
             options={[
@@ -77,7 +76,7 @@ const PetRegistrationStep2 = () => {
                 }}
               >
                 <IconButton icon="camera" />
-                <Text >{item}</Text>
+                <Text>{item}</Text>
               </View>
             )}
           />
@@ -103,15 +102,12 @@ const PetRegistrationStep2 = () => {
                 }}
               >
                 <IconButton icon="camera" />
-                <Text >{item}</Text>
+                <Text>{item}</Text>
               </View>
             )}
           />
         </View>
-
-        <View style={styles.doneButton}>
-          <FormSubmitButton mode="contained" title="All Done" />
-        </View>
+        {/* TODO: Add a button to navigate to the previous step */}
       </ScrollView>
     </View>
   )

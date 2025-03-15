@@ -13,4 +13,21 @@ export const calculateAge = (dob: Date): string => {
   return years > 0 ? `${years} years ${months} months` : `${months} months`
 }
 
+export const getFormFileFromUri = (uri: string) => {
+  const filename = uri.split('/').pop()
+
+  let fileExt = filename?.split('.').pop()
+
+  const mimeType = `image/${fileExt}`
+
+  // const mimeType = Platform.OS === "ios" ? `image/jpg` : "image/jpeg";
+
+  return {
+    uri: uri,
+
+    name: filename,
+
+    type: mimeType
+  }
+}
 
