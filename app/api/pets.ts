@@ -1,13 +1,13 @@
 import { Pet } from 'app/types'
 import { AxiosResponse } from 'axios'
 import useSWR from 'swr'
-import { apiFetcher } from './apiFetcher'
+import { apiFetcher, constructUrl } from './apiFetcher'
 import { getFormFileFromUri } from 'app/util/helpers'
 import { objectToFormData } from './objectToFormData'
 import { BASE_URL } from 'app/util/constants'
 
-export const usePets = () => {
-  const url = `/pets`
+export const usePets = (filters: Record<string, any> = {}) => {
+  const url = constructUrl(`/pets`, filters)
   const { data, error, isLoading, mutate } = useSWR<AxiosResponse<{ results: Pet[] }>>(url)
   return {
     pets: data?.data?.results ?? [],

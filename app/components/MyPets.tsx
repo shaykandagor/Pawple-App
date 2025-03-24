@@ -1,24 +1,26 @@
-import {useNavigation} from '@react-navigation/native'
-import {Colors} from '@util'
-import {usePets} from 'app/api/pets'
-import {PET_REGISTRATION} from 'app/screens/ScreenNames'
-import {Pet} from 'app/types'
-import {BASE_URL} from 'app/util/constants'
+import { useNavigation } from '@react-navigation/native'
+import { Colors } from '@util'
+import { usePets } from 'app/api/pets'
+import { PET_REGISTRATION } from 'app/screens/ScreenNames'
+import { Pet } from 'app/types'
+import { BASE_URL } from 'app/util/constants'
 import React from 'react'
-import {StyleSheet, Text, View} from 'react-native'
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler'
-import {Avatar} from 'react-native-paper'
+import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { Avatar } from 'react-native-paper'
 import CustomError from './custom_error/CustomError'
 import LoadingSkeleton from './loading/LoadingSkeleton'
 
 const MyPets = () => {
   const navigation = useNavigation()
-  const { pets, isLoading, error } = usePets()
+  const { pets, isLoading, error } = usePets({
+    mine: 'true'
+  })
   if (isLoading) {
     return (
       <View style={styles.loading}>
-        <LoadingSkeleton />
-        <LoadingSkeleton />
+        <LoadingSkeleton /> 
+        <LoadingSkeleton /> 
         <LoadingSkeleton />
       </View>
     )
@@ -39,7 +41,11 @@ const MyPets = () => {
       <ScrollView horizontal={true}>
         <View style={styles.petProfileHome}>
           {pets.map((pet: Pet, index: number) => (
-            <TouchableOpacity key={pet.id} style={styles.avatarContainer} onPress={() => navigation.navigate(PET_REGISTRATION, { pet })}>
+            <TouchableOpacity
+              key={pet.id}
+              style={styles.avatarContainer}
+              onPress={() => navigation.navigate(PET_REGISTRATION, { pet })}
+            >
               <Avatar.Image size={100} source={{ uri: `${BASE_URL}/${pet.photoUrl}` }} />
               <Text style={styles.petName}>{pet.name}</Text>
             </TouchableOpacity>
@@ -75,10 +81,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
   avatarContainer: {
-    marginHorizontal: 10, // Add some horizontal margin
-    alignItems: 'center', // Center items horizontally
-    padding: 10, // Add padding
-    borderRadius: 10 // Round corners
+    marginHorizontal: 10, 
+    alignItems: 'center', 
+    padding: 10, 
+    borderRadius: 10 
   },
   petName: {
     fontSize: 16,
