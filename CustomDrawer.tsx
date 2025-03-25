@@ -4,11 +4,11 @@ import {
   DrawerContentScrollView,
   DrawerItemList
 } from '@react-navigation/drawer'
-import {Colors} from '@util'
+import { Colors } from '@util'
 import useSession from 'app/session/useSession'
 import React from 'react'
-import {Alert, StyleSheet, View} from 'react-native'
-import {Text} from 'react-native-paper'
+import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import ClickButton from './app/components/input/button/ClickButton'
 
 const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
@@ -19,7 +19,9 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
         {...props}
         contentContainerStyle={{ backgroundColor: Colors.skyBlue }}
       >
-        <Users />
+        <TouchableOpacity>
+          <Users />
+        </TouchableOpacity>
         <View style={styles.itemContainer}>
           <DrawerItemList {...props} />
           <View style={styles.loginView}>

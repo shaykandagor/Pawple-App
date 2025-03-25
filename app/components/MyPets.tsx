@@ -11,6 +11,10 @@ import { Avatar } from 'react-native-paper'
 import CustomError from './custom_error/CustomError'
 import LoadingSkeleton from './loading/LoadingSkeleton'
 
+//  displays a list of pets belonging to the user. 
+//  If the user has no pets, a button to add a new pet is displayed.
+//  The user can click on a pet to view the pet profile.
+//  The component uses the usePets hook to fetch the user's pets.
 const MyPets = () => {
   const navigation = useNavigation()
   const { pets, isLoading, error } = usePets({

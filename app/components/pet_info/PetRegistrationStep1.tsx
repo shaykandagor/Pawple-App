@@ -9,7 +9,9 @@ import {StyleSheet, Text, View} from 'react-native'
 import {Button} from 'react-native-paper'
 
 type Props = { onNext: () => void }
-
+// displays a form for the user to register a new pet.
+// The form includes fields for the pet's name, date of birth, type, and photo.
+// The user can click the Next button to proceed to the next step of the registration process.
 const PetRegistrationStep1: React.FC<Props> = ({ onNext }) => {
   const options = ['Dog', 'Cat']
   return (

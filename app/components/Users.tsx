@@ -4,7 +4,7 @@ import { User } from 'app/types/session'
 import { BASE_URL } from 'app/util/constants'
 import { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Avatar, Text } from 'react-native-paper'
+import { Avatar, Button, Text } from 'react-native-paper'
 import CustomError from './custom_error/CustomError'
 import LoadingSkeleton from './loading/LoadingSkeleton'
 import useSecureStore from 'app/hooks/useSecureStore'
@@ -56,9 +56,13 @@ const Users = () => {
         }}
         style={styles.profileImage}
       />
-      <Text style={styles.profileName}>{user.fullName}</Text>
-      <Text style={styles.profile}>{user.username}</Text>
-      <Text style={styles.profile}>{user.email}</Text>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={styles.profileName}>{user.fullName}</Text>
+        <Text style={styles.profile}>{user.username}</Text>
+        <Button mode="text" onPress={() => console.log('View profile')}>
+          View Profile
+        </Button>
+      </View>
     </View>
   )
 }
@@ -70,8 +74,7 @@ const styles = StyleSheet.create({
     padding: 15
   },
   profileContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 20,
     backgroundColor: Colors.white,
     paddingVertical: 20
@@ -80,7 +83,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 50,
-    marginBottom: 10
+    marginHorizontal: 10
   },
   profileName: {
     color: Colors.textDark,

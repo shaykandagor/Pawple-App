@@ -8,6 +8,9 @@ const register = async (credentials: Record<string, any>) => {
   return await apiFetcher(`/auth/register`, { method: 'POST', data: credentials })
 }
 
+const updateUserInfo = async (credentials: Record<string, any>) => {
+  return await apiFetcher(`/users/profile`, { method: 'PUT', data: credentials })
+} 
 const getUserByToken = async (token: string) => {
   return await apiFetcher(`/users/profile`, {
     headers: { 'x-access-token': token }
@@ -18,6 +21,7 @@ export const useAuth = () => {
   return {
     login,
     getUserByToken,
-    register
+    register,
+    updateUserInfo
   }
 }

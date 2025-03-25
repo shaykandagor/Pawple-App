@@ -14,6 +14,9 @@ import Form from '../components/form/Form'
 import { Pet } from 'app/types'
 import { BASE_URL } from 'app/util/constants'
 
+// The PetRegistrationScreen component allows the user to register a new pet.
+// The component uses the usePetApi hook to add or update a pet.
+// The component uses the Formik library to handle form submission.
 type Props = NativeStackScreenProps<RootStackParamList, 'PetRegistration'>
 
 interface PetRegisterValues {

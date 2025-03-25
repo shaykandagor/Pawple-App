@@ -2,6 +2,9 @@ import { BASE_URL } from 'app/util/constants'
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store'
 
+// Create an axios instance
+// Set the base URL for the API
+// Add an interceptor to add the token to the request headers
 const httpClient = axios.create({ baseURL: BASE_URL })
 
 httpClient.interceptors.request.use(
