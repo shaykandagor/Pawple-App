@@ -30,6 +30,8 @@ interface PetRegisterValues {
 }
 
 const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
+  // The pet object is retrieved from the route parameters.
+  // If the pet object is not found, it will be undefined.
   const pet: Pet | undefined = (route?.params as any)?.pet
   const validationSchemer = YUP.object().shape({
     photoUrl: YUP.string().label('Image').required(),
@@ -53,6 +55,8 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
       } else {
         await addPet(value)
       }
+      // After successfully adding or updating the pet, we want to navigate back to the pets list screen.
+      // The mutate function is called to refresh the pets list.
       mutate('/pets')
       navigation.goBack()
     } catch (error: any) {

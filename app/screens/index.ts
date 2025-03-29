@@ -1,5 +1,5 @@
 export { default as AboutScreen } from './AboutScreen'
-export { default as AccountVerifyScreen } from './AccountVerifyScreen'
+export { default as UpdateProfileScreen } from './UpdateProfileScreen'
 export { default as ConfirmBookingScreen } from './ConfirmBooking'
 export { default as DetailsVerificationScreen } from './DetailsVerificationScreen'
 export { default as HomeScreen } from './HomeScreen'

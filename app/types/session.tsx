@@ -16,6 +16,24 @@ export interface User {
   socialSecurityNumber: string
   birthday?: string
   address?: string
+  walker?: Walker
+  owner?: Owner
   createdAt: string
   updatedAt: string
 }
+
+export interface Walker {
+  id: string
+  userId: string
+  preferredSize: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Owner {
+  id: string
+  userId: string
+  createdAt: string
+  updatedAt: string
+}
+

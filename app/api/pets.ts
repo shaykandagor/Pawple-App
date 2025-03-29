@@ -9,7 +9,7 @@ import { BASE_URL } from 'app/util/constants'
 export const usePets = (filters: Record<string, any> = {}) => {
   const url = constructUrl(`/pets`, filters)
   const { data, error, isLoading, mutate } = useSWR<AxiosResponse<{ results: Pet[] }>>(url)
-  return {
+  return { 
     pets: data?.data?.results ?? [],
     error,
     isLoading,

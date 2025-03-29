@@ -59,9 +59,7 @@ const Users = () => {
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <Text style={styles.profileName}>{user.fullName}</Text>
         <Text style={styles.profile}>{user.username}</Text>
-        <Button mode="text" onPress={() => console.log('View profile')}>
-          View Profile
-        </Button>
+        <Button mode="text">Edit Profile</Button>
       </View>
     </View>
   )

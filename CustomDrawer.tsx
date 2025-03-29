@@ -10,16 +10,22 @@ import React from 'react'
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import ClickButton from './app/components/input/button/ClickButton'
+import { useNavigation } from '@react-navigation/native'
+import { UPDATE_PROFILE } from 'app/screens/ScreenNames'
 
 const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
-  const { logOut } = useSession()
+  const {
+    logOut,
+    session: { user }
+  } = useSession()
+  const navigation = useNavigation()
   return (
     <View style={styles.container}>
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={{ backgroundColor: Colors.skyBlue }}
       >
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate(UPDATE_PROFILE as never)}>
           <Users />
         </TouchableOpacity>
         <View style={styles.itemContainer}>
@@ -36,23 +42,25 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
             />
           </View>
         </View>
-        <View style={styles.bottomView}>
-          <Text
-            style={{
-              fontSize: 15,
-              paddingBottom: 10,
-              color: Colors.textDark,
-              fontWeight: '600',
-              alignSelf: 'center'
-            }}
-          >
-            Earn money on your schedule
-          </Text>
-          <ClickButton
-            title="Become a walker"
-            onPress={() => console.log('Pressed: Become a walker')}
-          />
-        </View>
+        {!user?.walker && (
+          <View style={styles.bottomView}>
+            <Text
+              style={{
+                fontSize: 15,
+                paddingBottom: 10,
+                color: Colors.textDark,
+                fontWeight: '600',
+                alignSelf: 'center'
+              }}
+            >
+              Earn money on your schedule
+            </Text>
+            <ClickButton
+              title="Become a walker"
+              onPress={() => console.log('Pressed: Become a walker')}
+            />
+          </View>
+        )}
       </DrawerContentScrollView>
     </View>
   )

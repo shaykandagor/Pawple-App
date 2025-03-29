@@ -6,7 +6,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import {
   AboutScreen,
-  AccountVerifyScreen,
   ConfirmBookingScreen,
   DetailsVerificationScreen,
   HomeScreen,
@@ -19,6 +18,7 @@ import {
   SetPickUpLocationScreen,
   SubscriptionsScreen,
   SupportScreen,
+  UpdateProfileScreen,
   WalkSummaryScreen,
   WelcomeScreen
 } from '@screens'
@@ -35,7 +35,7 @@ import UserRegistrationScreen from 'app/screens/UserRegistrationScreen'
 
 export type RootStackParamList = {
   DrawerGroup: undefined
-  AccountVerification: undefined
+  UpdateProfile: undefined
   PetInformation: undefined
   PetRegistration: undefined
   DetailsVerification: undefined
@@ -186,7 +186,7 @@ const RootStack = () => {
         component={DrawerGroup}
         options={{ headerShown: false }}
       />
-      <SecureStack.Screen name={ScreenNames.ACCOUNT_VERIFICATION} component={AccountVerifyScreen} />
+      <SecureStack.Screen name={ScreenNames.UPDATE_PROFILE} component={UpdateProfileScreen} />
       <SecureStack.Screen name={ScreenNames.PET_REGISTRATION} component={PetRegisterScreen} />
       <SecureStack.Screen
         name={ScreenNames.DETAILS_VERIFICATION}
