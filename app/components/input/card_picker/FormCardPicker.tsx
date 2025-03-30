@@ -5,7 +5,11 @@ import CardPicker, { CardPickerProps } from './CardPicker'
 /**
  * CardPicker examples Q: Duration, R: number (value)
  */
-interface FormCardPickerProps<T, Q> extends CardPickerProps<Q> {
+interface FormCardPickerProps<T, Q>
+  extends Pick<
+    CardPickerProps<Q>,
+    'label' | 'items' | 'titleExtractor' | 'valueExtractor' | 'subTitleExtractor' | 'renderTrailer'
+  > {
   name: keyof T
 }
 
@@ -20,7 +24,7 @@ const FormCardPicker = <T, Q>({ name, ...props }: FormCardPickerProps<T, Q>) => 
   return (
     <CardPicker<Q>
       {...props}
-      value={values[name] as Q}
+      value={values[name]}
       onValueChange={(value) => setFieldValue(name as string, value)}
       error={error}
     />

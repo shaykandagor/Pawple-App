@@ -11,3 +11,12 @@ export interface Pet {
   createdAt: string
   updatedAt: string
 }
+
+export interface WalkDuration {
+  id: string
+  units: string
+  duration: number
+  cost: string
+  createdAt: string
+  updatedAt: string
+}

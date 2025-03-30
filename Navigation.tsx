@@ -32,12 +32,14 @@ import { StyleSheet } from 'react-native'
 import useSession from 'app/session/useSession'
 import * as ScreenNames from 'app/screens/ScreenNames'
 import UserRegistrationScreen from 'app/screens/UserRegistrationScreen'
+import WalkBookingForm from 'app/screens/WalkBookingForm'
 
 export type RootStackParamList = {
   DrawerGroup: undefined
   UpdateProfile: undefined
   PetInformation: undefined
   PetRegistration: undefined
+  WalkBooking: undefined
   DetailsVerification: undefined
   Home: undefined
   SetPickUpLocation: undefined
@@ -188,6 +190,7 @@ const RootStack = () => {
       />
       <SecureStack.Screen name={ScreenNames.UPDATE_PROFILE} component={UpdateProfileScreen} />
       <SecureStack.Screen name={ScreenNames.PET_REGISTRATION} component={PetRegisterScreen} />
+      <SecureStack.Screen name={ScreenNames.WALK_BOOKING} component={WalkBookingForm} />
       <SecureStack.Screen
         name={ScreenNames.DETAILS_VERIFICATION}
         component={DetailsVerificationScreen}
