@@ -30,4 +30,3 @@ export const getFormFileFromUri = (uri: string) => {
     type: mimeType
   }
 }
-

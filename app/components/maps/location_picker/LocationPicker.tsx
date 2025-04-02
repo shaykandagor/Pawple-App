@@ -45,9 +45,7 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
         >
           <Marker
             draggable
-            onDragEnd={(event) =>
-              setMarkerLocation(event.nativeEvent.coordinate)
-            }
+            onDragEnd={(event) => setMarkerLocation(event.nativeEvent.coordinate)}
             coordinate={markerLocation}
             title={calloutTitle}
             description={descriptionExtractor ? descriptionExtractor(markerLocation) : undefined}
@@ -86,4 +84,3 @@ const styles = StyleSheet.create({
 })
 
 export default LocationPicker
-

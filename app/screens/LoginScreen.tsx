@@ -1,15 +1,15 @@
-import {Logo} from '@components/index'
-import {NativeStackScreenProps} from '@react-navigation/native-stack'
-import {Colors} from '@util'
-import {useAuth} from 'app/api/auth'
+import { Logo } from '@components/index'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { Colors } from '@util'
+import { useAuth } from 'app/api/auth'
 import useSecureStore from 'app/hooks/useSecureStore'
 import useSession from 'app/session/useSession'
-import {User} from 'app/types/session'
-import {FormikHelpers} from 'formik'
-import React, {useState} from 'react'
-import {ScrollView, StyleSheet, View} from 'react-native'
+import { User } from 'app/types/session'
+import { FormikHelpers } from 'formik'
+import React, { useState } from 'react'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import * as YUP from 'yup'
-import {OpenRoutesParamList} from '../../Navigation'
+import { OpenRoutesParamList } from '../../Navigation'
 import Form from '../components/form/Form'
 import FormSubmitButton from '../components/input/button/FormSubmitButton'
 import FormTextInput from '../components/input/text_input/FormTextInput'
@@ -44,7 +44,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       })
       setValue(response?.headers?.['x-access-token'])
     } catch (error: any) {
-      if(error.response.status === 400) {
+      if (error.response.status === 400) {
         const errors = await error.response.data
         const fieldErrors = Object.entries(errors).reduce((prev, [key, value]) => {
           if (key === '_errors') {
@@ -53,9 +53,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           return { ...prev, [key]: ((value as any)._errors as string[]).join(';') }
         }, {})
         setErrors({ ...fieldErrors, username: (fieldErrors as any).id })
-      }
-      else {
-        // TODO: Handle other errors other than validation 
+      } else {
+        // TODO: Handle other errors other than validation
       }
     } finally {
       setLoading(false)

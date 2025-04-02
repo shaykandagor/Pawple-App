@@ -17,7 +17,7 @@
       "@components/*": ["app/components/*"],
       "@component": ["app/components/index"],
       "@screens": ["app/screens/index"],
-      "@util": ["app/util/index"],
+      "@util": ["app/util/index"]
     }
   }
 }

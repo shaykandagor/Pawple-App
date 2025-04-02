@@ -7,7 +7,7 @@ import LocationPicker from '../components/maps/location_picker/LocationPicker'
 import ClickButton from '../components/input/button/ClickButton'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../Navigation'
-import {CONFIRM_BOOKING} from './ScreenNames'
+import { CONFIRM_BOOKING } from './ScreenNames'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SetPickUpLocation'>
 

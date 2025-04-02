@@ -6,9 +6,8 @@ If the value is null or undefined, it deletes the key from secure storage. */
 async function save(key: string, value: any) {
   if (value !== null && value !== undefined)
     await SecureStore.setItemAsync(key, JSON.stringify(value))
-  else{
+  else {
     await SecureStore.deleteItemAsync(key)
-    
   }
 }
 /* Retrieves a value from secure storage using a key.
@@ -43,7 +42,8 @@ const useSecureStore = (key: string, defaultValue: any) => {
   }, [])
 
   return {
-    value: storedValue,setValue: (value: any) => {
+    value: storedValue,
+    setValue: (value: any) => {
       setStoredValue(value)
       save(valueKey, value)
     }

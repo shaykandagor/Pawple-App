@@ -80,7 +80,7 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
   // The component returns a ScrollView that contains the Form component.
   // The Form component is used to handle the form submission and validation.
   // The Form component is passed the initial values, onSubmit function, and validation schema.
-  // The Form component also contains the PetRegistrationStep1 and PetRegistrationStep2 components. 
+  // The Form component also contains the PetRegistrationStep1 and PetRegistrationStep2 components.
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

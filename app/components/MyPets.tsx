@@ -11,7 +11,7 @@ import { Avatar } from 'react-native-paper'
 import CustomError from './custom_error/CustomError'
 import LoadingSkeleton from './loading/LoadingSkeleton'
 
-//  displays a list of pets belonging to the user. 
+//  displays a list of pets belonging to the user.
 //  If the user has no pets, a button to add a new pet is displayed.
 //  The user can click on a pet to view the pet profile.
 //  The component uses the usePets hook to fetch the user's pets.
@@ -23,8 +23,8 @@ const MyPets = () => {
   if (isLoading) {
     return (
       <View style={styles.loading}>
-        <LoadingSkeleton /> 
-        <LoadingSkeleton /> 
+        <LoadingSkeleton />
+        <LoadingSkeleton />
         <LoadingSkeleton />
       </View>
     )
@@ -85,10 +85,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
   avatarContainer: {
-    marginHorizontal: 10, 
-    alignItems: 'center', 
-    padding: 10, 
-    borderRadius: 10 
+    marginHorizontal: 10,
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 10
   },
   petName: {
     fontSize: 16,

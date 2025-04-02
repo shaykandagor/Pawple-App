@@ -1,7 +1,7 @@
-import React, {PropsWithChildren} from 'react'
-import {StyleSheet} from 'react-native'
-import {SWRConfig} from 'swr'
-import {apiFetcher} from './apiFetcher'
+import React, { PropsWithChildren } from 'react'
+import { StyleSheet } from 'react-native'
+import { SWRConfig } from 'swr'
+import { apiFetcher } from './apiFetcher'
 
 const ApiConfigProvider = ({ children }: PropsWithChildren) => {
   return (

@@ -36,4 +36,3 @@ export interface Owner {
   createdAt: string
   updatedAt: string
 }
-

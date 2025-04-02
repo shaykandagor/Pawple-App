@@ -1,7 +1,7 @@
-import {useFormikContext} from 'formik'
-import React, {ReactNode} from 'react'
-import {StyleProp, StyleSheet, ViewStyle} from 'react-native'
-import {HelperText, TextInputProps} from 'react-native-paper'
+import { useFormikContext } from 'formik'
+import React, { ReactNode } from 'react'
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { HelperText, TextInputProps } from 'react-native-paper'
 import ItemPicker from './ItemPicker'
 
 interface FormItemPickerProps {

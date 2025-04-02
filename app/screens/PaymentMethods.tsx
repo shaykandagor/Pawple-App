@@ -5,7 +5,7 @@ import { DrawerParamList, RootStackParamList } from '../../Navigation'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { CompositeScreenProps } from '@react-navigation/native'
-import {WELCOME} from './ScreenNames'
+import { WELCOME } from './ScreenNames'
 
 type Props = CompositeScreenProps<
   DrawerScreenProps<DrawerParamList, 'PaymentMethods'>,

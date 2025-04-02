@@ -3,10 +3,10 @@ import FormDateTimePicker from '@components/input/date_picker/FormDateTimePicker
 import FormImagePicker from '@components/input/image_picker/FormImagePicker'
 import FormTextInput from '@components/input/text_input/FormTextInput'
 import LogoText from '@components/logo/LogoText'
-import {Colors} from 'app/util/colors'
+import { Colors } from 'app/util/colors'
 import React from 'react'
-import {StyleSheet, Text, View} from 'react-native'
-import {Button} from 'react-native-paper'
+import { StyleSheet, Text, View } from 'react-native'
+import { Button } from 'react-native-paper'
 
 type Props = { onNext: () => void }
 // displays a form for the user to register a new pet.
@@ -46,7 +46,7 @@ const PetRegistrationStep1: React.FC<Props> = ({ onNext }) => {
       </View>
 
       <View style={styles.chips}>
-        <FormTypeChipSelector name="type" icon="check" mode="outlined" options={options}  />
+        <FormTypeChipSelector name="type" icon="check" mode="outlined" options={options} />
       </View>
 
       <View style={styles.nextButton}>

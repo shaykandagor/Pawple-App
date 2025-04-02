@@ -1,39 +1,39 @@
-import React from 'react';
+import React from 'react'
 import {
   StyleSheet,
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  FlatList,
-} from 'react-native';
-import { Text } from 'react-native-paper';
-import Form from '@components/form/Form';
-import FormCardPicker from '@components/input/card_picker/FormCardPicker';
-import FormImageSelector from '@components/input/image_selector/FormImageSelector';
-import { Colors } from '@util';
-import { usePets } from 'app/api/pets';
-import { useWalkDurations } from 'app/api/walks';
-import { WalkDuration } from 'app/types';
-import { BASE_URL } from 'app/util/constants';
-import * as YUP from 'yup';
+  FlatList
+} from 'react-native'
+import { Text } from 'react-native-paper'
+import Form from '@components/form/Form'
+import FormCardPicker from '@components/input/card_picker/FormCardPicker'
+import FormImageSelector from '@components/input/image_selector/FormImageSelector'
+import { Colors } from '@util'
+import { usePets } from 'app/api/pets'
+import { useWalkDurations } from 'app/api/walks'
+import { WalkDuration } from 'app/types'
+import { BASE_URL } from 'app/util/constants'
+import * as YUP from 'yup'
 
-type Props = { onNext: () => void };
+type Props = { onNext: () => void }
 
 interface FormValues {
-  time: string;
-  pet: string;
+  time: string
+  pet: string
 }
 
 const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
   const validationSchemer = YUP.object().shape({
     time: YUP.string().label('time').required(),
-    pet: YUP.string().label('pet').required(),
-  });
-  const { walkdurations } = useWalkDurations();
+    pet: YUP.string().label('pet').required()
+  })
+  const { walkdurations } = useWalkDurations()
   const { pets } = usePets({
-    mine: 'true',
-  });
+    mine: 'true'
+  })
 
   const renderContent = () => (
     <View>
@@ -47,11 +47,11 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
       <Form
         initialValue={{
           time: '',
-          pet: '',
+          pet: ''
         }}
         onSubmit={(value) => {
-          console.log(value);
-          onNext();
+          console.log(value)
+          onNext()
         }}
         validationSchema={validationSchemer}
       >
@@ -61,7 +61,7 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
             name="pet"
             items={pets.map((pet) => ({
               ...pet,
-              photoUrl: `${BASE_URL}/${pet.photoUrl}`,
+              photoUrl: `${BASE_URL}/${pet.photoUrl}`
             }))}
             valueExtractor={(pet) => pet.id}
             imageExtractor={(pet) => pet.photoUrl}
@@ -79,9 +79,7 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
             titleExtractor={({ duration, units }) => `${duration} ${units}`}
             valueExtractor={({ id }) => id}
             subTitleExtractor={() => ''}
-            renderTrailer={({ cost }) => (
-              <Text style={styles.cardText}>{`${cost} £`}</Text>
-            )}
+            renderTrailer={({ cost }) => <Text style={styles.cardText}>{`${cost} £`}</Text>}
           />
         </View>
       </Form>
@@ -94,7 +92,7 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
         </TouchableOpacity>
       </View>
     </View>
-  );
+  )
 
   return (
     <KeyboardAvoidingView
@@ -108,53 +106,53 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
         contentContainerStyle={styles.scrollContent}
       />
     </KeyboardAvoidingView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.white
   },
   scrollContent: {
     flexGrow: 1,
-    padding: 20,
+    padding: 20
   },
   heading: {
     alignItems: 'flex-start',
-    marginBottom: 10,
+    marginBottom: 10
   },
   bookText: {
     fontWeight: 'bold',
     fontSize: 16,
     color: Colors.textDark,
-    paddingBottom: 15,
+    paddingBottom: 15
   },
   selectText: {
     fontSize: 14,
-    color: Colors.textLight,
+    color: Colors.textLight
   },
   petProfile: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    padding: 10,
+    padding: 10
   },
   cardContainer: {
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   },
   agreeText: {
     flexDirection: 'row',
-    paddingTop: 20,
+    paddingTop: 20
   },
   linkText: {
     color: Colors.primary,
     marginLeft: 5,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   cardText: {
     fontSize: 15,
-    color: Colors.textGray,
-  },
-});
+    color: Colors.textGray
+  }
+})
 
-export default WalkBookingStep1;
+export default WalkBookingStep1

@@ -1,13 +1,13 @@
-import React from "react";
-import {SvgXml} from "react-native-svg";
+import React from 'react'
+import { SvgXml } from 'react-native-svg'
 
 interface LogoTextProps {
-    width?: number | string;
-    height?: number | string;
+  width?: number | string
+  height?: number | string
 }
 
-const LogoText: React.FC<LogoTextProps> = ({width = "100%", height = "100%"}) => {
-    const _logo = `<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+const LogoText: React.FC<LogoTextProps> = ({ width = '100%', height = '100%' }) => {
+  const _logo = `<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 209.6 60.6" style="enable-background:new 0 0 209.6 60.6;" xml:space="preserve">
 <path fill="#1c1a43" id="p1" class="st0" d="M0,14.7h8v3.8h0.5c0.8-1.3,2-2.5,3.6-3.4c1.6-1,3.7-1.4,6.1-1.4c2,0,4,0.4,5.8,1.3
 	c1.8,0.8,3.5,2,4.9,3.5c1.4,1.5,2.5,3.3,3.3,5.4c0.8,2.1,1.2,4.4,1.2,6.8c0,2.5-0.4,4.7-1.2,6.8c-0.8,2.1-1.9,3.9-3.3,5.4
@@ -41,8 +41,8 @@ const LogoText: React.FC<LogoTextProps> = ({width = "100%", height = "100%"}) =>
 	 M201.4,26.5c0-0.6-0.2-1.2-0.6-1.9s-0.8-1.3-1.4-1.9c-0.6-0.6-1.4-1.1-2.3-1.5c-0.9-0.4-2-0.6-3.3-0.6c-1.8,0-3.4,0.5-4.8,1.6
 	c-1.4,1-2.4,2.5-2.9,4.4L201.4,26.5L201.4,26.5z"/>
 </svg>
-`;
-    return <SvgXml xml={_logo} width={width} height={height} />;
-};
+`
+  return <SvgXml xml={_logo} width={width} height={height} />
+}
 
-export default LogoText;
+export default LogoText

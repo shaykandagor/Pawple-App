@@ -1,13 +1,13 @@
-import React from "react";
-import {SvgXml} from "react-native-svg";
+import React from 'react'
+import { SvgXml } from 'react-native-svg'
 
 interface GoogleProps {
-    width?: number | string;
-    height?: number | string;
+  width?: number | string
+  height?: number | string
 }
 
-const GoogleIcon: React.FC<GoogleProps> = ({width = "100%", height = "100%"}) => {
-    const _logo = `<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+const GoogleIcon: React.FC<GoogleProps> = ({ width = '100%', height = '100%' }) => {
+  const _logo = `<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect width="20" height="21" fill="url(#pattern0)"/>
 <defs>
 <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -17,8 +17,8 @@ const GoogleIcon: React.FC<GoogleProps> = ({width = "100%", height = "100%"}) =>
 </defs>
 </svg>
 
-`;
-    return <SvgXml xml={_logo} width={width} height={height} />;
-};
+`
+  return <SvgXml xml={_logo} width={width} height={height} />
+}
 
-export default GoogleIcon;
+export default GoogleIcon

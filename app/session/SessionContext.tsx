@@ -5,14 +5,14 @@ import React, { PropsWithChildren, useEffect, useState } from 'react'
 
 export const SessionContext = React.createContext<{
   session: Session
-  setSession: (session: Session) => void, 
-  logOut: () => void,
+  setSession: (session: Session) => void
+  logOut: () => void
 }>({
   session: {
     authenticated: false
   },
   setSession: () => {},
-  logOut: () => {},
+  logOut: () => {}
 })
 export const SessionContextProvider = ({ children }: PropsWithChildren) => {
   const { getUserByToken } = useAuth()
@@ -20,7 +20,7 @@ export const SessionContextProvider = ({ children }: PropsWithChildren) => {
   const [session, setSession] = useState<Session>({ authenticated: false })
   const logOut = () => {
     setValue(undefined)
-    setSession({authenticated: false, user: undefined, sessionToken: undefined})
+    setSession({ authenticated: false, user: undefined, sessionToken: undefined })
   }
   useEffect(() => {
     if (value) {
@@ -37,6 +37,8 @@ export const SessionContextProvider = ({ children }: PropsWithChildren) => {
     }
   }, [value])
   return (
-    <SessionContext.Provider value={{ session, setSession, logOut }}>{children}</SessionContext.Provider>
+    <SessionContext.Provider value={{ session, setSession, logOut }}>
+      {children}
+    </SessionContext.Provider>
   )
 }
