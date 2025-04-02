@@ -3,7 +3,7 @@ module.exports = {
     'eslint:recommended',
     '@react-native-community',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
   ],
   overrides: [
     {
@@ -23,9 +23,8 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react', 'jest'],
   rules: {
-    semi: ['error', 'never'],
-    '@typescript-eslint/semi': 'off',
+    semi: ['error', 'never'], 
     'no-unexpected-multiline': 'error',
-    'prettier/prettier': ['error', { semi: false }]
+    'prettier/prettier': ['error', { semi: false }] 
   }
 }
