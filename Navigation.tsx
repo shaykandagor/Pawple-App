@@ -6,19 +6,19 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import {
   AboutScreen,
-  AccountVerifyScreen,
   ConfirmBookingScreen,
   DetailsVerificationScreen,
   HomeScreen,
   LoginScreen,
   MyWalksScreen,
   PaymentMethodScreen,
-  PetInfoScreen,
   PetRegisterScreen,
   PromotionDealsScreen,
+  RegistrationScreen,
   SetPickUpLocationScreen,
   SubscriptionsScreen,
   SupportScreen,
+  UpdateProfileScreen,
   WalkSummaryScreen,
   WelcomeScreen
 } from '@screens'
@@ -29,14 +29,17 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { adaptNavigationTheme, PaperProvider } from 'react-native-paper'
 import { theme } from '@util'
 import { StyleSheet } from 'react-native'
+import useSession from 'app/session/useSession'
+import * as ScreenNames from 'app/screens/ScreenNames'
+import UserRegistrationScreen from 'app/screens/UserRegistrationScreen'
+import WalkBookingForm from 'app/screens/WalkBookingForm'
 
 export type RootStackParamList = {
   DrawerGroup: undefined
-  Welcome: undefined
-  Login: undefined
-  AccountVerification: undefined
+  UpdateProfile: undefined
   PetInformation: undefined
   PetRegistration: undefined
+  WalkBooking: undefined
   DetailsVerification: undefined
   Home: undefined
   SetPickUpLocation: undefined
@@ -44,7 +47,15 @@ export type RootStackParamList = {
   WalkSummary: undefined
 }
 
+export type OpenRoutesParamList = {
+  Login: undefined
+  Registration: undefined
+  UserRegistration: undefined
+  Welcome: undefined
+}
+
 export type DrawerParamList = {
+  Home: undefined
   PaymentMethods: undefined
   PromotionsAndDeals: undefined
   Subscriptions: undefined
@@ -54,10 +65,12 @@ export type DrawerParamList = {
 }
 
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>
+export type OpenRoutesNavigationProps = NativeStackNavigationProp<OpenRoutesParamList>
 
 // Navigation Drawer
 const { Navigator, Screen } = createDrawerNavigator<DrawerParamList>()
-const Stack = createStackNavigator<RootStackParamList>()
+const SecureStack = createStackNavigator<RootStackParamList>()
+const OpenStack = createStackNavigator<OpenRoutesParamList>()
 
 const { LightTheme } = adaptNavigationTheme({
   reactNavigationLight: DefaultTheme,
@@ -77,7 +90,16 @@ const DrawerGroup = () => {
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
       <Screen
-        name="PaymentMethods"
+        name={ScreenNames.HOME}
+        component={HomeScreen}
+        options={{
+          drawerIcon: () => (
+            <MaterialCommunityIcons name="home-outline" size={35} color={Colors.darkGray} />
+          )
+        }}
+      />
+      <Screen
+        name={ScreenNames.PAYMENT_METHODS}
         component={PaymentMethodScreen}
         options={{
           drawerIcon: () => (
@@ -86,7 +108,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="PromotionsAndDeals"
+        name={ScreenNames.PROMOTIONS_AND_DEALS}
         component={PromotionDealsScreen}
         options={{
           title: 'Promotions & Deals',
@@ -96,7 +118,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="Subscriptions"
+        name={ScreenNames.SUBSCRIPTIONS}
         component={SubscriptionsScreen}
         options={{
           drawerIcon: () => (
@@ -109,7 +131,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="MyWalks"
+        name={ScreenNames.MY_WALKS}
         component={MyWalksScreen}
         options={{
           title: 'My Walks',
@@ -123,7 +145,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="Support"
+        name={ScreenNames.SUPPORT}
         component={SupportScreen}
         options={{
           drawerIcon: () => (
@@ -136,7 +158,7 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name="About"
+        name={ScreenNames.ABOUT}
         component={AboutScreen}
         options={{
           drawerIcon: () => (
@@ -147,29 +169,49 @@ const DrawerGroup = () => {
     </Navigator>
   )
 }
+const OpenRoutes = () => {
+  return (
+    <OpenStack.Navigator>
+      <OpenStack.Screen name={ScreenNames.WELCOME} component={WelcomeScreen} />
+      <OpenStack.Screen name={ScreenNames.REGISTRATION} component={RegistrationScreen} />
+      <OpenStack.Screen name={ScreenNames.USER_REGISTRATION} component={UserRegistrationScreen} />
+      <OpenStack.Screen name={ScreenNames.LOGIN} component={LoginScreen} />
+    </OpenStack.Navigator>
+  )
+}
 
 const RootStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="DrawerGroup" component={DrawerGroup} options={{ headerShown: false }} />
-      <Stack.Screen name={'Welcome'} component={WelcomeScreen} />
-      <Stack.Screen name={'Login'} component={LoginScreen} />
-      <Stack.Screen name={'AccountVerification'} component={AccountVerifyScreen} />
-      <Stack.Screen name={'PetInformation'} component={PetInfoScreen} />
-      <Stack.Screen name={'PetRegistration'} component={PetRegisterScreen} />
-      <Stack.Screen name={'DetailsVerification'} component={DetailsVerificationScreen} />
-      <Stack.Screen name={'Home'} component={HomeScreen} />
-      <Stack.Screen name={'SetPickUpLocation'} component={SetPickUpLocationScreen} />
-      <Stack.Screen name={'ConfirmBooking'} component={ConfirmBookingScreen} />
-      <Stack.Screen name={'WalkSummary'} component={WalkSummaryScreen} />
-    </Stack.Navigator>
+    <SecureStack.Navigator>
+      <SecureStack.Screen
+        name={ScreenNames.DRAWER_GROUP}
+        component={DrawerGroup}
+        options={{ headerShown: false }}
+      />
+      <SecureStack.Screen name={ScreenNames.UPDATE_PROFILE} component={UpdateProfileScreen} />
+      <SecureStack.Screen name={ScreenNames.PET_REGISTRATION} component={PetRegisterScreen} />
+      <SecureStack.Screen name={ScreenNames.WALK_BOOKING} component={WalkBookingForm} />
+      <SecureStack.Screen
+        name={ScreenNames.DETAILS_VERIFICATION}
+        component={DetailsVerificationScreen}
+      />
+      <SecureStack.Screen
+        name={ScreenNames.SET_PICKUP_LOCATION}
+        component={SetPickUpLocationScreen}
+      />
+      <SecureStack.Screen name={ScreenNames.CONFIRM_BOOKING} component={ConfirmBookingScreen} />
+      <SecureStack.Screen name={ScreenNames.WALK_SUMMARY} component={WalkSummaryScreen} />
+    </SecureStack.Navigator>
   )
 }
 const Navigation = () => {
+  const {
+    session: { authenticated }
+  } = useSession()
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer theme={LightTheme}>
-        <RootStack />
+        {authenticated ? <RootStack /> : <OpenRoutes />}
       </NavigationContainer>
     </PaperProvider>
   )

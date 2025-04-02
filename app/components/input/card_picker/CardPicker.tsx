@@ -9,10 +9,10 @@ import { Error } from '@components/error/Error'
 export interface CardPickerProps<R> {
   label?: string
   items?: R[]
-  value: R
+  value: any
   onValueChange: (value: R) => void
   titleExtractor: (item: R) => string
-  identifierKey: keyof R
+  valueExtractor: (item: R) => any
   subTitleExtractor?: (item: R) => string | undefined
   renderTrailer?: (item: R, props: { size: number }) => React.ReactNode
   error?: FormikErrors<unknown>
@@ -24,7 +24,7 @@ const CardPicker = <R,>({
   value,
   onValueChange,
   titleExtractor,
-  identifierKey,
+  valueExtractor,
   subTitleExtractor,
   renderTrailer,
   error
@@ -35,14 +35,14 @@ const CardPicker = <R,>({
       data={items}
       keyExtractor={titleExtractor}
       renderItem={({ item }) => (
-        <Card style={styles.card} onPress={() => onValueChange(item)}>
+        <Card style={styles.card} onPress={() => onValueChange(valueExtractor(item))}>
           <Card.Title
             title={titleExtractor(item)}
             titleStyle={styles.cardTitle}
             subtitle={subTitleExtractor ? subTitleExtractor(item) : undefined}
             subtitleStyle={styles.cardSubtitle}
             left={
-              value?.[identifierKey] === item[identifierKey]
+              value === valueExtractor(item)
                 ? (props) => (
                     <MaterialCommunityIcons
                       {...props}

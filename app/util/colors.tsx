@@ -27,5 +27,5 @@ export const Colors: ColorType = {
   skyBlue: '#E5E3FF',
   emoji: '#fdd835',
   error: '#c01234',
-  errorBg: '#f8d7da',
+  errorBg: '#FF4D4D',
 }

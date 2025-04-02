@@ -1,12 +1,13 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { Colors } from '@util'
 import { ClickButton, Logo, LogoText } from '@component'
-import { RootStackParamList } from '../../Navigation'
+import { Colors } from '@util'
+import { OpenRoutesParamList } from '../../Navigation'
+import { LOGIN, REGISTRATION, USER_REGISTRATION } from './ScreenNames'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'>
+type Props = NativeStackScreenProps<OpenRoutesParamList, 'Welcome'>
 
 const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
@@ -25,7 +26,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
           icon="google"
           title="Sign in with Google"
           mode="outlined"
-          onPress={() => console.log('Pressed')}
+          onPress={() => navigation.navigate(REGISTRATION)}
         />
         <ClickButton
           icon="apple"
@@ -35,14 +36,14 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
         />
         <ClickButton
           mode="contained"
-          onPress={() => console.log('Pressed')}
+          onPress={() => navigation.navigate(USER_REGISTRATION)}
           title="Create an account"
         />
       </View>
 
       <View style={styles.accountTextContainer}>
         <Text style={styles.label}>You already have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => navigation.navigate(LOGIN)}>
           <Text style={styles.linkText}>Login </Text>
         </TouchableOpacity>
       </View>

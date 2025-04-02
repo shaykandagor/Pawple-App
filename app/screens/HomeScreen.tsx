@@ -1,95 +1,23 @@
-import React, { useCallback, useRef, useState } from 'react'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import React from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
+import { CustomCard, LogoText } from '@component'
+import MyPets from '@components/MyPets'
 import { Colors } from '@util'
-import {
-  CustomCard,
-  Form,
-  FormSubmitButton,
-  LogoText,
-  ClickButton,
-  FormCardPicker,
-  FormImageSelector
-} from '@component'
-import { Avatar } from 'react-native-paper'
-import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-  BottomSheetModal
-} from '@gorhom/bottom-sheet'
-import * as YUP from 'yup'
 import { RootStackParamList } from '../../Navigation'
+import MyWalks from './MyWalks'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
 
-export type Duration = {
-  id: number
-  name: string
-  cost: string
-  subTitle?: string
-}
-
-interface FormValues {
-  time: Duration
-  pet: string
-}
-
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
-  const durations: Duration[] = [
-    { id: 1, name: '20 minutes', cost: '7.00£' },
-    { id: 2, name: '30 minutes', cost: '8.00£', subTitle: 'Popular' },
-    { id: 3, name: '45 minutes', cost: '10.00£' },
-    { id: 4, name: '1 hour', cost: '12.00£' }
-  ]
-
-  const avatars = [
-    { id: 1, url: 'https://picsum.photos/id/237/200/300' },
-    { id: 2, url: 'https://picsum.photos/id/237/200/300' }
-  ]
-
-  const [duration, setDuration] = useState<Duration>(durations[0])
-  const [selectedAvatar, setSelectedAvatar] = useState(1)
-  const [showSheet, setShowSheet] = useState(false)
-
-  // ref
-  const bottomSheetRef = useRef<BottomSheetModal>(null)
-
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    setShowSheet(!showSheet)
-    bottomSheetRef.current?.present()
-  }, [showSheet])
-
-  const renderBackdrop = useCallback(
-    (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop appearsOnIndex={0} disappearsOnIndex={-1} {...props} />
-    ),
-    []
-  )
-
-  const validationSchemer = YUP.object().shape({
-    time: YUP.string().label('time').required(),
-    pet: YUP.string().label('pet').required()
-  })
-
   return (
     <View style={styles.container}>
       <View>
         <View style={styles.headingHome}>
           <LogoText width="100%" height={30} />
         </View>
-
-        <View>
-          <Text style={styles.text}>Your Pets</Text>
-        </View>
-
-        <View style={styles.petProfileHome}>
-          <Avatar.Image size={100} source={require('../assets/pet_profile.jpg')} />
-          <View style={styles.space} />
-          <Avatar.Icon icon="plus" size={100} style={{ backgroundColor: Colors.lightGray }} />
-        </View>
-
+        <MyPets />
         <View style={{ alignSelf: 'flex-start' }}>
           <Text style={styles.text}>Community Events</Text>
         </View>
@@ -123,93 +51,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </ScrollView>
-      <View style={styles.bookButton}>
-        <ClickButton
-          icon="dog"
-          mode="contained"
-          onPress={handlePresentModalPress}
-          title="Book a walk"
-        />
-      </View>
-
-      {showSheet && (
-        <BottomSheetModal
-          ref={bottomSheetRef}
-          index={0}
-          snapPoints={['85%', '50%', '25%']}
-          enablePanDownToClose={true}
-          backdropComponent={renderBackdrop}
-        >
-          <View style={styles.contentContainer}>
-            <View style={styles.heading}>
-              <Text style={styles.bookText}>Book a walk</Text>
-              <Text style={styles.selectText}>Select a pet</Text>
-            </View>
-
-            <Form
-              initialValue={
-                {
-                  time: durations[0],
-                  pet: ''
-                } as FormValues
-              }
-              onSubmit={(value) => {
-                console.log(value)
-                setShowSheet(!showSheet)
-                navigation.navigate('SetPickUpLocation')
-              }}
-              validationSchema={validationSchemer}
-            >
-              <View style={styles.petProfile}>
-                <FormImageSelector
-                  name="pet"
-                  items={avatars}
-                  value={selectedAvatar}
-                  valueExtractor={(avatar) => avatar.id}
-                  onValueChange={setSelectedAvatar}
-                  imageExtractor={(avatar) => avatar.url}
-                />
-              </View>
-
-              <View style={styles.heading}>
-                <Text style={styles.selectText}>Select duration</Text>
-              </View>
-
-              <View>
-                <FormCardPicker<FormValues, Duration>
-                  name="time"
-                  value={duration}
-                  items={durations}
-                  titleExtractor={({ name }) => name}
-                  identifierKey="id"
-                  subTitleExtractor={({ subTitle }) => subTitle}
-                  renderTrailer={({ cost }) => <Text style={styles.cardText}>{cost}</Text>}
-                  onValueChange={setDuration}
-                />
-              </View>
-              <View style={styles.bookButtons}>
-                <View style={{ flex: 1, marginRight: 10 }}>
-                  <ClickButton
-                    mode="outlined"
-                    title="Schedule"
-                    onPress={() => console.log('Pressed')}
-                  />
-                </View>
-
-                <View style={{ flex: 2 }}>
-                  <FormSubmitButton mode="contained" title="Book now" />
-                </View>
-              </View>
-            </Form>
-            <View style={styles.agreeText}>
-              <Text style={styles.selectText}> By Proceeding you agree to the </Text>
-              <TouchableOpacity>
-                <Text style={styles.linkText}>Pawpal Service T&Cs</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </BottomSheetModal>
-      )}
+      <MyWalks />
     </View>
   )
 }
@@ -227,9 +69,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   text: {
-    fontSize: 20,
-    color: Colors.textDark,
-    paddingVertical: 10
+    fontSize: 24,
+    color: Colors.primary,
+    fontWeight: 'bold',
+    paddingVertical: 15
   },
   petProfileHome: {
     flexDirection: 'row',

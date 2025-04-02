@@ -1,13 +1,11 @@
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native'
-import React from 'react'
-import {Colors} from '../util/colors'
-import {Card, Divider, List} from 'react-native-paper'
-import MapView from 'react-native-maps';
-import FormSubmitButton from '../components/input/button/FormSubmitButton';
-import Form from '../components/form/Form';
-import {MaterialCommunityIcons} from "@expo/vector-icons"
+import {MaterialCommunityIcons} from "@expo/vector-icons";
+import React from 'react';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import MapView from 'react-native-maps';
+import {Card, Divider, List} from 'react-native-paper';
 import ClickButton from '../components/input/button/ClickButton';
+import {Colors} from '../util/colors';
 
 interface WalkSummaryProps {
     navigation: any

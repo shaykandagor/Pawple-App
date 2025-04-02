@@ -1,5 +1,5 @@
 import { DefaultTheme, MD3Theme } from 'react-native-paper'
-import { Colors } from '@util'
+import { Colors } from './colors'
 export const theme: MD3Theme = {
   ...DefaultTheme,
   roundness: 4,

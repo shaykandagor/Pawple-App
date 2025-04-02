@@ -11,6 +11,7 @@ import { Colors } from '@util'
 import { ScrollView } from 'react-native-gesture-handler'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../Navigation'
+import {WALK_SUMMARY} from './ScreenNames'
 
 // Use more descriptive names for variables
 const validationSchema = Yup.object().shape({
@@ -68,7 +69,7 @@ const ConfirmBookingScreen: React.FC<Props> = ({ navigation }) => {
           instructions: ''
         }}
         onSubmit={(value) => {
-          navigation.navigate('WalkSummary')
+          navigation.navigate(WALK_SUMMARY)
           console.log('WalkSummary', value)
         }}
         validationSchema={validationSchema}

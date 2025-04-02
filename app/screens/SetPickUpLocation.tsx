@@ -7,6 +7,7 @@ import LocationPicker from '../components/maps/location_picker/LocationPicker'
 import ClickButton from '../components/input/button/ClickButton'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../Navigation'
+import {CONFIRM_BOOKING} from './ScreenNames'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SetPickUpLocation'>
 
@@ -45,7 +46,7 @@ const SetPickUpLocation: React.FC<Props> = ({ navigation }) => {
             <ClickButton
               title="Confirm pick up address"
               onPress={() => {
-                navigation.navigate('ConfirmBooking')
+                navigation.navigate(CONFIRM_BOOKING)
               }}
             />
           </View>
