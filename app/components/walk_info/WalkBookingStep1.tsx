@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   StyleSheet,
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  FlatList
+  FlatList,
+  ActivityIndicator
 } from 'react-native'
 import { Text } from 'react-native-paper'
 import Form from '@components/form/Form'
@@ -17,6 +18,8 @@ import { useWalkDurations } from 'app/api/walks'
 import { WalkDuration } from 'app/types'
 import { BASE_URL } from 'app/util/constants'
 import * as YUP from 'yup'
+import { FormikHelpers } from 'formik'
+import useSecureStore from 'app/hooks/useSecureStore'
 
 type Props = { onNext: () => void }
 
@@ -26,36 +29,67 @@ interface FormValues {
 }
 
 const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
-  const validationSchemer = YUP.object().shape({
+  const validationSchema = YUP.object().shape({
     time: YUP.string().label('time').required(),
     pet: YUP.string().label('pet').required()
   })
+
   const { walkdurations } = useWalkDurations()
-  const { pets } = usePets({
-    mine: 'true'
-  })
+  const { pets } = usePets({ mine: 'true' })
+  const [loading, setLoading] = useState(false)
+  const { value: token } = useSecureStore('authToken', '') // Retrieve token securely
+
+  const handleSubmit = async (value: FormValues, { setErrors }: FormikHelpers<FormValues>) => {
+    setLoading(true)
+    try {
+      if (!token) {
+        throw new Error('Authentication token is missing')
+      }
+      
+      const response = await fetch(`${BASE_URL}/api/bookings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': token
+        },
+        body: JSON.stringify(value)
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        if (response.status === 400) {
+          const fieldErrors = Object.entries(errorData).reduce((prev, [key, value]) => {
+            if (key === '_errors') return prev
+            return { ...prev, [key]: ((value as any)._errors as string[]).join(';') }
+          }, {})
+          setErrors(fieldErrors)
+        } else {
+          throw new Error(errorData.message || 'Something went wrong')
+        }
+      } else {
+        const result = await response.json()
+        console.log('Booking successful:', result)
+        onNext()
+      }
+    } catch (error: any) {
+      console.error('Error during booking:', error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const renderContent = () => (
     <View>
-      {/* Heading */}
       <View style={styles.heading}>
         <Text style={styles.bookText}>Book a walk</Text>
         <Text style={styles.selectText}>Select a pet</Text>
       </View>
-
-      {/* Form */}
+      
       <Form
-        initialValue={{
-          time: '',
-          pet: ''
-        }}
-        onSubmit={(value) => {
-          console.log(value)
-          onNext()
-        }}
-        validationSchema={validationSchemer}
+        initialValue={{ time: '', pet: '' }}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
       >
-        {/* Pet Selector */}
         <View style={styles.petProfile}>
           <FormImageSelector
             name="pet"
@@ -67,8 +101,7 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
             imageExtractor={(pet) => pet.photoUrl}
           />
         </View>
-
-        {/* Duration Selector */}
+        
         <View style={styles.heading}>
           <Text style={styles.selectText}>Select duration</Text>
         </View>
@@ -82,15 +115,22 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
             renderTrailer={({ cost }) => <Text style={styles.cardText}>{`${cost} £`}</Text>}
           />
         </View>
-      </Form>
 
-      {/* Terms and Conditions */}
-      <View style={styles.agreeText}>
-        <Text style={styles.selectText}> By Proceeding you agree to the </Text>
-        <TouchableOpacity>
-          <Text style={styles.linkText}>Pawple Service T&Cs</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.agreeText}>
+          <Text style={styles.selectText}> By Proceeding you agree to the </Text>
+          <TouchableOpacity>
+            <Text style={styles.linkText}>Pawple Service T&Cs</Text>
+          </TouchableOpacity>
+        </View>
+
+        {loading ? (
+          <ActivityIndicator size="small" color={Colors.primary} />
+        ) : (
+          <TouchableOpacity style={styles.button} onPress={() => handleSubmit}>
+            <Text style={styles.buttonText}>Proceed</Text>
+          </TouchableOpacity>
+        )}
+      </Form>
     </View>
   )
 
@@ -100,8 +140,8 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <FlatList
-        data={[{ key: 'content' }]} // Dummy data to render the content
-        renderItem={renderContent}
+        data={[{ key: 'content' }]}
+        renderItem={() => renderContent()}
         keyExtractor={(item) => item.key}
         contentContainerStyle={styles.scrollContent}
       />
@@ -152,6 +192,17 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 15,
     color: Colors.textGray
+  },
+  button: { 
+    backgroundColor: Colors.primary, 
+    padding: 10, 
+    borderRadius: 8, 
+    alignItems: 'center', 
+    marginTop: 20 
+  },
+  buttonText: { 
+    color: Colors.white, 
+    fontWeight: 'bold' 
   }
 })
 
