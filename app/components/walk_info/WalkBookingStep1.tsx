@@ -1,162 +1,110 @@
-import React, { useState } from 'react'
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  FlatList,
-  ActivityIndicator
-} from 'react-native'
-import { Text } from 'react-native-paper'
-import Form from '@components/form/Form'
+import ClickButton from '@components/input/button/ClickButton'
+import FormSubmitButton from '@components/input/button/FormSubmitButton'
 import FormCardPicker from '@components/input/card_picker/FormCardPicker'
 import FormImageSelector from '@components/input/image_selector/FormImageSelector'
 import { Colors } from '@util'
 import { usePets } from 'app/api/pets'
 import { useWalkDurations } from 'app/api/walks'
+import useSecureStore from 'app/hooks/useSecureStore'
 import { WalkDuration } from 'app/types'
 import { BASE_URL } from 'app/util/constants'
-import * as YUP from 'yup'
-import { FormikHelpers } from 'formik'
-import useSecureStore from 'app/hooks/useSecureStore'
+import React from 'react'
+import {
+  ActivityIndicator,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from 'react-native'
+import { Text } from 'react-native-paper'
 
 type Props = { onNext: () => void }
 
 interface FormValues {
-  time: string
-  pet: string
+  pickupAddress: {
+    lat: number
+    lng: number
+    address: string
+  }
+  instructions?: string
+  visitPark: boolean
+  bringDisposableBags: boolean
+  petId: string
+  durationId: string
 }
 
 const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
-  const validationSchema = YUP.object().shape({
-    time: YUP.string().label('time').required(),
-    pet: YUP.string().label('pet').required()
-  })
-
   const { walkdurations } = useWalkDurations()
   const { pets } = usePets({ mine: 'true' })
-  const [loading, setLoading] = useState(false)
-  const { value: token } = useSecureStore('authToken', '') // Retrieve token securely
 
-  const handleSubmit = async (value: FormValues, { setErrors }: FormikHelpers<FormValues>) => {
-    setLoading(true)
-    try {
-      if (!token) {
-        throw new Error('Authentication token is missing')
-      }
-      
-      const response = await fetch(`${BASE_URL}/api/bookings`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': token
-        },
-        body: JSON.stringify(value)
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        if (response.status === 400) {
-          const fieldErrors = Object.entries(errorData).reduce((prev, [key, value]) => {
-            if (key === '_errors') return prev
-            return { ...prev, [key]: ((value as any)._errors as string[]).join(';') }
-          }, {})
-          setErrors(fieldErrors)
-        } else {
-          throw new Error(errorData.message || 'Something went wrong')
-        }
-      } else {
-        const result = await response.json()
-        console.log('Booking successful:', result)
-        onNext()
-      }
-    } catch (error: any) {
-      console.error('Error during booking:', error.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const renderContent = () => (
-    <View>
+  return (
+    <View style={styles.container}>
       <View style={styles.heading}>
         <Text style={styles.bookText}>Book a walk</Text>
         <Text style={styles.selectText}>Select a pet</Text>
       </View>
-      
-      <Form
-        initialValue={{ time: '', pet: '' }}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
-      >
-        <View style={styles.petProfile}>
-          <FormImageSelector
-            name="pet"
-            items={pets.map((pet) => ({
-              ...pet,
-              photoUrl: `${BASE_URL}/${pet.photoUrl}`
-            }))}
-            valueExtractor={(pet) => pet.id}
-            imageExtractor={(pet) => pet.photoUrl}
-          />
-        </View>
-        
-        <View style={styles.heading}>
-          <Text style={styles.selectText}>Select duration</Text>
-        </View>
-        <View style={styles.cardContainer}>
-          <FormCardPicker<FormValues, WalkDuration>
-            name="time"
-            items={walkdurations}
-            titleExtractor={({ duration, units }) => `${duration} ${units}`}
-            valueExtractor={({ id }) => id}
-            subTitleExtractor={() => ''}
-            renderTrailer={({ cost }) => <Text style={styles.cardText}>{`${cost} £`}</Text>}
-          />
-        </View>
 
-        <View style={styles.agreeText}>
-          <Text style={styles.selectText}> By Proceeding you agree to the </Text>
-          <TouchableOpacity>
-            <Text style={styles.linkText}>Pawple Service T&Cs</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.petProfile}>
+        <FormImageSelector
+          name="petId"
+          items={pets.map((pet) => ({
+            ...pet,
+            photoUrl: `${BASE_URL}/${pet.photoUrl}`
+          }))}
+          valueExtractor={(pet) => pet.id}
+          imageExtractor={(pet) => pet.photoUrl}
+        />
+      </View>
 
-        {loading ? (
-          <ActivityIndicator size="small" color={Colors.primary} />
-        ) : (
-          <TouchableOpacity style={styles.button} onPress={() => handleSubmit}>
-            <Text style={styles.buttonText}>Proceed</Text>
-          </TouchableOpacity>
-        )}
-      </Form>
+      <View style={styles.heading}>
+        <Text style={styles.selectText}>Select duration</Text>
+      </View>
+      <View style={styles.cardContainer}>
+        <FormCardPicker<FormValues, WalkDuration>
+          name="durationId"
+          items={walkdurations}
+          titleExtractor={({ duration, units }) => `${duration} ${units}`}
+          valueExtractor={({ id }) => id}
+          subTitleExtractor={() => ''}
+          renderTrailer={({ cost }) => (
+            <Text style={styles.cardText}>{`${cost} £`}</Text>
+          )}
+        />
+      </View>
+      <View style={styles.doneButton}>
+        <ClickButton
+          mode="contained"
+          title="Set up Pickup Address"
+          onPress={onNext}
+        />
+      </View>
+
+      <View style={styles.agreeText}>
+        <Text style={styles.selectText}> By Proceeding you agree to the </Text>
+        <TouchableOpacity>
+          <Text style={styles.linkText}>Pawple Service T&Cs</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-  )
-
-  return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
-      <FlatList
-        data={[{ key: 'content' }]}
-        renderItem={() => renderContent()}
-        keyExtractor={(item) => item.key}
-        contentContainerStyle={styles.scrollContent}
-      />
-    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white
+    backgroundColor: Colors.white,
+    height: '100%',
+    width: '100%'
   },
   scrollContent: {
     flexGrow: 1,
     padding: 20
+  },
+  doneButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 20
   },
   heading: {
     alignItems: 'flex-start',
@@ -178,6 +126,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   cardContainer: {
+    flex: 1,
     justifyContent: 'flex-start'
   },
   agreeText: {
@@ -193,16 +142,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: Colors.textGray
   },
-  button: { 
-    backgroundColor: Colors.primary, 
-    padding: 10, 
-    borderRadius: 8, 
-    alignItems: 'center', 
-    marginTop: 20 
+  button: {
+    backgroundColor: Colors.primary,
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 20
   },
-  buttonText: { 
-    color: Colors.white, 
-    fontWeight: 'bold' 
+  buttonText: {
+    color: Colors.white,
+    fontWeight: 'bold'
   }
 })
 

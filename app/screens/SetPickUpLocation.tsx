@@ -1,26 +1,36 @@
-import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Card } from 'react-native-paper'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Colors } from '@util'
-import LocationPicker from '../components/maps/location_picker/LocationPicker'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { Card } from 'react-native-paper'
 import ClickButton from '../components/input/button/ClickButton'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../Navigation'
-import { CONFIRM_BOOKING } from './ScreenNames'
+import LocationPicker from '../components/maps/location_picker/LocationPicker'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SetPickUpLocation'>
+type Props = {
+  onNext: () => void
+  latLng?: Coordinate
+  onLocationChange?: (latLng: Coordinate) => void
+}
 
-const SetPickUpLocation: React.FC<Props> = ({ navigation }) => {
+const SetPickUpLocation: React.FC<Props> = ({
+  onNext,
+  latLng,
+  onLocationChange
+}) => {
   const [petPickupLoc, setPetPickupLocation] = useState<Coordinate>({
-    latitude: 60.1100964,
-    longitude: 24.6890503
+    latitude: latLng?.latitude ?? 60.1100964,
+    longitude: latLng?.longitude ?? 24.6890503
   })
   return (
     <View style={styles.container}>
       <LocationPicker
         location={petPickupLoc}
-        onLocationChange={setPetPickupLocation}
+        onLocationChange={(latLng) => {
+          setPetPickupLocation(latLng)
+          if (onLocationChange) {
+            onLocationChange(latLng)
+          }
+        }}
         calloutTitle="Pet Pickup Location"
         descriptionExtractor={(markerLocation) =>
           `Latitude: ${markerLocation.latitude}, Longitude: ${markerLocation.longitude}`
@@ -43,12 +53,7 @@ const SetPickUpLocation: React.FC<Props> = ({ navigation }) => {
             )}
           />
           <View style={styles.confirmButton}>
-            <ClickButton
-              title="Confirm pick up address"
-              onPress={() => {
-                navigation.navigate(CONFIRM_BOOKING)
-              }}
-            />
+            <ClickButton title="Confirm pick up address" onPress={onNext} />
           </View>
         </Card>
       </View>
