@@ -6,7 +6,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import {
   AboutScreen,
-  ConfirmBookingScreen,
   DetailsVerificationScreen,
   HomeScreen,
   LoginScreen,
@@ -42,7 +41,6 @@ export type RootStackParamList = {
   WalkBooking: undefined
   DetailsVerification: undefined
   Home: undefined
-  SetPickUpLocation: undefined
   ConfirmBooking: undefined
   WalkSummary: undefined
 }
@@ -64,8 +62,10 @@ export type DrawerParamList = {
   About: undefined
 }
 
-export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>
-export type OpenRoutesNavigationProps = NativeStackNavigationProp<OpenRoutesParamList>
+export type RootStackNavigationProp =
+  NativeStackNavigationProp<RootStackParamList>
+export type OpenRoutesNavigationProps =
+  NativeStackNavigationProp<OpenRoutesParamList>
 
 // Navigation Drawer
 const { Navigator, Screen } = createDrawerNavigator<DrawerParamList>()
@@ -94,7 +94,11 @@ const DrawerGroup = () => {
         component={HomeScreen}
         options={{
           drawerIcon: () => (
-            <MaterialCommunityIcons name="home-outline" size={35} color={Colors.darkGray} />
+            <MaterialCommunityIcons
+              name="home-outline"
+              size={35}
+              color={Colors.darkGray}
+            />
           )
         }}
       />
@@ -103,7 +107,11 @@ const DrawerGroup = () => {
         component={PaymentMethodScreen}
         options={{
           drawerIcon: () => (
-            <MaterialCommunityIcons name="wallet-outline" size={35} color={Colors.darkGray} />
+            <MaterialCommunityIcons
+              name="wallet-outline"
+              size={35}
+              color={Colors.darkGray}
+            />
           )
         }}
       />
@@ -113,7 +121,11 @@ const DrawerGroup = () => {
         options={{
           title: 'Promotions & Deals',
           drawerIcon: () => (
-            <MaterialCommunityIcons name="tag-outline" size={35} color={Colors.darkGray} />
+            <MaterialCommunityIcons
+              name="tag-outline"
+              size={35}
+              color={Colors.darkGray}
+            />
           )
         }}
       />
@@ -162,7 +174,11 @@ const DrawerGroup = () => {
         component={AboutScreen}
         options={{
           drawerIcon: () => (
-            <MaterialCommunityIcons name="information-outline" size={35} color={Colors.darkGray} />
+            <MaterialCommunityIcons
+              name="information-outline"
+              size={35}
+              color={Colors.darkGray}
+            />
           )
         }}
       />
@@ -173,8 +189,14 @@ const OpenRoutes = () => {
   return (
     <OpenStack.Navigator>
       <OpenStack.Screen name={ScreenNames.WELCOME} component={WelcomeScreen} />
-      <OpenStack.Screen name={ScreenNames.REGISTRATION} component={RegistrationScreen} />
-      <OpenStack.Screen name={ScreenNames.USER_REGISTRATION} component={UserRegistrationScreen} />
+      <OpenStack.Screen
+        name={ScreenNames.REGISTRATION}
+        component={RegistrationScreen}
+      />
+      <OpenStack.Screen
+        name={ScreenNames.USER_REGISTRATION}
+        component={UserRegistrationScreen}
+      />
       <OpenStack.Screen name={ScreenNames.LOGIN} component={LoginScreen} />
     </OpenStack.Navigator>
   )
@@ -188,19 +210,26 @@ const RootStack = () => {
         component={DrawerGroup}
         options={{ headerShown: false }}
       />
-      <SecureStack.Screen name={ScreenNames.UPDATE_PROFILE} component={UpdateProfileScreen} />
-      <SecureStack.Screen name={ScreenNames.PET_REGISTRATION} component={PetRegisterScreen} />
-      <SecureStack.Screen name={ScreenNames.WALK_BOOKING} component={WalkBookingForm} />
+      <SecureStack.Screen
+        name={ScreenNames.UPDATE_PROFILE}
+        component={UpdateProfileScreen}
+      />
+      <SecureStack.Screen
+        name={ScreenNames.PET_REGISTRATION}
+        component={PetRegisterScreen}
+      />
+      <SecureStack.Screen
+        name={ScreenNames.WALK_BOOKING}
+        component={WalkBookingForm}
+      />
       <SecureStack.Screen
         name={ScreenNames.DETAILS_VERIFICATION}
         component={DetailsVerificationScreen}
       />
       <SecureStack.Screen
-        name={ScreenNames.SET_PICKUP_LOCATION}
-        component={SetPickUpLocationScreen}
+        name={ScreenNames.WALK_SUMMARY}
+        component={WalkSummaryScreen}
       />
-      <SecureStack.Screen name={ScreenNames.CONFIRM_BOOKING} component={ConfirmBookingScreen} />
-      <SecureStack.Screen name={ScreenNames.WALK_SUMMARY} component={WalkSummaryScreen} />
     </SecureStack.Navigator>
   )
 }

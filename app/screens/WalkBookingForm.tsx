@@ -19,6 +19,7 @@ interface FormValues {
   bringDisposableBags: boolean
   petId: string
   durationId: string
+  pickupTime: Date
 }
 
 const validationSchema = YUP.object().shape({
@@ -31,7 +32,8 @@ const validationSchema = YUP.object().shape({
   visitPark: YUP.boolean().required(),
   bringDisposableBags: YUP.boolean().required(),
   petId: YUP.string().label('pet').required(),
-  durationId: YUP.string().label('duration').required()
+  durationId: YUP.string().label('duration').required(),
+  pickupTime: YUP.date().label('pickup time').required()
 })
 
 const WalkBookingForm = () => {
@@ -51,6 +53,7 @@ const WalkBookingForm = () => {
   ) => {
     setLoading(true)
     try {
+      console.log('Booking value:', value)
     } catch (error: any) {
       console.error('Error during booking:', error.message)
     } finally {
@@ -62,12 +65,17 @@ const WalkBookingForm = () => {
     <>
       <Form<FormValues>
         initialValue={{
-          pickupAddress: { lat: 60.1100964, lng: 24.6890503, address: '' },
+          pickupAddress: {
+            lat: 60.1100964,
+            lng: 24.6890503,
+            address: 'pickup address'
+          },
           instructions: '',
           visitPark: false,
           bringDisposableBags: false,
           petId: '',
-          durationId: ''
+          durationId: '',
+          pickupTime: new Date()
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}

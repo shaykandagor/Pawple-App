@@ -1,19 +1,13 @@
 import ClickButton from '@components/input/button/ClickButton'
-import FormSubmitButton from '@components/input/button/FormSubmitButton'
 import FormCardPicker from '@components/input/card_picker/FormCardPicker'
 import FormImageSelector from '@components/input/image_selector/FormImageSelector'
 import { Colors } from '@util'
 import { usePets } from 'app/api/pets'
 import { useWalkDurations } from 'app/api/walks'
-import useSecureStore from 'app/hooks/useSecureStore'
 import { WalkDuration } from 'app/types'
 import { BASE_URL } from 'app/util/constants'
 import React from 'react'
 import {
-  ActivityIndicator,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   TouchableOpacity,
   View
@@ -73,7 +67,7 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
           )}
         />
       </View>
-      <View style={styles.doneButton}>
+      <View style={styles.setPickButton}>
         <ClickButton
           mode="contained"
           title="Set up Pickup Address"
@@ -96,15 +90,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white,
     height: '100%',
-    width: '100%'
+    width: '100%',
+    padding: 15,
+    paddingTop: 10,
   },
   scrollContent: {
     flexGrow: 1,
     padding: 20
   },
-  doneButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 20
+  setPickButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   heading: {
     alignItems: 'flex-start',

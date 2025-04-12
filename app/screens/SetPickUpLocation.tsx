@@ -1,9 +1,5 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { Colors } from '@util'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Card } from 'react-native-paper'
-import ClickButton from '../components/input/button/ClickButton'
 import LocationPicker from '../components/maps/location_picker/LocationPicker'
 
 type Props = {
@@ -39,7 +35,7 @@ const SetPickUpLocation: React.FC<Props> = ({
           `Are you sure you want to select Latitude:${markerLocation.latitude}, Longitude: ${markerLocation.longitude} as pet pickup location?`
         }
       />
-      <View style={styles.bottomContainer}>
+{/*       <View style={styles.bottomContainer}>
         <Card style={styles.card}>
           <Card.Title
             title="Alippila crossroad"
@@ -56,18 +52,13 @@ const SetPickUpLocation: React.FC<Props> = ({
             <ClickButton title="Confirm pick up address" onPress={onNext} />
           </View>
         </Card>
-      </View>
+      </View> */}
     </View>
   )
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  bottomContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%'
   },
   card: {
     borderTopLeftRadius: 8,
