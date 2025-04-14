@@ -49,11 +49,11 @@ const Users = () => {
     <View style={styles.profileContainer}>
       <Avatar.Image
         size={100}
-        source={{
-          uri: user.photoUrl
-            ? `${BASE_URL}/users/${user.photoUrl}`
-            : 'https://picsum.photos/seed/picsum/200/300'
-        }}
+        source={
+          user?.photoUrl
+            ? { uri: `${BASE_URL}/users/${user.photoUrl}` }
+            : require('../assets/avatar_placeholder.png')
+        }
         style={styles.profileImage}
       />
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>

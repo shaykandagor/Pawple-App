@@ -1,18 +1,18 @@
+import { FormSubmitButton } from '@components/index'
 import FormImagePicker from '@components/input/image_picker/FormImagePicker'
 import FormTextInput from '@components/input/text_input/FormTextInput'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Colors } from '@util'
-import { Formik } from 'formik'
-import React from 'react'
+import { RootStackParamList } from 'Navigation'
+import { useAuth } from 'app/api/auth'
+import useSession from 'app/session/useSession'
+import { Formik, FormikHelpers } from 'formik'
+import React, { useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { mutate } from 'swr'
 import * as YUP from 'yup'
 import LogoText from '../components/logo/LogoText'
-import { Button } from 'react-native-paper'
 import { HOME } from './ScreenNames'
-import { RootStackParamList } from 'Navigation'
-import { useAuth } from 'app/api/auth'
-import useSession from 'app/session/useSession'
 
 interface UpdateProfileValues {
   image: string
@@ -33,12 +33,18 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
     username: YUP.string().label('username').required(),
     email: YUP.string().label('email').required().email(),
     fullName: YUP.string().label('full name').required(),
-    socialSecurityNumber: YUP.string().label('social security number').required()
+    socialSecurityNumber: YUP.string()
+      .label('social security number')
+      .required()
   })
-
+  const [loading, setLoading] = useState(false)
   const { updateUserInfo } = useAuth() // Ensure this is destructured correctly
 
-  const handleSubmit = async (value: UpdateProfileValues) => {
+  const handleSubmit = async (
+    value: any,
+    { setErrors }: FormikHelpers<UpdateProfileValues>
+  ) => {
+    setLoading(true)
     try {
       if (user) {
         await updateUserInfo(user.id, value) // Call the API to update user info
@@ -81,8 +87,9 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
                 value: values.fullName,
                 onChangeText: handleChange('fullName')
               }}
-              style={styles.inputSpacing}
             />
+          </View>
+          <View style={styles.inputs}>
             <FormTextInput
               name="username"
               inputProps={{
@@ -92,8 +99,9 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
                 value: values.username,
                 onChangeText: handleChange('username')
               }}
-              style={styles.inputSpacing}
             />
+          </View>
+          <View style={styles.inputs}>
             <FormTextInput
               name="email"
               inputProps={{
@@ -103,8 +111,9 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
                 value: values.email,
                 onChangeText: handleChange('email')
               }}
-              style={styles.inputSpacing}
             />
+          </View>
+          <View style={styles.inputs}>
             <FormTextInput
               name="socialSecurityNumber"
               inputProps={{
@@ -114,13 +123,14 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
                 value: values.socialSecurityNumber,
                 onChangeText: handleChange('socialSecurityNumber')
               }}
-              style={styles.inputSpacing}
             />
           </View>
-          <View style={styles.resendButtonContainer}>
-            <Button mode="contained" onPress={handleSubmit}>
-              Update Profile
-            </Button>
+          <View style={styles.updateButtonContainer}>
+            <FormSubmitButton
+              mode="contained"
+              title="Update Profile"
+              loading={loading}
+            ></FormSubmitButton>
           </View>
         </ScrollView>
       )}
@@ -131,24 +141,22 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: Colors.white
+    backgroundColor: Colors.white,
+    padding: 20
   },
   logo: {
     alignItems: 'center'
   },
   inputs: {
-    padding: 10,
-    marginBottom: 20
-  },
-  inputSpacing: {
+    paddingHorizontal: 15,
     marginBottom: 20
   },
   profileImage: {
     alignSelf: 'center'
   },
-  resendButtonContainer: {
-    paddingVertical: 40,
-    paddingHorizontal: 20
+  updateButtonContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 20
   }
 })
 

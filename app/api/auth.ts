@@ -11,20 +11,19 @@ const register = async (credentials: Record<string, any>) => {
   return await apiFetcher(`/auth/register`, { method: 'POST', data: credentials })
 }
 
-const updateUserInfo = async (credentials: Record<string, any>) => {
-  try {
-    const photoUrl = credentials.photoUrl.startsWith(BASE_URL)
-      ? credentials.photoUrl.replace(BASE_URL, '')
-      : (getFormFileFromUri(credentials.photoUrl) as any)
+const updateUserInfo = async (id: string, user: Record<string, any>) => {
+    const photoUrl = (user.photoUrl as string).startsWith(BASE_URL)
+      ? user.photoUrl.replace(BASE_URL, '')
+      : (getFormFileFromUri(user.photoUrl) as any)
 
     const formData = objectToFormData({
-      ...credentials,
+      ...user,
       photoUrl: undefined
     })
     formData.append('photoUrl', photoUrl)
-    formData.append('fullName', credentials.fullName)
-    formData.append('username', credentials.username)
-    formData.append('email', credentials.email)
+    formData.append('fullName', user.fullName)
+    formData.append('username', user.username)
+    formData.append('email', user.email)
 
     const response = await apiFetcher(`/auth/update`, {
       method: 'PUT',
@@ -33,11 +32,7 @@ const updateUserInfo = async (credentials: Record<string, any>) => {
     })
 
     return response.data
-  } catch (error) {
-    console.error('Error updating user info:', error)
-    throw new Error('Failed to update user profile. Please try again.')
   }
-}
 
 const getUserByToken = async (token: string) => {
   return await apiFetcher(`/users/profile`, {
