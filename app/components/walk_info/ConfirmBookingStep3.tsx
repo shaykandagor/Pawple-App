@@ -38,7 +38,6 @@ const ConfirmBookingStep3 = ({
   isSubmitting
 }: ConfirmBookingStep3Props) => {
   const { values, errors, setFieldValue } = useFormikContext<FormValues>()
-  console.log('Errors:', errors)
   const { walkdurations } = useWalkDurations()
   const { pets } = usePets({ mine: 'true' })
   const selectedWalkDuration = useMemo(

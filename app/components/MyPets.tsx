@@ -10,6 +10,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { Avatar } from 'react-native-paper'
 import CustomError from './custom_error/CustomError'
 import LoadingSkeleton from './loading/LoadingSkeleton'
+import * as ScreenNames from 'app/screens/ScreenNames'
 
 //  displays a list of pets belonging to the user.
 //  If the user has no pets, a button to add a new pet is displayed.
@@ -50,15 +51,24 @@ const MyPets = () => {
               style={styles.avatarContainer}
               onPress={() => navigation.navigate(PET_REGISTRATION, { pet })}
             >
-              <Avatar.Image size={100} source={{ uri: `${BASE_URL}/${pet.photoUrl}` }} />
+              <Avatar.Image
+                size={100}
+                source={{ uri: `${BASE_URL}/${pet.photoUrl}` }}
+              />
               <Text style={styles.petName}>{pet.name}</Text>
             </TouchableOpacity>
           ))}
           <TouchableOpacity
             style={styles.avatarContainer}
-            onPress={() => navigation.navigate(PET_REGISTRATION)}
+            onPress={() =>
+              navigation.navigate(ScreenNames.PET_REGISTRATION as never)
+            }
           >
-            <Avatar.Icon icon="plus" size={100} style={{ backgroundColor: Colors.lightGray }} />
+            <Avatar.Icon
+              icon="plus"
+              size={100}
+              style={{ backgroundColor: Colors.lightGray }}
+            />
             <Text style={styles.addNewPetText}>Add New Pet</Text>
           </TouchableOpacity>
         </View>

@@ -9,12 +9,10 @@ import {
   DetailsVerificationScreen,
   HomeScreen,
   LoginScreen,
-  MyWalksScreen,
   PaymentMethodScreen,
   PetRegisterScreen,
   PromotionDealsScreen,
   RegistrationScreen,
-  SetPickUpLocationScreen,
   SubscriptionsScreen,
   SupportScreen,
   UpdateProfileScreen,
@@ -32,6 +30,8 @@ import useSession from 'app/session/useSession'
 import * as ScreenNames from 'app/screens/ScreenNames'
 import UserRegistrationScreen from 'app/screens/UserRegistrationScreen'
 import WalkBookingForm from 'app/screens/WalkBookingForm'
+import MyBookings from '@components/MyBookings'
+import BookingDetailsScreen from 'app/screens/BookingDetailsScreen'
 
 export type RootStackParamList = {
   DrawerGroup: undefined
@@ -43,6 +43,7 @@ export type RootStackParamList = {
   Home: undefined
   ConfirmBooking: undefined
   WalkSummary: undefined
+  BookingDetails: undefined
 }
 
 export type OpenRoutesParamList = {
@@ -57,7 +58,7 @@ export type DrawerParamList = {
   PaymentMethods: undefined
   PromotionsAndDeals: undefined
   Subscriptions: undefined
-  MyWalks: undefined
+  MyBookings: undefined
   Support: undefined
   About: undefined
 }
@@ -143,10 +144,10 @@ const DrawerGroup = () => {
         }}
       />
       <Screen
-        name={ScreenNames.MY_WALKS}
-        component={MyWalksScreen}
+        name={ScreenNames.MY_BOOKINGS}
+        component={MyBookings}
         options={{
-          title: 'My Walks',
+          title: 'My Bookings',
           drawerIcon: () => (
             <MaterialCommunityIcons
               name="clock-time-four-outline"
@@ -221,6 +222,10 @@ const RootStack = () => {
       <SecureStack.Screen
         name={ScreenNames.WALK_BOOKING}
         component={WalkBookingForm}
+      />
+      <SecureStack.Screen
+        name={ScreenNames.BOOKING_DETAILS}
+        component={BookingDetailsScreen}
       />
       <SecureStack.Screen
         name={ScreenNames.DETAILS_VERIFICATION}

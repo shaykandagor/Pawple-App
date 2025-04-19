@@ -3,10 +3,18 @@ import ConfirmBookingStep3 from '@components/walk_info/ConfirmBookingStep3'
 import SetLocationStep2 from '@components/walk_info/SetLocationStep2'
 import WalkBookingStep1 from '@components/walk_info/WalkBookingStep1'
 import { Colors } from '@util'
+import { mutate } from 'app/api/apiFetcher'
 import { FormikHelpers } from 'formik'
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import * as YUP from 'yup'
+import { useBookingApi } from 'app/api/booking'
+import { Booking } from 'app/types'
+
+type WalkBookingFormProps = {
+  navigation: any
+  route?: any
+}
 
 interface FormValues {
   pickupAddress: {
@@ -36,9 +44,16 @@ const validationSchema = YUP.object().shape({
   pickupTime: YUP.date().label('pickup time').required()
 })
 
-const WalkBookingForm = () => {
+const WalkBookingForm: React.FC<WalkBookingFormProps> = ({
+  navigation,
+  route
+}) => {
+  // The booking object is retrieved from the route parameters.
+  // If the booking object is not found, it will be undefined.
+  const booking: Booking | undefined = (route?.params as any)?.booking
   const [currentStep, setCurrentStep] = useState(1)
   const [loading, setLoading] = useState(false)
+  const { addBooking, updateBooking } = useBookingApi()
 
   const handleNext = () => {
     setCurrentStep((prevStep) => prevStep + 1)
@@ -53,9 +68,33 @@ const WalkBookingForm = () => {
   ) => {
     setLoading(true)
     try {
-      console.log('Booking value:', value)
+      if (booking) {
+        await updateBooking(booking.id, value)
+      } else {
+        await addBooking(value)
+      }
+      mutate('/bookings')
+      navigation.goBack()
+      // console.log('Booking value:', value)
     } catch (error: any) {
-      console.error('Error during booking:', error.message)
+      if (error.response.status === 400) {
+        const errors = await error.response.data
+        const fieldErrors = Object.entries(errors).reduce(
+          (prev, [key, value]) => {
+            if (key === '_errors') {
+              return prev
+            }
+            return {
+              ...prev,
+              [key]: ((value as any)._errors as string[]).join(';')
+            }
+          },
+          {}
+        )
+        setErrors({ ...fieldErrors })
+      } else {
+        // TODO: Handle other errors other than validation
+      }
     } finally {
       setLoading(false)
     }

@@ -20,3 +20,35 @@ export interface WalkDuration {
   createdAt: string
   updatedAt: string
 }
+
+export interface Booking {
+  id: string
+  ownerId: string
+  petId: string
+  pickupAddress: PickupAddress
+  durationId: string
+  instructions: string
+  visitPark: boolean
+  bringDisposableBags: boolean
+  status: string
+  pickupTime: string
+  createdAt: string
+  updatedAt: string
+  duration: WalkDuration
+  owner: Owner
+  pet: Pet
+}
+
+export interface PickupAddress {
+  lat: number
+  lng: number
+  address: string
+}
+
+export interface Owner {
+  id: string
+  userId: string
+  createdAt: string
+  updatedAt: string
+}
+

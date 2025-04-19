@@ -5,7 +5,7 @@ import { DrawerParamList, RootStackParamList } from '../../Navigation'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { CompositeScreenProps } from '@react-navigation/native'
-import { WELCOME } from './ScreenNames'
+import * as ScreenNames from 'app/screens/ScreenNames'
 
 type Props = CompositeScreenProps<
   DrawerScreenProps<DrawerParamList, 'PaymentMethods'>,
@@ -19,7 +19,7 @@ const PaymentMethods: React.FC<Props> = ({ navigation }) => {
         mode="contained"
         title="Welcome Screen"
         onPress={() => {
-          navigation.navigate(WELCOME)
+          navigation.navigate(ScreenNames.WELCOME as never)
         }}
       />
     </View>
