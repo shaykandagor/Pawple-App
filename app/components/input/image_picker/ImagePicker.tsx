@@ -1,4 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, Modal, Alert } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  Modal,
+  Alert
+} from 'react-native'
 import React, { useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import ImagePickerEditButton from './ImagePickerEditButton'
@@ -22,41 +30,45 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
 }) => {
   const [status, requestPermision] = useCameraPermissions()
   const pickImage = () => {
-    Alert.alert('Choice', 'What isthe source ofimage', [
-      {
-        text: 'Camera',
-        onPress: async () => {
-          const permsion = await requestPermision()
-          if (permsion.granted === false) {
-            alert("You've refused to allow this appp to access your camera!")
-            return
+    Alert.alert(
+      'Choose an image',
+      'How would you like to select the pet image?',
+      [
+        {
+          text: 'Camera',
+          onPress: async () => {
+            const permsion = await requestPermision()
+            if (permsion.granted === false) {
+              alert("You've refused to allow this app to access your camera!")
+              return
+            }
+            const result = await launchCameraAsync({
+              quality: 1,
+              mediaTypes: MediaTypeOptions.Images,
+              allowsEditing: true
+            })
+            if (!result.canceled && onImageChange instanceof Function) {
+              onImageChange(result.assets[0].uri)
+            }
           }
-          const result = await launchCameraAsync({
-            quality: 1,
-            mediaTypes: MediaTypeOptions.Images,
-            allowsEditing: true
-          })
-          if (!result.canceled && onImageChange instanceof Function) {
-            onImageChange(result.assets[0].uri)
-          }
-        }
-      },
-      {
-        text: 'Gallery',
-        onPress: async () => {
-          // No permissions request is necessary for launching the image library
-          let result = await launchImageLibraryAsync({
-            mediaTypes: MediaTypeOptions.Images,
-            allowsEditing: true,
-            quality: 1
-          })
+        },
+        {
+          text: 'Gallery',
+          onPress: async () => {
+            // No permissions request is necessary for launching the image library
+            let result = await launchImageLibraryAsync({
+              mediaTypes: MediaTypeOptions.Images,
+              allowsEditing: true,
+              quality: 1
+            })
 
-          if (!result.canceled && onImageChange instanceof Function) {
-            onImageChange(result.assets[0].uri)
+            if (!result.canceled && onImageChange instanceof Function) {
+              onImageChange(result.assets[0].uri)
+            }
           }
         }
-      }
-    ])
+      ]
+    )
   }
 
   const [showImage, setShowImage] = useState<Boolean>(false)
@@ -78,7 +90,12 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
         onPress={image ? toggleShowImage : pickImage}
       >
         <>
-          {image && <ImagePickerEditButton size={size ? size * 0.24 : 24} onPress={pickImage} />}
+          {image && (
+            <ImagePickerEditButton
+              size={size ? size * 0.24 : 24}
+              onPress={pickImage}
+            />
+          )}
           <View
             style={{
               overflow: 'hidden',
@@ -86,7 +103,10 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
             }}
           >
             {image ? (
-              <Image source={{ uri: image }} style={{ width: size, height: size }} />
+              <Image
+                source={{ uri: image }}
+                style={{ width: size, height: size }}
+              />
             ) : (
               <MaterialCommunityIcons
                 name="camera"
@@ -102,7 +122,9 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
       {error && <HelperText type="error">{error}</HelperText>}
       {showImage && (
         <Modal onRequestClose={toggleShowImage} animationType="slide">
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
             <IconButton
               icon={'delete'}
               iconColor="red"

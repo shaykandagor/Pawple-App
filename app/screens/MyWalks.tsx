@@ -1,20 +1,51 @@
-import { useNavigation } from '@react-navigation/native'
-import { StyleSheet, View } from 'react-native'
-import ClickButton from '@components/input/button/ClickButton'
+import CustomError from '@components/custom_error/CustomError'
+import LoadingSkeleton from '@components/loading/LoadingSkeleton'
+import WalkListItem from '@components/walk/WalkListItem'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Colors } from '@util'
-import { WALK_BOOKING } from './ScreenNames'
+import { useWalks } from 'app/api/walks'
+import { Walk } from 'app/types'
+import { User } from 'app/types/session'
+import { DrawerParamList } from 'Navigation'
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Text } from 'react-native-paper'
 
-const MyWalks = () => {
-  const navigation = useNavigation()
+type Props = NativeStackScreenProps<DrawerParamList, 'MyWalks'>
 
+const MyWalks: React.FC<Props> = ({ navigation }) => {
+  const { walks, isLoading, error } = useWalks()
+
+  if (isLoading) {
+    return (
+      <View style={styles.loading}>
+        <LoadingSkeleton />
+        <LoadingSkeleton />
+        <LoadingSkeleton />
+      </View>
+    )
+  }
+  if (error) {
+    return (
+      <View>
+        <CustomError errorMessage={error.message} />
+      </View>
+    )
+  }
   return (
     <View style={styles.container}>
-      <ClickButton
-        icon="dog"
-        mode="contained"
-        title="Book a Walk"
-        onPress={() => navigation.navigate(WALK_BOOKING as never)}
-        style={styles.floatingButton}
+      <View>
+        <Text style={styles.text}>My Walks</Text>
+      </View>
+      <FlatList
+        data={walks}
+        keyExtractor={(item: Walk) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => console.log('Walk clicked', item.id)}
+          >
+            <WalkListItem walk={item} />
+          </TouchableOpacity>
+        )}
       />
     </View>
   )
@@ -23,22 +54,62 @@ const MyWalks = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: Colors.white,
+    padding: 10
   },
-  floatingButton: {
+  bookButton: {
+    alignSelf: 'center',
+    padding: 20,
     position: 'absolute',
     bottom: 20,
-    backgroundColor: Colors.primary,
-    borderRadius: 50,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3
+    zIndex: 1
+  },
+  text: {
+    fontSize: 24,
+    color: Colors.primary,
+    fontWeight: 'bold',
+    paddingVertical: 15
+  },
+  walkProfileHome: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    flex: 1
+  },
+  cardContainer: {
+    marginHorizontal: 10,
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: Colors.white
+  },
+  loading: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    padding: 15
+  },
+  cardMap: {
+    flex: 1,
+    marginVertical: 10,
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: Colors.darkGray,
+    borderRadius: 20,
+    margin: 10,
+    overflow: 'hidden'
+  },
+  map: {
+    width: '100%',
+    height: '100%'
+  },
+  content: {
+    padding: 20
   }
 })
 
 export default MyWalks
+function useMemo(
+  arg0: () => 'walker' | 'owner' | undefined,
+  arg1: (User | undefined)[]
+) {
+  throw new Error('Function not implemented.')
+}

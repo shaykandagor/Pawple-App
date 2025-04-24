@@ -9,12 +9,25 @@ import * as ScreenNames from 'app/screens/ScreenNames'
 import { DrawerParamList } from 'Navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BookingListItem from './booking/BookingListItem'
+import useSession from 'app/session/useSession'
+import { useMemo } from 'react'
 
 type Props = NativeStackScreenProps<DrawerParamList, 'MyBookings'>
 
 const MyBookings: React.FC<Props> = ({ navigation, route }) => {
+  const {
+    session: { user }
+  } = useSession()
+  const role = useMemo(() => {
+    if (user?.walker) {
+      return 'walker'
+    } else if (user?.owner) {
+      return 'owner'
+    }
+  }, [user])
   const { bookings, isLoading, error } = useBookings({
-    mine: 'true'
+    mine: role == 'owner' ? 'true' : undefined,
+    includeOnlyActiveBookings: role == 'walker' ? 'true' : undefined
   })
   if (isLoading) {
     return (
@@ -43,7 +56,7 @@ const MyBookings: React.FC<Props> = ({ navigation, route }) => {
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate(ScreenNames.BOOKING_DETAILS as never, {
+              navigation.navigate(ScreenNames.BOOKING_DETAILS as any, {
                 booking: item
               })
             }

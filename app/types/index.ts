@@ -34,9 +34,10 @@ export interface Booking {
   pickupTime: string
   createdAt: string
   updatedAt: string
+  walks: Walk[]
   duration: WalkDuration
-  owner: Owner
   pet: Pet
+  owner: Owner
 }
 
 export interface PickupAddress {
@@ -50,5 +51,43 @@ export interface Owner {
   userId: string
   createdAt: string
   updatedAt: string
+  user: User
 }
 
+export interface Walker {
+  id: string
+  userId: string
+  preferredSize: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface User {
+  id: string
+  username: string
+  fullName: string
+  email: string
+  password: string
+  isActive: boolean
+  isAdmin: boolean
+  photoUrl: any
+  socialSecurityNumber: string
+  birthday: any
+  address: any
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Walk {
+  id: string
+  walkerId: string
+  startTime: any
+  endTime: any
+  timeClaimed: string
+  timeCanceled: any
+  bookingId: string
+  createdAt: string
+  updatedAt: string
+  booking: Booking
+  walker: Walker
+}

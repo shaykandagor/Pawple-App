@@ -32,6 +32,7 @@ import UserRegistrationScreen from 'app/screens/UserRegistrationScreen'
 import WalkBookingForm from 'app/screens/WalkBookingForm'
 import MyBookings from '@components/MyBookings'
 import BookingDetailsScreen from 'app/screens/BookingDetailsScreen'
+import MyWalks from 'app/screens/MyWalks'
 
 export type RootStackParamList = {
   DrawerGroup: undefined
@@ -59,6 +60,7 @@ export type DrawerParamList = {
   PromotionsAndDeals: undefined
   Subscriptions: undefined
   MyBookings: undefined
+  MyWalks: undefined
   Support: undefined
   About: undefined
 }
@@ -147,10 +149,24 @@ const DrawerGroup = () => {
         name={ScreenNames.MY_BOOKINGS}
         component={MyBookings}
         options={{
-          title: 'My Bookings',
+          title: 'Bookings',
           drawerIcon: () => (
             <MaterialCommunityIcons
               name="clock-time-four-outline"
+              size={35}
+              color={Colors.darkGray}
+            />
+          )
+        }}
+      />
+      <Screen
+        name={ScreenNames.MY_WALKS}
+        component={MyWalks}
+        options={{
+          title: 'Walks',
+          drawerIcon: () => (
+            <MaterialCommunityIcons
+              name="dog-service"
               size={35}
               color={Colors.darkGray}
             />

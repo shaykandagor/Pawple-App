@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { Booking } from 'app/types'
-import { Avatar, List } from 'react-native-paper'
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons'
 import { Colors } from '@util'
+import { Booking } from 'app/types'
 import { BASE_URL } from 'app/util/constants'
+import React from 'react'
+import { Avatar, List } from 'react-native-paper'
 
 type Props = {
   booking: Booking
@@ -33,5 +32,3 @@ const BookingListItem: React.FC<Props> = ({ booking }) => {
 }
 
 export default BookingListItem
-
-const styles = StyleSheet.create({})

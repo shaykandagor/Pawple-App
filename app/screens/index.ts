@@ -4,7 +4,7 @@ export { default as DetailsVerificationScreen } from './DetailsVerificationScree
 export { default as HomeScreen } from './HomeScreen'
 export { default as LoginScreen } from './LoginScreen'
 export { default as RegistrationScreen } from './RegistrationScreen'
-export { default as MyWalksScreen } from './MyWalks'
+export { default as MyWalksScreen } from './BookWalk'
 export { default as PaymentMethodScreen } from './PaymentMethods'
 export { default as PetRegistrationStep2 } from '../components/pet_info/PetRegistrationStep2'
 export { default as PetRegisterScreen } from './PetRegistrationScreen'

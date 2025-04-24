@@ -6,7 +6,7 @@ import { CustomCard, LogoText } from '@component'
 import MyPets from '@components/MyPets'
 import { Colors } from '@util'
 import { RootStackParamList } from '../../Navigation'
-import MyWalks from './MyWalks'
+import BookWalk from './BookWalk'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
 
@@ -51,7 +51,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </ScrollView>
-      <MyWalks />
+      <BookWalk />
     </View>
   )
 }

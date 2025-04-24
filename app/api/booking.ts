@@ -31,7 +31,21 @@ const updateBooking = async (id: string, booking: Record<string, any>) => {
     return response.data
 }
 
+const claimBooking = async (id: string) => {
+    const response = await apiFetcher<Booking>(`/walks/${id}/claim`, {
+        method: 'GET'
+    })
+    return response.data
+}
+
+const deleteBooking = async (id: string) => {
+    const response = await apiFetcher<Booking>(`/bookings/${id}`, {
+        method: 'DELETE'
+    })
+    return response.data
+}
+
 export const useBookingApi = () => {
-    return { addBooking, updateBooking }
+    return { addBooking, updateBooking, claimBooking, deleteBooking }
 }
     
