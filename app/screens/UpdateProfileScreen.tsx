@@ -4,41 +4,44 @@ import FormTextInput from '@components/input/text_input/FormTextInput'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Colors } from '@util'
 import { RootStackParamList } from 'Navigation'
-import { useAuth } from 'app/api/auth'
 import useSession from 'app/session/useSession'
-import { Formik, FormikHelpers } from 'formik'
 import React, { useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { mutate } from 'swr'
 import * as YUP from 'yup'
 import LogoText from '../components/logo/LogoText'
-import { HOME } from './ScreenNames'
+import Form from '../components/form/Form'
+import { FormikHelpers } from 'formik'
+import { BASE_URL } from 'app/util/constants'
+import { useUserApi } from 'app/api/users'
 
+type Props = NativeStackScreenProps<RootStackParamList, 'UpdateProfile'>
 interface UpdateProfileValues {
-  image: string
+  photoUrl: string
   username: string
   email: string
   fullName: string
   socialSecurityNumber: string
 }
 
-type Props = NativeStackScreenProps<RootStackParamList, 'UpdateProfile'>
-
-const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
+const UpdateProfileScreen: React.FC<Props> = ({ navigation }) => {
+  // The user object is retrieved from the session.
+  // If the user object is not found, it will be undefined.
   const {
     session: { user }
   } = useSession()
-
   const validationSchemer = YUP.object().shape({
     username: YUP.string().label('username').required(),
     email: YUP.string().label('email').required().email(),
+    photoUrl: YUP.string().label('photoUrl'),
     fullName: YUP.string().label('full name').required(),
     socialSecurityNumber: YUP.string()
       .label('social security number')
       .required()
   })
   const [loading, setLoading] = useState(false)
-  const { updateUserInfo } = useAuth() // Ensure this is destructured correctly
+  const { updateProfile } = useUserApi()
+  const { setSession, session } = useSession()
 
   const handleSubmit = async (
     value: any,
@@ -47,35 +50,68 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
     setLoading(true)
     try {
       if (user) {
-        await updateUserInfo(user.id, value) // Call the API to update user info
+        console.log('session', session)
+        const updatedUser = await updateProfile(value)
+        console.log('updatedUser', updatedUser)
+        setSession({
+          ...session,
+          user: updatedUser
+        })
+        console.log('session after update', session)
+        navigation.goBack()
       }
-      mutate(`/api/users/${user?.id}`) // Update the SWR cache
-      navigation.navigate(HOME) // Navigate back to the home screen
-    } catch (error) {
-      console.error('Error updating profile:', error)
-      // Optionally, show an error message to the user
+    } catch (error: any) {
+      console.log('Error during profile update:', error)
+
+      if (error.response) {
+        // Handle Axios errors
+        if (error.response.status === 400) {
+          const errors = await error.response.data
+          const fieldErrors = Object.entries(errors).reduce(
+            (prev, [key, value]) => {
+              if (key === '_errors') {
+                return prev
+              }
+              return {
+                ...prev,
+                [key]: ((value as any)._errors as string[]).join(';')
+              }
+            },
+            {}
+          )
+          setErrors({ ...fieldErrors })
+        } else {
+          console.log('Unhandled server error:', error.response.data)
+          // TODO: Handle other server errors
+        }
+      } else {
+        // Handle non-Axios errors
+        console.error('Unexpected error:', error.message || error)
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <Formik
-      initialValues={{
-        image: user?.photoUrl || '',
-        username: user?.username || '',
-        email: user?.email || '',
-        fullName: user?.fullName || '',
-        socialSecurityNumber: user?.socialSecurityNumber || ''
-      }}
-      validationSchema={validationSchemer}
-      onSubmit={handleSubmit}
-    >
-      {({ handleChange, handleSubmit, values }) => (
-        <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Form<UpdateProfileValues>
+        initialValue={{
+          photoUrl: user?.photoUrl ? `${BASE_URL}/${user.photoUrl}` : '',
+          username: user?.username ?? '',
+          email: user?.email ?? '',
+          fullName: user?.fullName ?? '',
+          socialSecurityNumber: user?.socialSecurityNumber ?? ''
+        }}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchemer}
+      >
+        <View>
           <View style={styles.logo}>
             <LogoText width={150} height={150} />
           </View>
           <View style={styles.profileImage}>
-            <FormImagePicker name="image" size={150} />
+            <FormImagePicker name="photoUrl" size={150} />
           </View>
           <View style={styles.inputs}>
             <FormTextInput
@@ -83,9 +119,7 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
               inputProps={{
                 label: 'Full Name',
                 mode: 'outlined',
-                inputMode: 'text',
-                value: values.fullName,
-                onChangeText: handleChange('fullName')
+                inputMode: 'text'
               }}
             />
           </View>
@@ -95,9 +129,7 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
               inputProps={{
                 label: 'Username',
                 mode: 'outlined',
-                inputMode: 'text',
-                value: values.username,
-                onChangeText: handleChange('username')
+                inputMode: 'text'
               }}
             />
           </View>
@@ -107,9 +139,7 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
               inputProps={{
                 label: 'Email',
                 mode: 'outlined',
-                inputMode: 'email',
-                value: values.email,
-                onChangeText: handleChange('email')
+                inputMode: 'email'
               }}
             />
           </View>
@@ -119,9 +149,7 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
               inputProps={{
                 label: 'Social Security Number',
                 mode: 'outlined',
-                inputMode: 'text',
-                value: values.socialSecurityNumber,
-                onChangeText: handleChange('socialSecurityNumber')
+                inputMode: 'text'
               }}
             />
           </View>
@@ -132,9 +160,9 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation, route }) => {
               loading={loading}
             ></FormSubmitButton>
           </View>
-        </ScrollView>
-      )}
-    </Formik>
+        </View>
+      </Form>
+    </ScrollView>
   )
 }
 

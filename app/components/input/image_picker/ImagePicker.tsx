@@ -28,7 +28,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
   label,
   error
 }) => {
-  const [status, requestPermision] = useCameraPermissions()
+  const [status, requestPermission] = useCameraPermissions()
   const pickImage = () => {
     Alert.alert(
       'Choose an image',
@@ -37,8 +37,8 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
         {
           text: 'Camera',
           onPress: async () => {
-            const permsion = await requestPermision()
-            if (permsion.granted === false) {
+            const permission = await requestPermission()
+            if (permission.granted === false) {
               alert("You've refused to allow this app to access your camera!")
               return
             }
