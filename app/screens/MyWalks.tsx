@@ -10,7 +10,11 @@ import { Walk } from 'app/types'
 import { User } from 'app/types/session'
 import { DrawerParamList } from 'Navigation'
 import { useState } from 'react'
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
+import {
+  FlatList,
+  StyleSheet,
+  View
+} from 'react-native'
 import { Text } from 'react-native-paper'
 
 type Props = NativeStackScreenProps<DrawerParamList, 'MyWalks'>
@@ -20,13 +24,15 @@ const MyWalks: React.FC<Props> = ({ navigation }) => {
   const {
     session: { user }
   } = useSession()
-  const [selectedFilter, setSelectedFilter] = useState<Walk['status'] | 'All'>('All') // Default to "Open"
+  const [selectedFilter, setSelectedFilter] = useState<Walk['status'] | 'All'>(
+    'All'
+  ) // Default to "Open"
   // Debugging: Log the selected filter
   console.log('Selected Filter:', selectedFilter)
 
   // Filter the walks based on the selected filter
   const filteredWalks = walks.filter((walk) => {
-    if (selectedFilter === "All") return true // If no filter is selected, show all walks
+    if (selectedFilter === 'All') return true // If no filter is selected, show all walks
 
     return walk.status === selectedFilter
   })
@@ -47,6 +53,7 @@ const MyWalks: React.FC<Props> = ({ navigation }) => {
       </View>
     )
   }
+
   return (
     <View style={styles.container}>
       <View>
@@ -57,7 +64,9 @@ const MyWalks: React.FC<Props> = ({ navigation }) => {
           onSelect={(selected) => {
             console.log('Chip Selected:', selected)
             if (selected.length > 0) {
-              setSelectedFilter(selected[selected.length - 1] as Walk['status'] | 'All')
+              setSelectedFilter(
+                selected[selected.length - 1] as Walk['status'] | 'All'
+              )
             }
           }}
           mode="flat"
@@ -67,13 +76,7 @@ const MyWalks: React.FC<Props> = ({ navigation }) => {
       <FlatList
         data={filteredWalks} // Use the filtered walks
         keyExtractor={(item: Walk) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => console.log('Walk clicked', item.id)}
-          >
-            <WalkListItem walk={item}  />
-          </TouchableOpacity>
-        )}
+        renderItem={({ item }) => <WalkListItem walk={item} />}
       />
     </View>
   )

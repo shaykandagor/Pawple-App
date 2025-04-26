@@ -33,10 +33,12 @@ import WalkBookingForm from 'app/screens/WalkBookingForm'
 import MyBookings from '@components/MyBookings'
 import BookingDetailsScreen from 'app/screens/BookingDetailsScreen'
 import MyWalks from 'app/screens/MyWalks'
+import ProgressWalksScreen from 'app/screens/ProgressWalksScreen'
 
 export type RootStackParamList = {
   DrawerGroup: undefined
   UpdateProfile: undefined
+  ProgressWalks: undefined
   PetInformation: undefined
   PetRegistration: undefined
   WalkBooking: undefined
@@ -230,6 +232,10 @@ const RootStack = () => {
       <SecureStack.Screen
         name={ScreenNames.UPDATE_PROFILE}
         component={UpdateProfileScreen}
+      />
+      <SecureStack.Screen
+        name={ScreenNames.PROGRESS_WALKS}
+        component={ProgressWalksScreen}
       />
       <SecureStack.Screen
         name={ScreenNames.PET_REGISTRATION}

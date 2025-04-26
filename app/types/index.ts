@@ -1,3 +1,5 @@
+import { Route } from '@react-navigation/native'
+
 export interface Pet {
   id: string
   name: string
@@ -92,4 +94,13 @@ export interface Walk {
   walker: Walker
   duration: WalkDuration
   status?: 'In Progress' | 'Completed' | 'Canceled' | 'Claimed'
+  routePoints?: RoutePoint[]
+}
+
+export interface RoutePoint {
+  id: string
+  latitude: string
+  longitude: string
+  walkId: string
+  createdAt: string
 }

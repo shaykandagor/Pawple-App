@@ -1,11 +1,12 @@
-import { Walk, WalkDuration } from 'app/types'
+import { RoutePoint, Walk, WalkDuration } from 'app/types'
 import { AxiosResponse } from 'axios'
 import useSWR from 'swr'
 import { apiFetcher, constructUrl } from './apiFetcher'
 
 export const useWalkDurations = (filters: Record<string, any> = {}) => {
   const url = constructUrl(`/walkdurations`, filters)
-  const { data, error, isLoading, mutate } = useSWR<AxiosResponse<{ results: WalkDuration[] }>>(url)
+  const { data, error, isLoading, mutate } =
+    useSWR<AxiosResponse<{ results: WalkDuration[] }>>(url)
   return {
     walkdurations: data?.data?.results ?? [],
     error,
@@ -16,7 +17,8 @@ export const useWalkDurations = (filters: Record<string, any> = {}) => {
 
 export const useWalks = (filters: Record<string, any> = {}) => {
   const url = constructUrl(`/walks`, filters)
-  const { data, error, isLoading, mutate } = useSWR<AxiosResponse<{ results: Walk[] }>>(url)
+  const { data, error, isLoading, mutate } =
+    useSWR<AxiosResponse<{ results: Walk[] }>>(url)
   return {
     walks: data?.data?.results ?? [],
     error,
@@ -40,7 +42,45 @@ const getWalk = async (id: string) => {
   return response.data
 }
 
-export const useWalkApi = () => {
-  return { getWalks, getWalk }
+const startWalk = async (id: string) => {
+  const response = await apiFetcher<Walk>(`/walks/${id}/start`, {
+    method: 'GET'
+  })
+  return response.data
 }
 
+const endWalk = async (id: string) => {
+  const response = await apiFetcher<Walk>(`/walks/${id}/end`, {
+    method: 'GET'
+  })
+  return response.data
+}
+
+export const useWalkRoutePoints = (walkId: string) => {
+  const url = constructUrl(`/walks/${walkId}/route`)
+  const { data, error, isLoading, mutate } =
+    useSWR<AxiosResponse<{ routePoints: RoutePoint[] }>>(url)
+  return {
+    walkRoutePoints: data?.data?.routePoints ?? [],
+    error,
+    isLoading,
+    mutate
+  }
+}
+
+type Coordinates = {
+  latitude: number
+  longitude: number
+}
+
+const addRoutePoint = async (walkId: string, routePoint: Coordinates) => {
+  const response = await apiFetcher<RoutePoint>(`/walks/${walkId}/route`, {
+    method: 'POST',
+    data: routePoint
+  })
+  return response.data
+}
+
+export const useWalkApi = () => {
+  return { getWalks, getWalk, startWalk, endWalk, addRoutePoint }
+}
