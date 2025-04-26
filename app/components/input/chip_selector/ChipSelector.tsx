@@ -22,7 +22,9 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({
     const isSelected = selectedOptions.includes(option)
     if (isSelected) {
       // Deselect the option
-      onSelect(selectedOptions.filter((selectedOption) => selectedOption !== option))
+      onSelect(
+        selectedOptions.filter((selectedOption) => selectedOption !== option)
+      )
     } else {
       // Select the option
       onSelect([...selectedOptions, option])
@@ -35,10 +37,14 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({
         <Chip
           key={option}
           mode="flat"
-          icon="check"
+          // icon="check"
           style={[
             styles.chip,
-            { backgroundColor: selectedOptions.includes(option) ? 'purple' : 'lightgray' }
+            {
+              backgroundColor: selectedOptions.includes(option)
+                ? 'purple'
+                : 'lightgray'
+            }
           ]}
           onPress={() => handleChipPress(option)}
         >

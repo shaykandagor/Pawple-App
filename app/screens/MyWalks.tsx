@@ -1,12 +1,15 @@
 import CustomError from '@components/custom_error/CustomError'
+import ChipSelector from '@components/input/chip_selector/ChipSelector'
 import LoadingSkeleton from '@components/loading/LoadingSkeleton'
 import WalkListItem from '@components/walk/WalkListItem'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Colors } from '@util'
 import { useWalks } from 'app/api/walks'
+import useSession from 'app/session/useSession'
 import { Walk } from 'app/types'
 import { User } from 'app/types/session'
 import { DrawerParamList } from 'Navigation'
+import { useState } from 'react'
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Text } from 'react-native-paper'
 
@@ -14,6 +17,19 @@ type Props = NativeStackScreenProps<DrawerParamList, 'MyWalks'>
 
 const MyWalks: React.FC<Props> = ({ navigation }) => {
   const { walks, isLoading, error } = useWalks()
+  const {
+    session: { user }
+  } = useSession()
+  const [selectedFilter, setSelectedFilter] = useState<Walk['status'] | 'All'>('All') // Default to "Open"
+  // Debugging: Log the selected filter
+  console.log('Selected Filter:', selectedFilter)
+
+  // Filter the walks based on the selected filter
+  const filteredWalks = walks.filter((walk) => {
+    if (selectedFilter === "All") return true // If no filter is selected, show all walks
+
+    return walk.status === selectedFilter
+  })
 
   if (isLoading) {
     return (
@@ -35,15 +51,27 @@ const MyWalks: React.FC<Props> = ({ navigation }) => {
     <View style={styles.container}>
       <View>
         <Text style={styles.text}>My Walks</Text>
+        <ChipSelector
+          options={['All', 'In Progress', 'Claimed', 'Canceled', 'Completed']}
+          selectedOptions={[selectedFilter as string]}
+          onSelect={(selected) => {
+            console.log('Chip Selected:', selected)
+            if (selected.length > 0) {
+              setSelectedFilter(selected[selected.length - 1] as Walk['status'] | 'All')
+            }
+          }}
+          mode="flat"
+          icon="check"
+        />
       </View>
       <FlatList
-        data={walks}
+        data={filteredWalks} // Use the filtered walks
         keyExtractor={(item: Walk) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => console.log('Walk clicked', item.id)}
           >
-            <WalkListItem walk={item} />
+            <WalkListItem walk={item}  />
           </TouchableOpacity>
         )}
       />

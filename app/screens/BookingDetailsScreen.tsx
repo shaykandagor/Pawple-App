@@ -8,6 +8,7 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import MapView from 'react-native-maps'
 import { Card, List, Text, Divider } from 'react-native-paper'
 import * as ScreenNames from 'app/screens/ScreenNames'
+import useSession from 'app/session/useSession'
 
 type BookingDetailsScreenProps = {
   navigation: any
@@ -18,6 +19,9 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
   navigation,
   route
 }) => {
+  const {
+    session: { user }
+  } = useSession()
   const { claimBooking } = useBookingApi()
   const [loading, setLoading] = useState(false)
   const booking: Booking = route.params?.booking
@@ -118,10 +122,12 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
                   />
                 )}
               />
-              <FloatingActionButton
-                icon="plus"
-                onPress={() => handleClaimBooking()}
-              />
+              {user?.walker && (
+                <FloatingActionButton
+                  icon="plus"
+                  onPress={() => handleClaimBooking()}
+                />
+              )}
             </View>
           </Card>
         </View>

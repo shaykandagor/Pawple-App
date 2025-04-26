@@ -90,4 +90,6 @@ export interface Walk {
   updatedAt: string
   booking: Booking
   walker: Walker
+  duration: WalkDuration
+  status?: 'In Progress' | 'Completed' | 'Canceled' | 'Claimed'
 }
