@@ -41,50 +41,57 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation }) => {
   })
   const [loading, setLoading] = useState(false)
   const { updateProfile } = useUserApi()
+  const { setSession, session } = useSession()
 
   const handleSubmit = async (
     value: any,
     { setErrors }: FormikHelpers<UpdateProfileValues>
   ) => {
-    setLoading(true);
+    setLoading(true)
     try {
       if (user) {
-        await updateProfile(user.id, value);
+        console.log('session', session)
+        const updatedUser = await updateProfile(value)
+        console.log('updatedUser', updatedUser)
+        setSession({
+          ...session,
+          user: updatedUser
+        })
+        console.log('session after update', session)
+        navigation.goBack()
       }
-      mutate('/profile');
-      navigation.goBack();
     } catch (error: any) {
-      console.log('Error during profile update:', error);
-  
+      console.log('Error during profile update:', error)
+
       if (error.response) {
         // Handle Axios errors
         if (error.response.status === 400) {
-          const errors = await error.response.data;
+          const errors = await error.response.data
           const fieldErrors = Object.entries(errors).reduce(
             (prev, [key, value]) => {
               if (key === '_errors') {
-                return prev;
+                return prev
               }
               return {
                 ...prev,
-                [key]: ((value as any)._errors as string[]).join(';'),
-              };
+                [key]: ((value as any)._errors as string[]).join(';')
+              }
             },
             {}
-          );
-          setErrors({ ...fieldErrors });
+          )
+          setErrors({ ...fieldErrors })
         } else {
-          console.log('Unhandled server error:', error.response.data);
+          console.log('Unhandled server error:', error.response.data)
           // TODO: Handle other server errors
         }
       } else {
         // Handle non-Axios errors
-        console.error('Unexpected error:', error.message || error);
+        console.error('Unexpected error:', error.message || error)
       }
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -104,7 +111,7 @@ const UpdateProfileScreen: React.FC<Props> = ({ navigation }) => {
             <LogoText width={150} height={150} />
           </View>
           <View style={styles.profileImage}>
-            <FormImagePicker name="image" size={150} />
+            <FormImagePicker name="photoUrl" size={150} />
           </View>
           <View style={styles.inputs}>
             <FormTextInput

@@ -51,7 +51,7 @@ const Users = () => {
         size={100}
         source={
           user?.photoUrl
-            ? { uri: `${BASE_URL}/users/${user.photoUrl}` }
+            ? { uri: `${BASE_URL}/${user.photoUrl}` }
             : require('../assets/avatar_placeholder.png')
         }
         style={styles.profileImage}
