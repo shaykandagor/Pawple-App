@@ -1,57 +1,46 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, Image, Button } from 'react-native'
 
 import { CustomCard, LogoText } from '@component'
 import MyPets from '@components/MyPets'
 import { Colors } from '@util'
 import { RootStackParamList } from '../../Navigation'
 import BookWalk from './BookWalk'
+import useSession from 'app/session/useSession'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  const {
+    session: { user }
+  } = useSession()
   return (
     <View style={styles.container}>
       <View>
         <View style={styles.headingHome}>
           <LogoText width="100%" height={30} />
         </View>
-        <MyPets />
-        <View style={{ alignSelf: 'flex-start' }}>
+        {!user?.walker && <MyPets />}
+        <View style={{ alignSelf: 'center' }}>
           <Text style={styles.text}>Community Events</Text>
         </View>
       </View>
 
       <ScrollView>
         <View style={styles.cardContainer}>
-          <CustomCard
-            title="Hakaniemi Group Walk"
-            subTitle="Oct 24 at 6:00 pm"
-            mode="contained"
-            image="https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          <Image
+            source={{
+              uri: 'https://images.pexels.com/photos/12538673/pexels-photo-12538673.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+            }}
+            style={styles.bannerImage}
           />
-          <CustomCard
-            title="Hakaniemi Group Walk"
-            subTitle="Oct 24 at 6:00 pm"
-            mode="contained"
-            image="https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <CustomCard
-            title="Hakaniemi Group Walk"
-            subTitle="Oct 24 at 6:00 pm"
-            mode="contained"
-            image="https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <CustomCard
-            title="Hakaniemi Group Walk"
-            subTitle="Oct 24 at 6:00 pm"
-            mode="contained"
-            image="https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
+          <Text style={styles.bannerText}>
+            Join our community events! Coming soon.
+          </Text>
         </View>
       </ScrollView>
-      <BookWalk />
+      {!user?.walker && <BookWalk />}
     </View>
   )
 }
@@ -60,13 +49,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    padding: 20
-  },
-  contentContainer: {
-    padding: 20
+    padding: 10
   },
   headingHome: {
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 15
   },
   text: {
     fontSize: 24,
@@ -74,24 +61,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingVertical: 15
   },
-  petProfileHome: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start'
-  },
-  space: {
-    width: 10
-  },
-  bookButton: {
-    alignSelf: 'center',
-    padding: 20,
-    position: 'absolute',
-    bottom: 20,
-    zIndex: 1
-  },
   cardContainer: {
     justifyContent: 'flex-start',
     alignItems: 'center',
-    flex: 1
+    flex: 1,
+    padding: 10
   },
   heading: {
     alignItems: 'flex-start',
@@ -131,6 +105,18 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 15,
     color: Colors.textGray
+  },
+  bannerImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 10
+  },
+  bannerText: {
+    fontSize: 18,
+    color: Colors.primary,
+    textAlign: 'center',
+    fontWeight: 'bold'
   }
 })
 

@@ -83,6 +83,9 @@ const { LightTheme } = adaptNavigationTheme({
 })
 
 const DrawerGroup = () => {
+  const {
+    session: { user }
+  } = useSession()
   return (
     <Navigator
       screenOptions={{
@@ -161,20 +164,22 @@ const DrawerGroup = () => {
           )
         }}
       />
-      <Screen
-        name={ScreenNames.MY_WALKS}
-        component={MyWalks}
-        options={{
-          title: 'Walks',
-          drawerIcon: () => (
-            <MaterialCommunityIcons
-              name="dog-service"
-              size={35}
-              color={Colors.darkGray}
-            />
-          )
-        }}
-      />
+      {!user?.owner && (
+        <Screen
+          name={ScreenNames.MY_WALKS}
+          component={MyWalks}
+          options={{
+            title: 'Walks',
+            drawerIcon: () => (
+              <MaterialCommunityIcons
+                name="dog-service"
+                size={35}
+                color={Colors.darkGray}
+              />
+            )
+          }}
+        />
+      )}
       <Screen
         name={ScreenNames.SUPPORT}
         component={SupportScreen}

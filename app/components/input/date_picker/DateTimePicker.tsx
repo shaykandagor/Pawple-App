@@ -8,6 +8,7 @@ import {
 import { HelperText, TextInput } from 'react-native-paper'
 
 const DateTimePicker: React.FC<DateTimePickerProps> = ({
+  name,
   date,
   onDateChanged,
   formater,

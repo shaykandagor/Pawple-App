@@ -3,19 +3,70 @@ import FormDateTimePicker from '@components/input/date_picker/FormDateTimePicker
 import FormImagePicker from '@components/input/image_picker/FormImagePicker'
 import FormTextInput from '@components/input/text_input/FormTextInput'
 import LogoText from '@components/logo/LogoText'
+import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons'
+import { usePetApi } from 'app/api/pets'
+import { Pet } from 'app/types'
 import { Colors } from 'app/util/colors'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Button } from 'react-native-paper'
+import { mutate } from 'swr'
+import * as ScreenNames from 'app/screens/ScreenNames'
 
-type Props = { onNext: () => void }
+type Props = {
+  onNext: () => void
+  route: any
+  navigation: any
+}
 // displays a form for the user to register a new pet.
 // The form includes fields for the pet's name, date of birth, type, and photo.
 // The user can click the Next button to proceed to the next step of the registration process.
-const PetRegistrationStep1: React.FC<Props> = ({ onNext }) => {
+const PetRegistrationStep1: React.FC<Props> = ({
+  onNext,
+  route,
+  navigation
+}) => {
   const options = ['Dog', 'Cat']
+  const pet: Pet | undefined = (route?.params as any)?.pet
+  const { deletePet } = usePetApi()
+  const handleDelete = async () => {
+    // Before deleting the pet, we want to confirm with the user.
+    Alert.alert(
+      'Delete Pet',
+      'Are you sure you want to delete this pet?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'OK',
+          onPress: async () => {
+            // If the user confirms, we delete the pet.
+            if (pet) {
+              await deletePet(pet.id)
+            }
+            // After successfully deleting the pet, we want to navigate back to the pets list screen.
+            // The mutate function is called to refresh the pets list.
+            mutate('/pets')
+            navigation.navigate(ScreenNames.HOME)
+          }
+        }
+      ],
+      { cancelable: false }
+    )
+  }
   return (
     <View>
+      <View style={{ position: 'absolute', top: 10, right: 10 }}>
+        <TouchableOpacity onPress={handleDelete}>
+          <MaterialCommunityIcons
+            name="delete-outline"
+            size={30}
+            color={Colors.textDark}
+          />
+        </TouchableOpacity>
+      </View>
       <View style={styles.logo}>
         <LogoText width="100%" height={30} />
       </View>
@@ -46,7 +97,12 @@ const PetRegistrationStep1: React.FC<Props> = ({ onNext }) => {
       </View>
 
       <View style={styles.chips}>
-        <FormTypeChipSelector name="type" icon="check" mode="outlined" options={options} />
+        <FormTypeChipSelector
+          name="type"
+          icon="check"
+          mode="outlined"
+          options={options}
+        />
       </View>
 
       <View style={styles.nextButton}>

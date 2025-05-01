@@ -7,14 +7,12 @@ import { useWalkDurations } from 'app/api/walks'
 import { WalkDuration } from 'app/types'
 import { BASE_URL } from 'app/util/constants'
 import React from 'react'
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Text } from 'react-native-paper'
 
-type Props = { onNext: () => void }
+type Props = {
+  onNext: () => void
+}
 
 interface FormValues {
   pickupAddress: {
@@ -92,7 +90,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     padding: 15,
-    paddingTop: 10,
+    paddingTop: 10
   },
   scrollContent: {
     flexGrow: 1,
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   heading: {
     alignItems: 'flex-start',

@@ -58,14 +58,14 @@ const WalkListItem: React.FC<Props> = ({ walk }) => {
       <List.Item
         title={`${walk.booking.pet.name} ${walk.booking.duration.duration} ${walk.booking.duration.units}`}
         titleStyle={{ fontSize: 18, fontWeight: 'bold' }}
-        description={` ${
+        description={`Walk: ${walk.booking.status} ${
           walk.status === 'Claimed'
             ? `Time Claimed: ${formattedTimeClaimed}`
             : walk.status === 'Completed'
-              ? `Time Ended: ${formattedTimeCompleted}`
+              ? `Time Completed: ${formattedTimeCompleted}`
               : walk.status === 'Canceled'
                 ? `Time Canceled: ${formattedTimeCanceled}`
-                : 'In Progress'
+                : ''
         }`}
         right={() => (
           <MaterialCommunityIcons

@@ -8,7 +8,12 @@ import CardPicker, { CardPickerProps } from './CardPicker'
 interface FormCardPickerProps<T, Q>
   extends Pick<
     CardPickerProps<Q>,
-    'label' | 'items' | 'titleExtractor' | 'valueExtractor' | 'subTitleExtractor' | 'renderTrailer'
+    | 'label'
+    | 'items'
+    | 'titleExtractor'
+    | 'valueExtractor'
+    | 'subTitleExtractor'
+    | 'renderTrailer'
   > {
   name: keyof T
 }
@@ -17,16 +22,17 @@ interface FormCardPickerProps<T, Q>
  * T: Form values type eg. { time: Duration, pet: string }
  * Q: type of one T value eg. Duration, has to have id: number
  */
-const FormCardPicker = <T, Q>({ name, ...props }: FormCardPickerProps<T, Q>) => {
-  const { values, setFieldValue, errors } = useFormikContext<T>()
-  const error = errors[name]
+const FormCardPicker = <T, Q>({
+  name,
+  ...props
+}: FormCardPickerProps<T, Q>) => {
+  const { values, setFieldValue } = useFormikContext<T>()
 
   return (
     <CardPicker<Q>
       {...props}
       value={values[name]}
       onValueChange={(value) => setFieldValue(name as string, value)}
-      error={error}
     />
   )
 }

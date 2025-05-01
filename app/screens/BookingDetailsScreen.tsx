@@ -2,13 +2,20 @@ import FloatingActionButton from '@components/input/button/FloatingActionButton'
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons'
 import { Colors } from '@util'
 import { useBookingApi } from 'app/api/booking'
-import { Booking } from 'app/types'
-import { useState } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
-import MapView from 'react-native-maps'
-import { Card, List, Text, Divider } from 'react-native-paper'
 import * as ScreenNames from 'app/screens/ScreenNames'
 import useSession from 'app/session/useSession'
+import { Booking } from 'app/types'
+import { useState } from 'react'
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from 'react-native'
+import MapView, { Marker } from 'react-native-maps'
+import { Card, Divider, List, Text } from 'react-native-paper'
+import { mutate } from 'swr'
 
 type BookingDetailsScreenProps = {
   navigation: any
@@ -22,7 +29,7 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
   const {
     session: { user }
   } = useSession()
-  const { claimBooking } = useBookingApi()
+  const { claimBooking, deleteBooking } = useBookingApi()
   const [loading, setLoading] = useState(false)
   const booking: Booking = route.params?.booking
   const handleClaimBooking = async () => {
@@ -31,6 +38,8 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
       if (booking) {
         await claimBooking(booking.id)
       }
+      mutate('/bookings')
+      mutate('/walks')
       navigation.navigate(ScreenNames.MY_WALKS, { booking })
       setLoading(false)
       console.log('Booking claimed successfully')
@@ -45,11 +54,49 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
       minute: '2-digit'
     }
   )
+  const handleDelete = async () => {
+    // Before deleting the pet, we want to confirm with the user.
+    Alert.alert(
+      'Delete Booking',
+      'Are you sure you want to delete this booking?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'OK',
+          onPress: async () => {
+            // If the user confirms, we delete the pet.
+            if (booking) {
+              await deleteBooking(booking.id)
+            }
+            // After successfully deleting the pet, we want to navigate back to the pets list screen.
+            // The mutate function is called to refresh the pets list.
+            mutate('/bookings')
+            navigation.navigate(ScreenNames.MY_BOOKINGS)
+          }
+        }
+      ],
+      { cancelable: false }
+    )
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Your Booking Details</Text>
+      </View>
+      <View style={{ position: 'absolute', top: 10, right: 10 }}>
+        {!user?.walker && (
+          <TouchableOpacity onPress={handleDelete}>
+            <MaterialCommunityIcons
+              name="delete-outline"
+              size={30}
+              color={Colors.textDark}
+            />
+          </TouchableOpacity>
+        )}
       </View>
 
       <ScrollView>
@@ -60,12 +107,21 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
                 <MapView
                   style={styles.map}
                   initialRegion={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
+                    latitude: booking.pickupAddress.lat,
+                    longitude: booking.pickupAddress.lng,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421
                   }}
-                />
+                >
+                  <Marker
+                    coordinate={{
+                      latitude: booking.pickupAddress.lat,
+                      longitude: booking.pickupAddress.lng
+                    }}
+                    title="Pickup Location"
+                    description="Your pickup location"
+                  />
+                </MapView>
               </Card>
             </View>
 
@@ -179,7 +235,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    padding: 20
+    padding: 35
   },
   header: {
     marginBottom: 20,
@@ -192,8 +248,7 @@ const styles = StyleSheet.create({
   },
   walkProfileHome: {
     flexDirection: 'column',
-    justifyContent: 'flex-start',
-    flex: 1
+    justifyContent: 'flex-start'
   },
   cardContainer: {
     marginHorizontal: 10,

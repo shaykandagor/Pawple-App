@@ -47,7 +47,10 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
   const { addPet, updatePet } = usePetApi()
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (value: any, { setErrors }: FormikHelpers<PetRegisterValues>) => {
+  const handleSubmit = async (
+    value: any,
+    { setErrors }: FormikHelpers<PetRegisterValues>
+  ) => {
     setLoading(true)
     try {
       if (pet) {
@@ -63,12 +66,18 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
       console.log(error?.response?.data)
       if (error.response.status === 400) {
         const errors = await error.response.data
-        const fieldErrors = Object.entries(errors).reduce((prev, [key, value]) => {
-          if (key === '_errors') {
-            return prev
-          }
-          return { ...prev, [key]: ((value as any)._errors as string[]).join(';') }
-        }, {})
+        const fieldErrors = Object.entries(errors).reduce(
+          (prev, [key, value]) => {
+            if (key === '_errors') {
+              return prev
+            }
+            return {
+              ...prev,
+              [key]: ((value as any)._errors as string[]).join(';')
+            }
+          },
+          {}
+        )
         setErrors({ ...fieldErrors })
       } else {
         // TODO: Handle other errors other than validation
@@ -99,6 +108,8 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
       >
         {currentStep === 1 && (
           <PetRegistrationStep1
+            route={route}
+            navigation={navigation}
             onNext={() => {
               setCurrentStep(2)
             }}
@@ -107,7 +118,11 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
         {currentStep === 2 && <PetRegistrationStep2 />}
         {currentStep === 2 && (
           <View style={styles.doneButton}>
-            <FormSubmitButton mode="contained" title="All Done" loading={loading} />
+            <FormSubmitButton
+              mode="contained"
+              title="All Done"
+              loading={loading}
+            />
           </View>
         )}
       </Form>

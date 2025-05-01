@@ -1,18 +1,18 @@
 import ClickButton from '@components/input/button/ClickButton'
 import FormSubmitButton from '@components/input/button/FormSubmitButton'
+import FormCheckbox from '@components/input/checkbox/FormCheckbox'
+import FormDateTimePicker from '@components/input/date_picker/FormDateTimePicker'
+import FormTextInput from '@components/input/text_input/FormTextInput'
 import { Colors } from '@util'
 import { usePets } from 'app/api/pets'
 import { useWalkDurations } from 'app/api/walks'
+import { BASE_URL } from 'app/util/constants'
 import { useFormikContext } from 'formik'
-import { Avatar, Card, Divider, List, Text } from 'react-native-paper'
 import React, { useMemo } from 'react'
+import { Dimensions, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import MapView, { Marker } from 'react-native-maps'
-import FormCheckbox from '@components/input/checkbox/FormCheckbox'
-import FormTextInput from '@components/input/text_input/FormTextInput'
-import { Dimensions, StyleSheet, View } from 'react-native'
-import { BASE_URL } from 'app/util/constants'
-import FormDateTimePicker from '@components/input/date_picker/FormDateTimePicker'
+import { Avatar, Card, Divider, List, Text } from 'react-native-paper'
 
 type ConfirmBookingStep3Props = {
   isSubmitting: boolean
@@ -112,7 +112,7 @@ const ConfirmBookingStep3 = ({
           </View>
         </Card>
         <View style={styles.content}>
-          <View>
+          <View style={styles.checkbox}>
             <Text
               style={{
                 color: Colors.textDark,
@@ -167,7 +167,7 @@ const ConfirmBookingStep3 = ({
           </View>
         </View>
 
-        <View style={styles.content}>
+        {/*         <View style={styles.content}>
           <Text
             style={{
               color: Colors.textDark,
@@ -224,10 +224,10 @@ const ConfirmBookingStep3 = ({
             </Text>
           </View>
 
-          {/* <View style={styles.confirmButton}>
+          <View style={styles.confirmButton}>
             <FormSubmitButton mode="contained" title="Select Payment Mode" />
-          </View> */}
-        </View>
+          </View>
+        </View> */}
       </ScrollView>
       {/* <Text>{JSON.stringify(values, null, 2)}</Text> */}
       <View style={styles.buttonContainer}>
@@ -239,7 +239,7 @@ const ConfirmBookingStep3 = ({
             mode="contained"
             title="Book Now"
             loading={isSubmitting}
-          />P
+          />
         </View>
       </View>
     </View>
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   checkbox: {
-    padding: 15
+    padding: 20
   },
   confirmButton: {
     paddingVertical: 10,
