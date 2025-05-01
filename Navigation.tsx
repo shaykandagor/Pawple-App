@@ -107,7 +107,7 @@ const DrawerGroup = () => {
           )
         }}
       />
-      <Screen
+      {/*       <Screen
         name={ScreenNames.PAYMENT_METHODS}
         component={PaymentMethodScreen}
         options={{
@@ -146,7 +146,7 @@ const DrawerGroup = () => {
             />
           )
         }}
-      />
+      /> */}
       <Screen
         name={ScreenNames.MY_BOOKINGS}
         component={MyBookings}

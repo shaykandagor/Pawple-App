@@ -1,20 +1,15 @@
 import CustomError from '@components/custom_error/CustomError'
 import ChipSelector from '@components/input/chip_selector/ChipSelector'
-import LoadingSkeleton from '@components/loading/LoadingSkeleton'
+import ListLoadingSkeleton from '@components/loading/ListLoadingSkeleton'
 import WalkListItem from '@components/walk/WalkListItem'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Colors } from '@util'
 import { useWalks } from 'app/api/walks'
 import useSession from 'app/session/useSession'
 import { Walk } from 'app/types'
-import { User } from 'app/types/session'
 import { DrawerParamList } from 'Navigation'
 import { useState } from 'react'
-import {
-  FlatList,
-  StyleSheet,
-  View
-} from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 
 type Props = NativeStackScreenProps<DrawerParamList, 'MyWalks'>
@@ -40,9 +35,10 @@ const MyWalks: React.FC<Props> = ({ navigation }) => {
   if (isLoading) {
     return (
       <View style={styles.loading}>
-        <LoadingSkeleton />
-        <LoadingSkeleton />
-        <LoadingSkeleton />
+        <ListLoadingSkeleton />
+        <ListLoadingSkeleton />
+        <ListLoadingSkeleton />
+        <ListLoadingSkeleton />
       </View>
     )
   }
@@ -138,9 +134,3 @@ const styles = StyleSheet.create({
 })
 
 export default MyWalks
-function useMemo(
-  arg0: () => 'walker' | 'owner' | undefined,
-  arg1: (User | undefined)[]
-) {
-  throw new Error('Function not implemented.')
-}

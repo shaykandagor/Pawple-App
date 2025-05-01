@@ -25,7 +25,11 @@ const getXml = (color: ColorValue = Colors.logo) => {
   `
 }
 
-const Logo: React.FC<LogoProps> = ({ width = '100%', height = '100%', color }) => {
+const Logo: React.FC<LogoProps> = ({
+  width = '100%',
+  height = '100%',
+  color
+}) => {
   const xml = getXml(color)
   return <SvgXml xml={xml} width={width} height={height} />
 }

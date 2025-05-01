@@ -11,6 +11,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BookingListItem from './booking/BookingListItem'
 import useSession from 'app/session/useSession'
 import { useMemo } from 'react'
+import ListLoadingSkeleton from './loading/ListLoadingSkeleton'
 
 type Props = NativeStackScreenProps<DrawerParamList, 'MyBookings'>
 
@@ -32,9 +33,10 @@ const MyBookings: React.FC<Props> = ({ navigation, route }) => {
   if (isLoading) {
     return (
       <View style={styles.loading}>
-        <LoadingSkeleton />
-        <LoadingSkeleton />
-        <LoadingSkeleton />
+        <ListLoadingSkeleton />
+        <ListLoadingSkeleton />
+        <ListLoadingSkeleton />
+        <ListLoadingSkeleton />
       </View>
     )
   }

@@ -13,16 +13,16 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.background}>
       <View style={styles.logoContainer}>
-        <Logo width={200} height={200} />
+        <Logo width={200} height={200} color={Colors.logo} />
         <LogoText width={120} height={120} />
         <Text style={styles.slogan}>
-          Trustworthy pet walkers on demand. Tap, book, and enjoy stress-free strolls provided by a
-          friendly walker.
+          Trustworthy pet walkers on demand. Tap, book, and enjoy stress-free
+          strolls provided by a friendly walker.
         </Text>
       </View>
 
       <View style={styles.signInButtons}>
-        <ClickButton
+        {/*         <ClickButton
           icon="google"
           title="Sign in with Google"
           mode="outlined"
@@ -33,7 +33,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
           title="Sign in with Apple"
           mode="outlined"
           onPress={() => console.log('Pressed')}
-        />
+        /> */}
         <ClickButton
           mode="contained"
           onPress={() => navigation.navigate(USER_REGISTRATION)}
@@ -68,9 +68,8 @@ const styles = StyleSheet.create({
   },
   signInButtons: {
     flexDirection: 'column',
-    gap: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 20
+    paddingHorizontal: 35,
+    paddingVertical: 25
   },
   accountTextContainer: {
     padding: 40,

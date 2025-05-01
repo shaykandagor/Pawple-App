@@ -38,6 +38,13 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
       console.error('Error claiming booking:', error)
     }
   }
+  const formattedPickupTime = new Date(booking.pickupTime).toLocaleTimeString(
+    [],
+    {
+      hour: '2-digit',
+      minute: '2-digit'
+    }
+  )
 
   return (
     <View style={styles.container}>
@@ -45,7 +52,7 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
         <Text style={styles.headerText}>Your Booking Details</Text>
       </View>
 
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <ScrollView>
         <View style={styles.walkProfileHome}>
           <Card style={styles.cardContainer}>
             <View style={styles.cardMap}>
@@ -65,7 +72,7 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
             <View style={styles.infoContainer}>
               <List.Item
                 title="Pick-Up Time"
-                description="13:42"
+                description={formattedPickupTime}
                 left={() => (
                   <MaterialCommunityIcons
                     name="clock-outline"
@@ -77,7 +84,7 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
               <Divider style={styles.divider} />
               <List.Item
                 title="Duration"
-                description="30 minutes"
+                description={`${booking.duration?.duration} ${booking.duration?.units}`}
                 left={() => (
                   <MaterialCommunityIcons
                     name="timer"
@@ -89,10 +96,31 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
               <Divider style={styles.divider} />
               <List.Item
                 title="Drop-Off Time"
-                description="14:36"
+                description={(() => {
+                  const pickupTime = new Date(booking.pickupTime)
+                  const durationInMs =
+                    booking.duration?.duration *
+                    (booking.duration?.units === 'hours' ? 3600000 : 60000)
+                  const endTime = new Date(pickupTime.getTime() + durationInMs)
+
+                  if (booking.duration?.units === 'hours') {
+                    endTime.setHours(
+                      pickupTime.getHours() + booking.duration?.duration
+                    )
+                  } else {
+                    endTime.setMinutes(
+                      pickupTime.getMinutes() + booking.duration?.duration
+                    )
+                  }
+
+                  return endTime.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })
+                })()}
                 left={() => (
                   <MaterialCommunityIcons
-                    name="map-marker"
+                    name="clock-end"
                     size={24}
                     style={styles.icon}
                   />
@@ -101,10 +129,10 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
               <Divider style={styles.divider} />
               <List.Item
                 title="Instructions"
-                description="Give the dog food before going out"
+                description={booking.instructions}
                 left={() => (
                   <MaterialCommunityIcons
-                    name="information-outline"
+                    name="note-text-outline"
                     size={24}
                     style={styles.icon}
                   />
@@ -113,10 +141,21 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
               <Divider style={styles.divider} />
               <List.Item
                 title="Dog Park"
-                description="Visit the dog park"
+                description={booking.visitPark ? 'Yes' : 'No'}
                 left={() => (
                   <MaterialCommunityIcons
-                    name="tree-outline"
+                    name="pine-tree"
+                    size={24}
+                    style={styles.icon}
+                  />
+                )}
+              />
+              <List.Item
+                title="Bring Disposable Bags"
+                description={booking.bringDisposableBags ? 'Yes' : 'No'}
+                left={() => (
+                  <MaterialCommunityIcons
+                    name="bag-personal-outline"
                     size={24}
                     style={styles.icon}
                   />

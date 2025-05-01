@@ -10,10 +10,12 @@ type Props = {
 }
 
 const BookingListItem: React.FC<Props> = ({ booking }) => {
+  const formattedPickupTime = new Date(booking.pickupTime).toLocaleString()
+
   return (
     <List.Item
       title={booking.pet.name}
-      description={booking.pickupTime}
+      description={formattedPickupTime}
       right={() => (
         <MaterialCommunityIcons
           name="chevron-right"

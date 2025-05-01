@@ -5,7 +5,7 @@ type ColorType = {
 }
 
 export const Colors: ColorType = {
-  logo: '#1c1a43',
+  logo: '#1c1b45',
   primary: '#5e59d0',
   primaryDark: '#4642ad',
   neutralDark: '#77787B',

@@ -16,6 +16,8 @@ type Props = {
 
 const WalkListItem: React.FC<Props> = ({ walk }) => {
   const formattedTimeClaimed = new Date(walk.timeClaimed).toLocaleString()
+  const formattedTimeCompleted = new Date(walk.endTime).toLocaleString()
+  const formattedTimeCanceled = new Date(walk.timeCanceled).toLocaleString()
   const { startWalk } = useWalkApi()
   const navigation: any = useNavigation()
 
@@ -56,7 +58,15 @@ const WalkListItem: React.FC<Props> = ({ walk }) => {
       <List.Item
         title={`${walk.booking.pet.name} ${walk.booking.duration.duration} ${walk.booking.duration.units}`}
         titleStyle={{ fontSize: 18, fontWeight: 'bold' }}
-        description={`Walk: ${walk.booking.status} Time Claimed: ${formattedTimeClaimed}`}
+        description={` ${
+          walk.status === 'Claimed'
+            ? `Time Claimed: ${formattedTimeClaimed}`
+            : walk.status === 'Completed'
+              ? `Time Ended: ${formattedTimeCompleted}`
+              : walk.status === 'Canceled'
+                ? `Time Canceled: ${formattedTimeCanceled}`
+                : 'In Progress'
+        }`}
         right={() => (
           <MaterialCommunityIcons
             name="chevron-right"
