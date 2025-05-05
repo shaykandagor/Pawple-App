@@ -4,21 +4,29 @@ import { calculateAge } from 'app/util/helpers'
 import { useFormikContext } from 'formik'
 import React, { useMemo } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { IconButton } from 'react-native-paper'
+import { Avatar, IconButton } from 'react-native-paper'
 import FormDescChipSelector from '../input/chip_selector/FormDescChipSelector'
 import LogoText from '../logo/LogoText'
+import { BASE_URL } from 'app/util/constants'
+import { Pet } from 'app/types'
 
-const PetRegistrationStep2 = () => {
+type PetRegistrationStep2Props = {
+  onPrev: () => void
+  route: any
+}
+
+const PetRegistrationStep2: React.FC<PetRegistrationStep2Props> = ({
+  route
+}) => {
+  const pet: Pet | undefined = (route?.params as any)?.pet
   const sex = ['Male', 'Female']
 
   const size = ['Small', 'Medium', 'Large']
 
   const { errors, values } = useFormikContext<any>()
+
   const age = useMemo(() => {
-    if (values.dob) {
-      return calculateAge(new Date(values.birthDay))
-    }
-    return ''
+    return values.birthDay ? calculateAge(new Date(values.birthDay)) : null
   }, [values.birthDay])
 
   return (
@@ -28,14 +36,22 @@ const PetRegistrationStep2 = () => {
           <LogoText width="100%" height={30} />
         </View>
 
-        <View style={styles.heading}>
-          {/* <Avatar.Image size={150} source={require('../assets/pet_profile.jpg')} /> */}
-          <Text style={styles.text}>Please select the words that describe your pet</Text>
+        <View style={styles.profilePhoto}>
+          <Avatar.Image
+            source={{ uri: `${BASE_URL}/${pet?.photoUrl}` }}
+            size={100}
+          />
         </View>
 
-        <View>
-          <Text style={styles.setText}>
-            {(values as any).name} {age}
+        <View style={styles.heading}>
+          <Text style={styles.text}>Pet Profile</Text>
+          <View>
+            <Text style={styles.setText}>
+              {(values as any).name}, {age}
+            </Text>
+          </View>
+          <Text style={styles.text}>
+            Please select the words that describe your pet
           </Text>
         </View>
 
@@ -75,7 +91,7 @@ const PetRegistrationStep2 = () => {
                   borderRadius: 10
                 }}
               >
-                <IconButton icon="camera" />
+                <IconButton icon="paw" />
                 <Text>{item}</Text>
               </View>
             )}
@@ -101,13 +117,12 @@ const PetRegistrationStep2 = () => {
                   borderRadius: 10
                 }}
               >
-                <IconButton icon="camera" />
+                <IconButton icon="paw" />
                 <Text>{item}</Text>
               </View>
             )}
           />
         </View>
-        {/* TODO: Add a button to navigate to the previous step */}
       </ScrollView>
     </View>
   )
@@ -118,41 +133,39 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scrollView: {
-    backgroundColor: Colors.white,
-    padding: 20
+    backgroundColor: Colors.white
   },
   logo: {
     alignItems: 'center',
     padding: 20
   },
-  heading: {
+  profilePhoto: {
     alignItems: 'center',
     padding: 20
   },
+  heading: {
+    alignItems: 'center',
+    padding: 10,
+    marginBottom: 10
+  },
   text: {
     color: Colors.neutralDark,
-    padding: 10
+    padding: 20
   },
   setText: {
-    fontSize: 30,
+    fontSize: 20,
     color: Colors.textDark,
-    fontWeight: '600',
+    fontWeight: '500',
     textAlign: 'center'
   },
   chips: {
     alignItems: 'center',
-    padding: 20,
+    padding: 15,
     marginBottom: 10
   },
   itemPicker: {
-    padding: 10
-  },
-  inputs: {
-    marginBottom: 10
-  },
-  doneButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 20
+    padding: 10,
+    marginBottom: 20
   }
 })
 

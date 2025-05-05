@@ -7,6 +7,24 @@ import {
 } from '@react-native-community/datetimepicker'
 import { HelperText, TextInput } from 'react-native-paper'
 
+// Define the DateTimePickerProps interface
+interface DateTimePickerProps {
+  name: string
+  date: Date
+  onDateChanged: (date: Date) => void
+  formater?: (date: Date) => string
+  label: string
+  prefixIcon?: string
+  surfixIcon?: string
+  onPrefixIconPressed?: () => void
+  onSurfixIconPressed?: () => void
+  mode?: 'date' | 'time' | 'datetime'
+  display?: 'default' | 'spinner' | 'calendar' | 'clock'
+  variant?: 'flat' | 'outlined'
+  error?: string
+  helpText?: string
+}
+
 const DateTimePicker: React.FC<DateTimePickerProps> = ({
   name,
   date,
@@ -57,7 +75,9 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
             prefixIcon && (
               <TextInput.Icon
                 icon={prefixIcon}
-                onPress={onPrefixIconPressed ? onPrefixIconPressed : toggleShowPicker}
+                onPress={
+                  onPrefixIconPressed ? onPrefixIconPressed : toggleShowPicker
+                }
               />
             )
           }
@@ -65,7 +85,9 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
             surfixIcon && (
               <TextInput.Icon
                 icon={surfixIcon}
-                onPress={onSurfixIconPressed ? onSurfixIconPressed : toggleShowPicker}
+                onPress={
+                  onSurfixIconPressed ? onSurfixIconPressed : toggleShowPicker
+                }
               />
             )
           }

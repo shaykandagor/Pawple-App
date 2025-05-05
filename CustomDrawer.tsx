@@ -25,7 +25,9 @@ const CustomDrawer: React.FC<DrawerContentComponentProps> = (props) => {
         {...props}
         contentContainerStyle={{ backgroundColor: Colors.skyBlue }}
       >
-        <TouchableOpacity onPress={() => navigation.navigate(UPDATE_PROFILE as never)}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(UPDATE_PROFILE as never)}
+        >
           <Users />
         </TouchableOpacity>
         <View style={styles.itemContainer}>
@@ -71,7 +73,7 @@ export default CustomDrawer
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.lightGray
+    backgroundColor: Colors.white
   },
   itemContainer: {
     flex: 1,

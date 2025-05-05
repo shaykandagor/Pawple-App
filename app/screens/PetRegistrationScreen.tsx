@@ -13,6 +13,7 @@ import { RootStackParamList } from '../../Navigation'
 import Form from '../components/form/Form'
 import { Pet } from 'app/types'
 import { BASE_URL } from 'app/util/constants'
+import ClickButton from '@components/input/button/ClickButton'
 
 // The PetRegistrationScreen component allows the user to register a new pet.
 // The component uses the usePetApi hook to add or update a pet.
@@ -115,14 +116,28 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
             }}
           />
         )}
-        {currentStep === 2 && <PetRegistrationStep2 />}
         {currentStep === 2 && (
-          <View style={styles.doneButton}>
-            <FormSubmitButton
-              mode="contained"
-              title="All Done"
-              loading={loading}
-            />
+          <PetRegistrationStep2
+            onPrev={() => setCurrentStep(1)}
+            route={route}
+          />
+        )}
+        {currentStep === 2 && (
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <ClickButton
+                mode="outlined"
+                title="Back"
+                onPress={() => setCurrentStep(1)}
+              />
+            </View>
+            <View style={styles.button}>
+              <FormSubmitButton
+                mode="contained"
+                title="All Done"
+                loading={loading}
+              />
+            </View>
           </View>
         )}
       </Form>
@@ -149,13 +164,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 20
   },
-  inputs: {
-    padding: 10,
-    marginBottom: 20
-  },
   doneButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 20
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20
   },
   chips: {
     alignItems: 'center',
@@ -164,6 +178,17 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     padding: 15
+  },
+  buttonContainer: {
+    flexDirection: 'row', // Align buttons horizontally
+    justifyContent: 'space-between', // Add space between buttons
+    alignItems: 'center',
+    marginTop: 15,
+    marginBottom: 15
+  },
+  button: {
+    flex: 1, // Allow buttons to take equal space
+    marginHorizontal: 5 // Add spacing between buttons
   }
 })
 
