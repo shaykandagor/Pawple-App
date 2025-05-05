@@ -4,7 +4,6 @@ import ListLoadingSkeleton from '@components/loading/ListLoadingSkeleton'
 import WalkListItem from '@components/walk/WalkListItem'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Colors } from '@util'
-import { useBookingApi } from 'app/api/booking'
 import { useWalks } from 'app/api/walks'
 import useSession from 'app/session/useSession'
 import { Walk } from 'app/types'
@@ -71,7 +70,7 @@ const MyWalks: React.FC<Props> = ({ navigation }) => {
         />
       </View>
       <FlatList
-        data={filteredWalks} // Use the filtered walks
+        data={filteredWalks}
         keyExtractor={(item: Walk) => item.id}
         renderItem={({ item }) => <WalkListItem walk={item} />}
       />

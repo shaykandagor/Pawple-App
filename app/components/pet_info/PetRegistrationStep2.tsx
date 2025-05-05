@@ -38,7 +38,13 @@ const PetRegistrationStep2: React.FC<PetRegistrationStep2Props> = ({
 
         <View style={styles.profilePhoto}>
           <Avatar.Image
-            source={{ uri: `${BASE_URL}/${pet?.photoUrl}` }}
+            source={
+              pet?.photoUrl
+                ? {
+                    uri: `${BASE_URL}/${pet.photoUrl}`
+                  }
+                : require('../../assets/pet_placeholder.png')
+            }
             size={100}
           />
         </View>

@@ -47,13 +47,7 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
       console.error('Error claiming booking:', error)
     }
   }
-  const formattedPickupTime = new Date(booking.pickupTime).toLocaleTimeString(
-    [],
-    {
-      hour: '2-digit',
-      minute: '2-digit'
-    }
-  )
+
   const handleDelete = async () => {
     // Before deleting the pet, we want to confirm with the user.
     Alert.alert(
@@ -85,7 +79,7 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Your Booking Details</Text>
+        <Text style={styles.headerText}>Booking Details</Text>
       </View>
       <View style={{ position: 'absolute', top: 10, right: 10 }}>
         {!user?.walker && (
@@ -124,59 +118,25 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
                 </MapView>
               </Card>
             </View>
-
             <View style={styles.infoContainer}>
+              <Divider style={styles.divider} />
               <List.Item
-                title="Pick-Up Time"
-                description={formattedPickupTime}
+                title="Booking status"
+                description={booking.status}
                 left={() => (
                   <MaterialCommunityIcons
-                    name="clock-outline"
+                    name="check-circle-outline"
                     size={24}
                     style={styles.icon}
                   />
                 )}
               />
-              <Divider style={styles.divider} />
               <List.Item
                 title="Duration"
                 description={`${booking.duration?.duration} ${booking.duration?.units}`}
                 left={() => (
                   <MaterialCommunityIcons
                     name="timer"
-                    size={24}
-                    style={styles.icon}
-                  />
-                )}
-              />
-              <Divider style={styles.divider} />
-              <List.Item
-                title="Drop-Off Time"
-                description={(() => {
-                  const pickupTime = new Date(booking.pickupTime)
-                  const durationInMs =
-                    booking.duration?.duration *
-                    (booking.duration?.units === 'hours' ? 3600000 : 60000)
-                  const endTime = new Date(pickupTime.getTime() + durationInMs)
-
-                  if (booking.duration?.units === 'hours') {
-                    endTime.setHours(
-                      pickupTime.getHours() + booking.duration?.duration
-                    )
-                  } else {
-                    endTime.setMinutes(
-                      pickupTime.getMinutes() + booking.duration?.duration
-                    )
-                  }
-
-                  return endTime.toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })
-                })()}
-                left={() => (
-                  <MaterialCommunityIcons
-                    name="clock-end"
                     size={24}
                     style={styles.icon}
                   />
@@ -220,7 +180,25 @@ const BookingDetailsScreen: React.FC<BookingDetailsScreenProps> = ({
               {user?.walker && (
                 <FloatingActionButton
                   icon="plus"
-                  onPress={() => handleClaimBooking()}
+                  onPress={() =>
+                    Alert.alert(
+                      'Claim Booking',
+                      'Are you sure you want to claim this booking?',
+                      [
+                        {
+                          text: 'Cancel',
+                          style: 'cancel'
+                        },
+                        {
+                          text: 'OK',
+                          onPress: async () => {
+                            await handleClaimBooking()
+                          }
+                        }
+                      ],
+                      { cancelable: false }
+                    )
+                  }
                 />
               )}
             </View>
@@ -235,7 +213,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    padding: 35
+    padding: 30
   },
   header: {
     marginBottom: 20,

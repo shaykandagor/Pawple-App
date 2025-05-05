@@ -29,8 +29,7 @@ const PetRegistrationStep1: React.FC<Props> = ({
   const options = ['Dog', 'Cat']
   const pet: Pet | undefined = (route?.params as any)?.pet
   const { deletePet } = usePetApi()
-  const handleDelete = async () => {
-    // Before deleting the pet, we want to confirm with the user.
+  const handleDelete = async() => {
     Alert.alert(
       'Delete Pet',
       'Are you sure you want to delete this pet?',
@@ -41,13 +40,10 @@ const PetRegistrationStep1: React.FC<Props> = ({
         },
         {
           text: 'OK',
-          onPress: async () => {
-            // If the user confirms, we delete the pet.
+          onPress: async() => {
             if (pet) {
               await deletePet(pet.id)
             }
-            // After successfully deleting the pet, we want to navigate back to the pets list screen.
-            // The mutate function is called to refresh the pets list.
             mutate('/pets')
             navigation.navigate(ScreenNames.HOME)
           }

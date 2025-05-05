@@ -19,6 +19,7 @@ const ProgressWalksScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const { endWalk, addRoutePoint } = useWalkApi()
   const walk: Walk = (route?.params as any)?.walk
+  const formattedStartTime = new Date(walk.startTime).toLocaleString()
   const { walkRoutePoints, isLoading, error } = useWalkRoutePoints(walk?.id)
 
   const confirmEndWalk = () => {
@@ -27,7 +28,8 @@ const ProgressWalksScreen: React.FC<Props> = ({ navigation, route }) => {
       'Are you sure you want to end this walk?',
       [
         {
-          text: 'Cancel'
+          text: 'Cancel',
+          style: 'cancel'
         },
         {
           text: 'OK',
@@ -36,10 +38,11 @@ const ProgressWalksScreen: React.FC<Props> = ({ navigation, route }) => {
               mutate('/walks')
               navigation.goBack()
             })
-          }
+          },
+          style: 'destructive'
         }
       ],
-      { cancelable: false }
+      { cancelable: true }
     )
   }
 
@@ -106,10 +109,10 @@ const ProgressWalksScreen: React.FC<Props> = ({ navigation, route }) => {
         ))}
         <Polyline
           coordinates={points}
-          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+          strokeColor="#000"
           strokeColors={[
             '#7F0000',
-            '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+            '#00000000',
             '#B24112',
             '#E5845C',
             '#238C23',
@@ -121,9 +124,9 @@ const ProgressWalksScreen: React.FC<Props> = ({ navigation, route }) => {
       <View style={styles.bottomContainer}>
         <Card style={styles.card}>
           <Card.Title
-            title={`${walk.booking.pet.name}`}
+            title={`${walk.booking.pet.name} - ${walk.status}`}
             titleStyle={{ fontSize: 18, fontWeight: 'bold' }}
-            subtitle={`${walk.booking.duration.duration} ${walk.booking.duration.units}`}
+            subtitle={`${formattedStartTime} - ${walk.booking.duration.duration} ${walk.booking.duration.units}`}
             left={() => (
               <View>
                 <Avatar.Image

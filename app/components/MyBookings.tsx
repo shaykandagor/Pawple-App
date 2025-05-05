@@ -46,13 +46,18 @@ const MyBookings: React.FC<Props> = ({ navigation, route }) => {
       </View>
     )
   }
+  // Sort bookings by pickupTime in descending order
+  const sortedBookings = bookings.sort(
+    (a, b) =>
+      new Date(b.pickupTime).getTime() - new Date(a.pickupTime).getTime()
+  )
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.text}>Your Bookings</Text>
+        <Text style={styles.text}>Bookings</Text>
       </View>
       <FlatList
-        data={bookings}
+        data={sortedBookings}
         keyExtractor={(item: Booking) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity

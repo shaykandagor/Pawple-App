@@ -56,9 +56,9 @@ const WalkListItem: React.FC<Props> = ({ walk }) => {
       }}
     >
       <List.Item
-        title={`${walk.booking.pet.name} ${walk.booking.duration.duration} ${walk.booking.duration.units}`}
+        title={`${walk.booking.pet.name}, Duration: ${walk.booking.duration.duration} ${walk.booking.duration.units}`}
         titleStyle={{ fontSize: 18, fontWeight: 'bold' }}
-        description={`Walk: ${walk.booking.status} ${
+        description={` ${
           walk.status === 'Claimed'
             ? `Time Claimed: ${formattedTimeClaimed}`
             : walk.status === 'Completed'
