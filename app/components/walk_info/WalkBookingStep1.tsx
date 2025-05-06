@@ -9,6 +9,7 @@ import { BASE_URL } from 'app/util/constants'
 import React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Text } from 'react-native-paper'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = {
   onNext: () => void
@@ -32,54 +33,59 @@ const WalkBookingStep1: React.FC<Props> = ({ onNext }) => {
   const { pets } = usePets({ mine: 'true' })
 
   return (
-    <View style={styles.container}>
-      <View style={styles.heading}>
-        <Text style={styles.bookText}>Book a walk</Text>
-        <Text style={styles.selectText}>Select a pet</Text>
-      </View>
+    <SafeAreaView style={{ flex: 1 }} edges={['bottom', 'left', 'right']}>
+      <View style={styles.container}>
+        <View style={styles.heading}>
+          <Text style={styles.bookText}>Book a walk</Text>
+          <Text style={styles.selectText}>Select a pet</Text>
+        </View>
 
-      <View style={styles.petProfile}>
-        <FormImageSelector
-          name="petId"
-          items={pets.map((pet) => ({
-            ...pet,
-            photoUrl: `${BASE_URL}/${pet.photoUrl}`
-          }))}
-          valueExtractor={(pet) => pet.id}
-          imageExtractor={(pet) => pet.photoUrl}
-        />
-      </View>
+        <View style={styles.petProfile}>
+          <FormImageSelector
+            name="petId"
+            items={pets.map((pet) => ({
+              ...pet,
+              photoUrl: `${BASE_URL}/${pet.photoUrl}`
+            }))}
+            valueExtractor={(pet) => pet.id}
+            imageExtractor={(pet) => pet.photoUrl}
+          />
+        </View>
 
-      <View style={styles.heading}>
-        <Text style={styles.selectText}>Select duration</Text>
-      </View>
-      <View style={styles.cardContainer}>
-        <FormCardPicker<FormValues, WalkDuration>
-          name="durationId"
-          items={walkdurations}
-          titleExtractor={({ duration, units }) => `${duration} ${units}`}
-          valueExtractor={({ id }) => id}
-          subTitleExtractor={() => ''}
-          renderTrailer={({ cost }) => (
-            <Text style={styles.cardText}>{`${cost} £`}</Text>
-          )}
-        />
-      </View>
-      <View style={styles.setPickButton}>
-        <ClickButton
-          mode="contained"
-          title="Set up Pickup Address"
-          onPress={onNext}
-        />
-      </View>
+        <View style={styles.heading}>
+          <Text style={styles.selectText}>Select duration</Text>
+        </View>
+        <View style={styles.cardContainer}>
+          <FormCardPicker<FormValues, WalkDuration>
+            name="durationId"
+            items={walkdurations}
+            titleExtractor={({ duration, units }) => `${duration} ${units}`}
+            valueExtractor={({ id }) => id}
+            subTitleExtractor={() => ''}
+            renderTrailer={({ cost }) => (
+              <Text style={styles.cardText}>{`${cost} £`}</Text>
+            )}
+          />
+        </View>
+        <View style={styles.setPickButton}>
+          <ClickButton
+            mode="contained"
+            title="Set up Pickup Address"
+            onPress={onNext}
+          />
+        </View>
 
-      <View style={styles.agreeText}>
-        <Text style={styles.selectText}> By Proceeding you agree to the </Text>
-        <TouchableOpacity>
-          <Text style={styles.linkText}>Pawple Service T&Cs</Text>
-        </TouchableOpacity>
+        <View style={styles.agreeText}>
+          <Text style={styles.selectText}>
+            {' '}
+            By Proceeding you agree to the{' '}
+          </Text>
+          <TouchableOpacity>
+            <Text style={styles.linkText}>Pawple Service T&Cs</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 

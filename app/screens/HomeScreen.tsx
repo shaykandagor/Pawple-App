@@ -1,47 +1,55 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
-import { ScrollView, StyleSheet, Text, View, Image, Button } from 'react-native'
-
-import { CustomCard, LogoText } from '@component'
-import MyPets from '@components/MyPets'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image
+} from 'react-native'
 import { Colors } from '@util'
-import { RootStackParamList } from '../../Navigation'
 import BookWalk from './BookWalk'
+import LogoText from '@components/logo/LogoText'
 import useSession from 'app/session/useSession'
+import MyPets from '@components/MyPets'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
-
-const HomeScreen: React.FC<Props> = ({ navigation }) => {
+const HomeScreen = () => {
   const {
     session: { user }
   } = useSession()
-  return (
-    <View style={styles.container}>
-      <View>
-        <View style={styles.headingHome}>
-          <LogoText width="100%" height={30} />
-        </View>
-        {!user?.walker && <MyPets />}
-        <View style={{ alignSelf: 'center' }}>
-          <Text style={styles.text}>Community Events</Text>
-        </View>
-      </View>
 
-      <ScrollView>
-        <View style={styles.cardContainer}>
-          <Image
-            source={{
-              uri: 'https://images.pexels.com/photos/12538673/pexels-photo-12538673.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-            }}
-            style={styles.bannerImage}
-          />
-          <Text style={styles.bannerText}>
-            Join our community events! Coming soon.
-          </Text>
-        </View>
-      </ScrollView>
-      {!user?.walker && <BookWalk />}
-    </View>
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{ flex: 1 }}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View>
+            <View style={styles.headingHome}>
+              <LogoText width="100%" height={30} />
+            </View>
+            {!user?.walker && <MyPets />}
+            <View style={{ alignSelf: 'center' }}>
+              <Text style={styles.text}>Community Events</Text>
+            </View>
+            <View style={styles.cardContainer}>
+              <Image
+                source={{
+                  uri: 'https://images.pexels.com/photos/12538673/pexels-photo-12538673.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+                }}
+                style={styles.bannerImage}
+              />
+              <Text style={styles.bannerText}>
+                Join our community events! Coming soon.
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
+        {!user?.walker && <BookWalk />}
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
@@ -50,6 +58,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white,
     padding: 10
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between'
   },
   headingHome: {
     alignItems: 'center',
@@ -62,49 +74,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15
   },
   cardContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flex: 1,
-    padding: 10
-  },
-  heading: {
-    alignItems: 'flex-start',
-    marginBottom: 10
-  },
-  bookText: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: Colors.textDark,
-    paddingBottom: 15
-  },
-  selectText: {
-    fontSize: 14,
-    color: Colors.textLight
-  },
-  petProfile: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    padding: 10
-  },
-  bookButtons: {
-    flexDirection: 'row',
-    padding: 10,
-    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20
-  },
-  agreeText: {
-    flexDirection: 'row',
-    paddingTop: 20
-  },
-  linkText: {
-    color: Colors.primary,
-    marginLeft: 5,
-    fontWeight: 'bold'
-  },
-  cardText: {
-    fontSize: 15,
-    color: Colors.textGray
+    alignItems: 'center',
+    padding: 10
   },
   bannerImage: {
     width: '100%',

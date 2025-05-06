@@ -1,7 +1,7 @@
-import { useNavigation } from '@react-navigation/native'
-import { StyleSheet, View } from 'react-native'
 import ClickButton from '@components/input/button/ClickButton'
+import { useNavigation } from '@react-navigation/native'
 import { Colors } from '@util'
+import { StyleSheet, View } from 'react-native'
 import { WALK_BOOKING } from './ScreenNames'
 
 const BookWalk = () => {
@@ -22,13 +22,13 @@ const BookWalk = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 20,
+    left: 0,
+    right: 0,
     alignItems: 'center'
   },
   floatingButton: {
-    position: 'absolute',
-    bottom: 20,
     backgroundColor: Colors.primary,
     borderRadius: 50,
     paddingHorizontal: 20,

@@ -13,6 +13,7 @@ import { Dimensions, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import MapView, { Marker } from 'react-native-maps'
 import { Avatar, Card, Divider, List, Text } from 'react-native-paper'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type ConfirmBookingStep3Props = {
   isSubmitting: boolean
@@ -50,124 +51,125 @@ const ConfirmBookingStep3 = ({
   )
   const screenHeight = Dimensions.get('screen').height
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView>
-        <Card style={[styles.cardContainer, { height: screenHeight * 0.3 }]}>
-          <View style={{ width: '100%', height: '100%' }}>
-            <List.Item
-              title={pets.find((pet) => pet.id === values.petId)?.name}
-              description={() => (
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ color: Colors.textDark, fontSize: 16 }}>
-                    Duration{' '}
-                  </Text>
-                  <Text style={{ color: Colors.neutralDark, fontSize: 16 }}>
-                    {`${selectedWalkDuration?.duration} ${selectedWalkDuration?.units}`}
-                  </Text>
-                </View>
-              )}
-              right={(props) => (
-                <Avatar.Image
-                  {...props}
-                  source={
-                    selectedPet?.photoUrl
-                      ? {
-                          uri: `${BASE_URL}/${selectedPet.photoUrl}`
-                        }
-                      : require('../../assets/pet_placeholder.png')
-                  }
-                />
-              )}
-            />
+    <SafeAreaView style={{ flex: 1}} edges={['bottom', 'left', 'right']}>
+      <View style={{ flex: 1 }}>
+        <ScrollView>
+          <Card style={[styles.cardContainer, { height: screenHeight * 0.3 }]}>
+            <View style={{ width: '100%', height: '100%' }}>
+              <List.Item
+                title={pets.find((pet) => pet.id === values.petId)?.name}
+                description={() => (
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ color: Colors.textDark, fontSize: 16 }}>
+                      Duration{' '}
+                    </Text>
+                    <Text style={{ color: Colors.neutralDark, fontSize: 16 }}>
+                      {`${selectedWalkDuration?.duration} ${selectedWalkDuration?.units}`}
+                    </Text>
+                  </View>
+                )}
+                right={(props) => (
+                  <Avatar.Image
+                    {...props}
+                    source={
+                      selectedPet?.photoUrl
+                        ? {
+                            uri: `${BASE_URL}/${selectedPet.photoUrl}`
+                          }
+                        : require('../../assets/pet_placeholder.png')
+                    }
+                  />
+                )}
+              />
 
-            <Card.Content>
-              <Text style={{ color: Colors.textDark, fontSize: 16 }}>
-                Pick up
-              </Text>
-              <Text style={{ color: Colors.neutralDark, fontSize: 16 }}>
-                The location where the dog walker will pick up your pet
-              </Text>
-            </Card.Content>
+              <Card.Content>
+                <Text style={{ color: Colors.textDark, fontSize: 16 }}>
+                  Pick up
+                </Text>
+                <Text style={{ color: Colors.neutralDark, fontSize: 16 }}>
+                  The location where the dog walker will pick up your pet
+                </Text>
+              </Card.Content>
 
-            <Card style={styles.cardMap}>
-              <MapView
-                style={styles.map}
-                initialRegion={{
-                  latitude: values.pickupAddress.lat,
-                  longitude: values.pickupAddress.lng,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421
+              <Card style={styles.cardMap}>
+                <MapView
+                  style={styles.map}
+                  initialRegion={{
+                    latitude: values.pickupAddress.lat,
+                    longitude: values.pickupAddress.lng,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421
+                  }}
+                >
+                  <Marker
+                    coordinate={{
+                      latitude: values.pickupAddress.lat,
+                      longitude: values.pickupAddress.lng
+                    }}
+                    title="Pickup Location"
+                    description="Your pickup location"
+                  />
+                </MapView>
+              </Card>
+            </View>
+          </Card>
+          <View style={styles.content}>
+            <View style={styles.checkbox}>
+              <Text
+                style={{
+                  color: Colors.textDark,
+                  fontSize: 20,
+                  fontWeight: '500',
+                  paddingBottom: 10
                 }}
               >
-                <Marker
-                  coordinate={{
-                    latitude: values.pickupAddress.lat,
-                    longitude: values.pickupAddress.lng
-                  }}
-                  title="Pickup Location"
-                  description="Your pickup location"
-                />
-              </MapView>
-            </Card>
-          </View>
-        </Card>
-        <View style={styles.content}>
-          <View style={styles.checkbox}>
-            <Text
-              style={{
-                color: Colors.textDark,
-                fontSize: 20,
-                fontWeight: '500',
-                paddingBottom: 10
-              }}
-            >
-              Pickup Time
-            </Text>
-            <FormDateTimePicker
-              name="pickupTime"
-              mode="datetime"
-              label="Pickup Time"
-              display="default"
-              formater={(date) => date.toLocaleString()}
-              variant="outlined"
-            />
-          </View>
-          <View style={styles.checkbox}>
-            <Text
-              style={{
-                color: Colors.textDark,
-                fontSize: 20,
-                fontWeight: '500'
-              }}
-            >
-              Requests
-            </Text>
-            <FormCheckbox name="visitPark" label="Go to a dog park" />
-            <FormCheckbox
-              name="bringDisposableBags"
-              label="Bring disposable bags"
-            />
+                Pickup Time
+              </Text>
+              <FormDateTimePicker
+                name="pickupTime"
+                mode="datetime"
+                label="Pickup Time"
+                display="default"
+                formater={(date) => date.toLocaleString()}
+                variant="outlined"
+              />
+            </View>
+            <View style={styles.checkbox}>
+              <Text
+                style={{
+                  color: Colors.textDark,
+                  fontSize: 20,
+                  fontWeight: '500'
+                }}
+              >
+                Requests
+              </Text>
+              <FormCheckbox name="visitPark" label="Go to a dog park" />
+              <FormCheckbox
+                name="bringDisposableBags"
+                label="Bring disposable bags"
+              />
 
-            <Divider />
-            <Text
-              style={{
-                color: Colors.textDark,
-                fontSize: 20,
-                fontWeight: '500',
-                paddingBottom: 10,
-                paddingTop: 10
-              }}
-            >
-              Special Instructions
-            </Text>
-            <FormTextInput
-              name="instructions"
-              placeholder="Type a custom instruction for your dog walker here"
-            />
+              <Divider />
+              <Text
+                style={{
+                  color: Colors.textDark,
+                  fontSize: 20,
+                  fontWeight: '500',
+                  paddingBottom: 10,
+                  paddingTop: 10
+                }}
+              >
+                Special Instructions
+              </Text>
+              <FormTextInput
+                name="instructions"
+                placeholder="Type a custom instruction for your dog walker here"
+              />
+            </View>
           </View>
-        </View>
 
-        {/*         <View style={styles.content}>
+          {/*         <View style={styles.content}>
           <Text
             style={{
               color: Colors.textDark,
@@ -228,21 +230,22 @@ const ConfirmBookingStep3 = ({
             <FormSubmitButton mode="contained" title="Select Payment Mode" />
           </View>
         </View> */}
-      </ScrollView>
-      {/* <Text>{JSON.stringify(values, null, 2)}</Text> */}
-      <View style={styles.buttonContainer}>
-        <View style={styles.backButton}>
-          <ClickButton mode="outlined" title="Back" onPress={onPrev} />
-        </View>
-        <View style={styles.bookButton}>
-          <FormSubmitButton
-            mode="contained"
-            title="Book Now"
-            loading={isSubmitting}
-          />
+        </ScrollView>
+        {/* <Text>{JSON.stringify(values, null, 2)}</Text> */}
+        <View style={styles.buttonContainer}>
+          <View style={styles.backButton}>
+            <ClickButton mode="outlined" title="Back" onPress={onPrev} />
+          </View>
+          <View style={styles.bookButton}>
+            <FormSubmitButton
+              mode="contained"
+              title="Book Now"
+              loading={isSubmitting}
+            />
+          </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -251,12 +254,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 15,
-    marginBottom: 15
+    justifyContent: 'space-between',
+    backgroundColor: Colors.white,
   },
   bookButton: {
-    padding: 10
+    padding: 10,
   },
   backButton: {
     padding: 10,
