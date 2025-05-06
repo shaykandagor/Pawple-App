@@ -8,10 +8,19 @@ import { usePetApi } from 'app/api/pets'
 import { Pet } from 'app/types'
 import { Colors } from 'app/util/colors'
 import React from 'react'
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import { Button } from 'react-native-paper'
 import { mutate } from 'swr'
 import * as ScreenNames from 'app/screens/ScreenNames'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = {
   onNext: () => void
@@ -29,7 +38,7 @@ const PetRegistrationStep1: React.FC<Props> = ({
   const options = ['Dog', 'Cat']
   const pet: Pet | undefined = (route?.params as any)?.pet
   const { deletePet } = usePetApi()
-  const handleDelete = async() => {
+  const handleDelete = async () => {
     Alert.alert(
       'Delete Pet',
       'Are you sure you want to delete this pet?',
@@ -40,7 +49,7 @@ const PetRegistrationStep1: React.FC<Props> = ({
         },
         {
           text: 'OK',
-          onPress: async() => {
+          onPress: async () => {
             if (pet) {
               await deletePet(pet.id)
             }
@@ -53,60 +62,65 @@ const PetRegistrationStep1: React.FC<Props> = ({
     )
   }
   return (
-    <View>
-      <View style={{ position: 'absolute', top: 10, right: 10 }}>
-        <TouchableOpacity onPress={handleDelete}>
-          <MaterialCommunityIcons
-            name="delete-outline"
-            size={30}
-            color={Colors.textDark}
+    <SafeAreaView style={{ flex: 1 }} edges={['bottom', 'left', 'right']}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{ flex: 1 }}
+      >
+        <View style={{ position: 'absolute', top: 10, right: 10 }}>
+          <TouchableOpacity onPress={handleDelete}>
+            <MaterialCommunityIcons
+              name="delete-outline"
+              size={30}
+              color={Colors.textDark}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.logo}>
+          <LogoText width="100%" height={30} />
+        </View>
+        <View style={styles.image}>
+          <FormImagePicker name="photoUrl" size={150} />
+        </View>
+        <View>
+          <Text style={styles.setText}>Set up your pet</Text>
+        </View>
+        <View style={styles.inputs}>
+          <FormTextInput
+            name="name"
+            inputProps={{ label: 'Name', mode: 'outlined', inputMode: 'text' }}
           />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.logo}>
-        <LogoText width="100%" height={30} />
-      </View>
-      <View style={styles.image}>
-        <FormImagePicker name="photoUrl" size={150} />
-      </View>
-      <View>
-        <Text style={styles.setText}>Set up your pet</Text>
-      </View>
-      <View style={styles.inputs}>
-        <FormTextInput
-          name="name"
-          inputProps={{ label: 'Name', mode: 'outlined', inputMode: 'text' }}
-        />
-      </View>
+        </View>
 
-      <View style={styles.inputs}>
-        <FormDateTimePicker
-          name="birthDay"
-          formater={(date) => date.toLocaleDateString()}
-          label="Date of birth"
-          prefixIcon="calendar"
-          surfixIcon="chevron-down"
-          mode="date"
-          display="default"
-          variant="outlined"
-        />
-      </View>
+        <View style={styles.inputs}>
+          <FormDateTimePicker
+            name="birthDay"
+            formater={(date) => date.toLocaleDateString()}
+            label="Date of birth"
+            prefixIcon="calendar"
+            surfixIcon="chevron-down"
+            mode="date"
+            display="default"
+            variant="outlined"
+          />
+        </View>
 
-      <View style={styles.chips}>
-        <FormTypeChipSelector
-          name="type"
-          icon="check"
-          mode="outlined"
-          options={options}
-        />
-      </View>
+        <View style={styles.chips}>
+          <FormTypeChipSelector
+            name="type"
+            icon="check"
+            mode="outlined"
+            options={options}
+          />
+        </View>
 
-      <View style={styles.nextButton}>
-        <Button mode="contained" onPress={onNext}>
-          Next
-        </Button>
-      </View>
-    </View>
+        <View style={styles.nextButton}>
+          <Button mode="contained" onPress={onNext}>
+            Next
+          </Button>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({

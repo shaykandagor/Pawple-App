@@ -8,7 +8,8 @@ import { BASE_URL } from 'app/util/constants'
 
 export const usePets = (filters: Record<string, any> = {}) => {
   const url = constructUrl(`/pets`, filters)
-  const { data, error, isLoading, mutate } = useSWR<AxiosResponse<{ results: Pet[] }>>(url)
+  const { data, error, isLoading, mutate } =
+    useSWR<AxiosResponse<{ results: Pet[] }>>(url)
   return {
     pets: data?.data?.results ?? [],
     error,
@@ -21,7 +22,10 @@ const addPet = async (pet: Record<string, any>) => {
   const formData = objectToFormData({
     ...pet,
     photoUrl: undefined,
-    birthDay: typeof pet.birthDay === 'string' ? pet.birthDay : pet.birthDay.toISOString()
+    birthDay:
+      typeof pet.birthDay === 'string'
+        ? pet.birthDay
+        : pet.birthDay.toISOString()
   })
   formData.append('photoUrl', getFormFileFromUri(pet.photoUrl) as any)
   const response = await apiFetcher<Pet>('/pets', {
@@ -39,7 +43,10 @@ const updatePet = async (id: string, pet: Record<string, any>) => {
   const formData = objectToFormData({
     ...pet,
     photoUrl: undefined,
-    birthDay: typeof pet.birthDay === 'string' ? pet.birthDay : pet.birthDay.toISOString()
+    birthDay:
+      typeof pet.birthDay === 'string'
+        ? pet.birthDay
+        : pet.birthDay.toISOString()
   })
   formData.append('photoUrl', photoUrl)
   const response = await apiFetcher<Pet>(`/pets/${id}`, {
@@ -51,6 +58,7 @@ const updatePet = async (id: string, pet: Record<string, any>) => {
 }
 
 const deletePet = async (id: string) => {
+  console.log('Deleting pet with ID:', id) // Debugging log
   const response = await apiFetcher<Pet>(`/pets/${id}`, { method: 'DELETE' })
   return response.data
 }

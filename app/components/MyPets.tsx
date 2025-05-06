@@ -40,7 +40,7 @@ const MyPets = () => {
 
   return (
     <View>
-      <View style={{ padding: 10}}>
+      <View style={{ padding: 10 }}>
         <Text style={styles.text}>My Pets</Text>
       </View>
       <ScrollView horizontal={true}>

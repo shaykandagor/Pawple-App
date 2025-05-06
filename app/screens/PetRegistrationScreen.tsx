@@ -7,13 +7,15 @@ import { mutate } from 'app/api/apiFetcher'
 import { usePetApi } from 'app/api/pets'
 import { FormikHelpers } from 'formik'
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import * as YUP from 'yup'
 import { RootStackParamList } from '../../Navigation'
 import Form from '../components/form/Form'
 import { Pet } from 'app/types'
 import { BASE_URL } from 'app/util/constants'
 import ClickButton from '@components/input/button/ClickButton'
+import { Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 // The PetRegistrationScreen component allows the user to register a new pet.
 // The component uses the usePetApi hook to add or update a pet.
@@ -31,8 +33,6 @@ interface PetRegisterValues {
 }
 
 const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
-  // The pet object is retrieved from the route parameters.
-  // If the pet object is not found, it will be undefined.
   const pet: Pet | undefined = (route?.params as any)?.pet
   const validationSchemer = YUP.object().shape({
     photoUrl: YUP.string().label('Image').required(),
@@ -59,12 +59,9 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
       } else {
         await addPet(value)
       }
-      // After successfully adding or updating the pet, we want to navigate back to the pets list screen.
-      // The mutate function is called to refresh the pets list.
       mutate('/pets')
       navigation.goBack()
     } catch (error: any) {
-      console.log(error?.response?.data)
       if (error.response.status === 400) {
         const errors = await error.response.data
         const fieldErrors = Object.entries(errors).reduce(
@@ -80,68 +77,75 @@ const PetRegisterScreen: React.FC<Props> = ({ navigation, route }) => {
           {}
         )
         setErrors({ ...fieldErrors })
-      } else {
-        // TODO: Handle other errors other than validation
       }
     } finally {
       setLoading(false)
     }
   }
-  // The component returns a ScrollView that contains the Form component.
-  // The Form component is used to handle the form submission and validation.
-  // The Form component is passed the initial values, onSubmit function, and validation schema.
-  // The Form component also contains the PetRegistrationStep1 and PetRegistrationStep2 components.
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Form<PetRegisterValues>
-        initialValue={{
-          photoUrl: pet?.photoUrl ? `${BASE_URL}/${pet.photoUrl}` : '',
-          name: pet?.name ?? '',
-          birthDay: pet?.birthDay ? new Date(pet?.birthDay) : new Date(),
-          sex: pet?.sex ?? '',
-          size: pet?.size ?? '',
-          descriptions: pet?.descriptions ?? [],
-          type: pet?.type ?? ''
-        }}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchemer}
-      >
-        {currentStep === 1 && (
-          <PetRegistrationStep1
-            route={route}
-            navigation={navigation}
-            onNext={() => {
-              setCurrentStep(2)
-            }}
-          />
-        )}
-        {currentStep === 2 && (
-          <PetRegistrationStep2
-            onPrev={() => setCurrentStep(1)}
-            route={route}
-          />
-        )}
-        {currentStep === 2 && (
-          <View style={styles.buttonContainer}>
-            <View style={styles.button}>
-              <ClickButton
-                mode="outlined"
-                title="Back"
-                onPress={() => setCurrentStep(1)}
-              />
-            </View>
-            <View style={styles.button}>
-              <FormSubmitButton
-                mode="contained"
-                title="All Done"
-                loading={loading}
-              />
-            </View>
-          </View>
-        )}
-      </Form>
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1 }} edges={['bottom', 'left', 'right']}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+          style={{ flex: 1 }}
+        >
+          <ScrollView
+            contentContainerStyle={styles.container}
+            keyboardShouldPersistTaps="handled"
+          >
+            <Form<PetRegisterValues>
+              initialValue={{
+                photoUrl: pet?.photoUrl ? `${BASE_URL}/${pet.photoUrl}` : '',
+                name: pet?.name ?? '',
+                birthDay: pet?.birthDay ? new Date(pet?.birthDay) : new Date(),
+                sex: pet?.sex ?? '',
+                size: pet?.size ?? '',
+                descriptions: pet?.descriptions ?? [],
+                type: pet?.type ?? ''
+              }}
+              onSubmit={handleSubmit}
+              validationSchema={validationSchemer}
+            >
+              {currentStep === 1 && (
+                <PetRegistrationStep1
+                  route={route}
+                  navigation={navigation}
+                  onNext={() => {
+                    setCurrentStep(2)
+                  }}
+                />
+              )}
+              {currentStep === 2 && (
+                <PetRegistrationStep2
+                  onPrev={() => setCurrentStep(1)}
+                  route={route}
+                />
+              )}
+              {currentStep === 2 && (
+                <View style={styles.buttonContainer}>
+                  <View style={styles.button}>
+                    <ClickButton
+                      mode="outlined"
+                      title="Back"
+                      onPress={() => setCurrentStep(1)}
+                    />
+                  </View>
+                  <View style={styles.button}>
+                    <FormSubmitButton
+                      mode="contained"
+                      title="All Done"
+                      loading={loading}
+                    />
+                  </View>
+                </View>
+              )}
+            </Form>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
   )
 }
 
@@ -149,46 +153,19 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: Colors.white,
-    padding: 20
-  },
-  logo: {
-    padding: 20
-  },
-  image: {
-    alignItems: 'center'
-  },
-  setText: {
-    fontSize: 30,
-    color: Colors.textDark,
-    fontWeight: '600',
-    textAlign: 'center',
-    padding: 20
-  },
-  doneButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 20
-  },
-  chips: {
-    alignItems: 'center',
     padding: 20,
-    marginBottom: 20
-  },
-  nextButton: {
-    padding: 15
+    paddingBottom: 150 // Add padding to ensure buttons are not hidden
   },
   buttonContainer: {
-    flexDirection: 'row', // Align buttons horizontally
-    justifyContent: 'space-between', // Add space between buttons
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 15,
     marginBottom: 15
   },
   button: {
-    flex: 1, // Allow buttons to take equal space
-    marginHorizontal: 5 // Add spacing between buttons
+    flex: 1,
+    marginHorizontal: 5
   }
 })
 
