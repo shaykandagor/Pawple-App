@@ -18,9 +18,9 @@ import {
   View
 } from 'react-native'
 import { Button } from 'react-native-paper'
-import { mutate } from 'swr'
 import * as ScreenNames from 'app/screens/ScreenNames'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { mutate } from 'app/api/apiFetcher'
 
 type Props = {
   onNext: () => void

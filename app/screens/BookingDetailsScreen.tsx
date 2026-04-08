@@ -1,6 +1,7 @@
 import FloatingActionButton from '@components/input/button/FloatingActionButton'
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons'
 import { Colors } from '@util'
+import { mutate } from 'app/api/apiFetcher'
 import { useBookingApi } from 'app/api/booking'
 import * as ScreenNames from 'app/screens/ScreenNames'
 import useSession from 'app/session/useSession'
@@ -15,7 +16,6 @@ import {
 } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { Card, Divider, List, Text } from 'react-native-paper'
-import { mutate } from 'swr'
 
 type BookingDetailsScreenProps = {
   navigation: any
